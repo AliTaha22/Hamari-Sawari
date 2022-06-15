@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Hamari Sawari</string>
+    <string name="user_id">User-ID</string>
+    <string name="password">Password</string>
+    <string name="hamari_sawari">Hamari Sawari</string>
+    <string name="sign_up">Sign UP</string>
+    <string name="sign_in">Sign in</string>
+</resources>

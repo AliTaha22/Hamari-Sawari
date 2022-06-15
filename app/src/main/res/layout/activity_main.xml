@@ -1,0 +1,73 @@
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="65dp"
+        android:text="@string/hamari_sawari"
+        android:textAllCaps="false"
+        android:textColor="#8E0707"
+        android:textSize="40sp"
+        android:textStyle="italic"></TextView>
+
+    <EditText
+        android:id="@+id/id"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="@string/user_id"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"></EditText>
+
+    <EditText
+        android:id="@+id/Pass"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"></EditText>
+
+    <Button
+        android:id="@+id/signIn"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/mybtn"
+        android:text="@string/sign_in"
+        android:textColor="#212121"
+        android:textStyle="italic"
+        app:backgroundTint="#2196F3"></Button>
+
+    <Button
+        android:id="@+id/signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/sign_up"
+        android:textColor="#1976D2"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:backgroundTint="@color/white"></Button>
+
+
+
+
+</LinearLayout>
