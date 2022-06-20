@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CarFragment"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/addpicture"
+        ></ImageView>
+
+
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:hint="Car Make"
+        android:layout_marginLeft="22dp"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:id="@+id/Gender"
+        android:inputType="textCapCharacters"
+        ></EditText>
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:hint="Model"
+        android:layout_marginLeft="22dp"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textCapCharacters"
+        ></EditText>
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:hint="Model Year"
+        android:layout_marginLeft="22dp"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textCapCharacters"
+        ></EditText>
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:hint="Variant"
+        android:layout_marginLeft="22dp"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textCapCharacters"
+        ></EditText>
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:hint="Transmission"
+        android:layout_marginLeft="22dp"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textCapCharacters"
+        ></EditText>
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:hint="Type"
+        android:layout_marginLeft="22dp"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textCapCharacters"
+        ></EditText>
+
+
+
+</LinearLayout>

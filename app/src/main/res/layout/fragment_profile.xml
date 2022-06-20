@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ProfileFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/profile"
+            android:layout_margin="50dp"
+
+            ></ImageView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Change picture"
+            android:textStyle="italic"
+            android:textColor="@color/white"
+            android:id="@+id/changeDp"
+            android:background="@drawable/mybtn"
+            android:backgroundTint="#000"
+            android:layout_margin="5dp"
+            ></Button>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/pp"
+
+            ></ImageView>
+        <EditText
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:textColorHint="@color/black"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:id="@+id/Name"
+            android:inputType="textPersonName"
+            ></EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/age"
+            ></ImageView>
+        <EditText
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/black"
+            android:hint="Age"
+            android:layout_marginLeft="22dp"
+            android:textColor="@color/black"
+            android:id="@+id/Age"
+            android:inputType="number"
+            ></EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/phone"
+            ></ImageView>
+        <EditText
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="Contact"
+            android:layout_marginLeft="22dp"
+            android:inputType="number"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
+            android:id="@+id/Contact"
+            ></EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/pass"
+            ></ImageView>
+
+        <EditText
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
+            android:id="@+id/Password"
+            ></EditText>
+    </LinearLayout>
+    <Button
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Verify Account"
+        android:textStyle="italic"
+        android:textColor="@color/white"
+        android:id="@+id/btnRentVehicle"
+        android:background="@drawable/mybtn"
+        android:layout_margin="5dp"
+        ></Button>
+
+
+</LinearLayout>
