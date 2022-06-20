@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 
 class MainMenu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,19 +13,30 @@ class MainMenu : AppCompatActivity() {
         setContentView(R.layout.activity_main_menu)
 
 
-        var profile: Button = findViewById(R.id.btnProfile)
-        var searchVh: Button = findViewById(R.id.btnSearchVehicle)
-        var RentVh: Button = findViewById(R.id.btnRentVehicle)
-        var viewVhs: Button = findViewById(R.id.btnViewVh)
+        var searchVh: ImageView = findViewById(R.id.imgSearch)
+        //var RentVh: Button = findViewById(R.id.btnRentVehicle)
+        //var viewVhs: Button = findViewById(R.id.btnViewVh)
+        var profile: ImageView = findViewById(R.id.imgProfile)
+        var home: ImageView = findViewById(R.id.imgHome)
 
 
         profile.setOnClickListener {
-            startActivity(Intent(this, Profile::class.java))
+            replaceFragment(ProfileFragment())
         }
         searchVh.setOnClickListener {
-            startActivity(Intent(this, SearchVehicle::class.java))
+            replaceFragment(SearchFragment())
         }
-        RentVh.setOnClickListener {  }
-        viewVhs.setOnClickListener {  }
+        home.setOnClickListener {
+            replaceFragment(HomeFragment())
+        }
+    }
+
+    private fun replaceFragment(fragment : androidx.fragment.app.Fragment) {
+
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragmentContainer2, fragment)
+        fragmentTransaction.commit()
+
     }
 }

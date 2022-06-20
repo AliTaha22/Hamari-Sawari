@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
             var id: String = signIn_ID.text.toString()
             var pass: String = signIn_password.text.toString()
+            startActivity(Intent(this, MainMenu::class.java))
         }
 
 

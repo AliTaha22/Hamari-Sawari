@@ -5,4 +5,6 @@
     <string name="hamari_sawari">Hamari Sawari</string>
     <string name="sign_up">Sign UP</string>
     <string name="sign_in">Sign in</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

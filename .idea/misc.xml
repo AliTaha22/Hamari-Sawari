@@ -5,11 +5,19 @@
       <map>
         <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/drawable/mybtn.xml" value="0.1" />
         <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/drawable/pp.xml" value="0.1" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/drawable/roundbutton.xml" value="0.158" />
         <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/activity_main.xml" value="0.209375" />
-        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/activity_main_menu.xml" value="0.209375" />
-        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/activity_profile.xml" value="0.1953125" />
-        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/activity_search_vehicle.xml" value="0.209375" />
-        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/activity_sign_up.xml" value="0.209375" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/activity_main_menu.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/activity_profile.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/activity_search_vehicle.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/activity_sign_up.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/fragment_bike.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/fragment_car.xml" value="0.1953125" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/fragment_home.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/fragment_profile.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/fragment_rent.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/fragment_search.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/HamariSawari/app/src/main/res/layout/fragment_truck.xml" value="0.1" />
       </map>
     </option>
   </component>

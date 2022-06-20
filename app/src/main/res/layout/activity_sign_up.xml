@@ -151,7 +151,7 @@
         android:id="@+id/btnSignUp"
         android:background="@drawable/mybtn"
         android:layout_margin="5dp"
-        app:backgroundTint="#2196F3"
+        app:backgroundTint="@color/HS"
         ></Button>
 
 </LinearLayout>
