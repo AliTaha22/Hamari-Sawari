@@ -14,7 +14,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/profile"
+            android:src="@drawable/ic_profile"
             android:layout_margin="50dp"
 
             ></ImageView>
@@ -125,16 +125,50 @@
             ></EditText>
     </LinearLayout>
     <Button
-        android:layout_width="280dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:text="Verify Account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Verify CNIC"
+        android:textColor="#0276AA"
+        android:textSize="10sp"
         android:textStyle="italic"
-        android:textColor="@color/white"
-        android:id="@+id/btnRentVehicle"
-        android:background="@drawable/mybtn"
-        android:layout_margin="5dp"
-        ></Button>
+        android:textAllCaps="false"
+        android:layout_marginLeft="10dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:backgroundTint="@color/white"></Button>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/underline"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Verify Driving license"
+        android:textColor="#0276AA"
+        android:textSize="10sp"
+        android:textStyle="italic"
+        android:textAllCaps="false"
+        android:layout_marginLeft="10dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:backgroundTint="@color/white"></Button>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/underline"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Provide Proof of Ownership"
+        android:textColor="#0276AA"
+        android:textSize="10sp"
+        android:textStyle="italic"
+        android:textAllCaps="false"
+        android:layout_marginLeft="10dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:backgroundTint="@color/white"></Button>
 
 
 </LinearLayout>

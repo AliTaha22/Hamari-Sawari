@@ -60,11 +60,23 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:text="@string/sign_up"
         android:textColor="@color/HS"
         android:textSize="12sp"
         android:textStyle="italic"
+        app:backgroundTint="@color/white"></Button>
+
+    <Button
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Forgot password?"
+        android:textColor="#0276AA"
+        android:textSize="10sp"
+        android:textStyle="italic"
+        android:layout_gravity="center"
+        android:background="?android:attr/selectableItemBackground"
         app:backgroundTint="@color/white"></Button>
 
 

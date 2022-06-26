@@ -12,10 +12,11 @@ class MainMenu : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
 
+        replaceFragment(HomeFragment())
+
 
         var searchVh: ImageView = findViewById(R.id.imgSearch)
-        //var RentVh: Button = findViewById(R.id.btnRentVehicle)
-        //var viewVhs: Button = findViewById(R.id.btnViewVh)
+        var rentVh: ImageView = findViewById(R.id.imgRent)
         var profile: ImageView = findViewById(R.id.imgProfile)
         var home: ImageView = findViewById(R.id.imgHome)
 
@@ -29,13 +30,17 @@ class MainMenu : AppCompatActivity() {
         home.setOnClickListener {
             replaceFragment(HomeFragment())
         }
+        rentVh.setOnClickListener {
+            replaceFragment(RentFragment())
+        }
+
     }
 
     private fun replaceFragment(fragment : androidx.fragment.app.Fragment) {
 
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragmentContainer2, fragment)
+        fragmentTransaction.replace(R.id.mainFragment, fragment)
         fragmentTransaction.commit()
 
     }

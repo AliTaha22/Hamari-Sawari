@@ -1,15 +1,9 @@
 package com.example.hamarisawari
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 
 
-
-
-class BikeFragment : Fragment(R.layout.fragment_bike) {
+class SearchBikeFragment : Fragment(R.layout.fragment_bike_search) {
 
    /* override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

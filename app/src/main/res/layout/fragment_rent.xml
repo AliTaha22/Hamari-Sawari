@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RentFragment">
+    tools:context=".RentFragment"
+    android:orientation="vertical"
+    android:weightSum="100">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
+        android:id="@+id/vhPicture"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:src="@drawable/ic_addpicture"
+        android:layout_weight="30"
+        ></ImageView>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <Button
+            android:id="@+id/rentCarFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:backgroundTint="@color/HS"
+            android:text="Car"></Button>
+
+        <Button
+            android:id="@+id/rentBikeFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:backgroundTint="@color/HS"
+            android:text="Bike"></Button>
+
+
+    </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/rentFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="60"></androidx.fragment.app.FragmentContainerView>
+
+
+</LinearLayout>

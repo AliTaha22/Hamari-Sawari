@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 
 
@@ -19,31 +18,31 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         // Inflate the layout for this fragment
          val view:View = inflater.inflate(R.layout.fragment_search, container, false)
 
-        var btn1:Button = view.findViewById(R.id.carFragment)
-        var btn2:Button = view.findViewById(R.id.bikeFragment)
-        var btn3:Button = view.findViewById(R.id.truckFragment)
+        var btnSearchCar:Button = view.findViewById(R.id.searchCarFragment)
+        var btnSearchBike:Button = view.findViewById(R.id.searchBikeFragment)
 
-        btn1.setOnClickListener {
 
-            val carFG = CarFragment()
-            val transaction: FragmentTransaction = requireFragmentManager().beginTransaction()
-            transaction.replace(R.id.fragmentContainer3, carFG)
-            transaction.commit()
+        shiftFragment(SearchCarFragment())
+
+        btnSearchCar.setOnClickListener {
+
+            shiftFragment(SearchCarFragment())
         }
-        btn2.setOnClickListener {
-            val bikeFG = BikeFragment()
-            val transaction: FragmentTransaction = requireFragmentManager().beginTransaction()
-            transaction.replace(R.id.fragmentContainer3, bikeFG)
-            transaction.commit()
-        }
-        btn3.setOnClickListener {
-            val truckFG = TruckFragment()
-            val transaction: FragmentTransaction = requireFragmentManager().beginTransaction()
-            transaction.replace(R.id.fragmentContainer3, truckFG)
-            transaction.commit()
+        btnSearchBike.setOnClickListener {
+
+            shiftFragment(SearchBikeFragment())
         }
 
         return view
+    }
+
+
+    private fun shiftFragment(fragment: Fragment)
+    {
+        val frag = fragment
+        val transaction: FragmentTransaction = requireFragmentManager().beginTransaction()
+        transaction.replace(R.id.searchFragment, frag)
+        transaction.commit()
     }
 
 }
