@@ -17,7 +17,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="200dp"
+            android:layout_width="180dp"
             android:layout_height="match_parent"
             android:hint="Manufacturer">
 
@@ -25,6 +25,7 @@
                 android:id="@+id/manufacturer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
                 android:inputType="none"
                 android:text="Toyota"
                 android:textColor="@color/black"
@@ -35,11 +36,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="200dp"
+            android:layout_width="180dp"
             android:layout_height="match_parent"
             android:hint="Transmission">
 
             <AutoCompleteTextView
+                android:layout_marginLeft="5dp"
                 android:id="@+id/transmission"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -63,11 +65,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="200dp"
+            android:layout_width="180dp"
             android:layout_height="match_parent"
             android:hint="Type">
 
             <AutoCompleteTextView
+                android:layout_marginRight="5dp"
                 android:id="@+id/type"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -79,22 +82,13 @@
             </AutoCompleteTextView>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="200dp"
+        <EditText
+            android:layout_width="175dp"
             android:layout_height="match_parent"
-            android:hint="Manufacturer">
-
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none"
-                android:text="Toyota"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black">
-
-            </AutoCompleteTextView>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginLeft="5dp"
+            android:hint="Car Model"
+            android:id="@+id/BikeModel"
+            ></EditText>
 
     </LinearLayout>
 
@@ -165,7 +159,6 @@
         android:thumbTint="@color/HS"
         android:layout_gravity="center"
         ></SeekBar>
-
 
 
 

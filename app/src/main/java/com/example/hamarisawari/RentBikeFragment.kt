@@ -1,36 +1,28 @@
 package com.example.hamarisawari
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
-import androidx.fragment.app.Fragment
-import com.example.hamarisawari.databinding.FragmentBikeSearchBinding
 import com.example.hamarisawari.databinding.FragmentRentBikeBinding
+import com.example.hamarisawari.databinding.FragmentRentCarBinding
 
 
-class SearchBikeFragment : Fragment(R.layout.fragment_bike_search) {
+class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
 
-
-
-    private var binding : FragmentBikeSearchBinding? = null
-
-
+    private var binding : FragmentRentBikeBinding?=null
     override fun onResume() {
         super.onResume()
 
         displayDropDown()
     }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        binding = FragmentBikeSearchBinding.inflate(inflater, container, false)
+
+        binding = FragmentRentBikeBinding.inflate(inflater, container, false)
         var priceSB: SeekBar = binding!!.priceSeekBar
         var locationSB: SeekBar = binding!!.locationSeekBar
         var priceBar = binding!!.priceBar
@@ -83,16 +75,22 @@ class SearchBikeFragment : Fragment(R.layout.fragment_bike_search) {
         val manufacturer = resources.getStringArray(R.array.BikeManufacturer)
         val engine = resources.getStringArray(R.array.BikeEngine)
         val color = resources.getStringArray(R.array.BikeColor)
+        val condition = resources.getStringArray(R.array.Condition)
 
 
         val arrayAdapterManufacturer = ArrayAdapter(requireContext(), R.layout.dropdown_menu, manufacturer)
         val arrayAdapterEngine = ArrayAdapter(requireContext(), R.layout.dropdown_menu, engine)
         val arrayAdapterColor = ArrayAdapter(requireContext(), R.layout.dropdown_menu, color)
+        val arrayAdapterCondition = ArrayAdapter(requireContext(), R.layout.dropdown_menu, condition)
 
 
 
         binding!!.manufacturer.setAdapter(arrayAdapterManufacturer)
         binding!!.engine.setAdapter(arrayAdapterEngine)
         binding!!.color.setAdapter(arrayAdapterColor)
+        binding!!.condition.setAdapter(arrayAdapterCondition)
     }
+
+
+
 }
