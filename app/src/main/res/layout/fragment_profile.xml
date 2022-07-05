@@ -109,14 +109,14 @@
             android:layout_marginTop="10dp"
             android:layout_height="25dp"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/pass"
+            android:src="@drawable/email"
             ></ImageView>
 
         <EditText
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
-            android:hint="Password"
+            android:hint="Email"
             android:inputType="textPassword"
             android:textColorHint="@color/black"
             android:textColor="@color/black"
