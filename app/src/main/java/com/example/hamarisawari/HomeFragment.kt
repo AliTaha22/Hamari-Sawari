@@ -1,6 +1,7 @@
 package com.example.hamarisawari
 
 import android.app.Activity
+import android.app.Notification
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,8 +16,8 @@ import com.google.android.material.navigation.NavigationView
 
 class HomeFragment : Fragment(R.layout.fragment_home ) {
 
-    lateinit var toggle: ActionBarDrawerToggle
-    private var binding: FragmentHomeBinding? = null
+    lateinit var binding: FragmentHomeBinding
+    //lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +33,6 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
         /*toggle = ActionBarDrawerToggle(Activity(), drawerlayout, R.string.open, R.string.close)
         drawerlayout.addDrawerListener(toggle)
         toggle.syncState()*/
-
 
 
 

@@ -20,6 +20,16 @@
         android:icon="@drawable/ic_message"
         />
     <item
+        android:id="@+id/nav_report"
+        android:title="Reports and Complaints"
+        android:icon="@drawable/ic_report"
+        />
+    <item
+        android:id="@+id/nav_feedback"
+        android:title="Profile Feedbacks"
+        android:icon="@drawable/ic_feedback"
+        />
+    <item
         android:id="@+id/nav_logout"
         android:title="Logout"
         android:icon="@drawable/ic_logout"
