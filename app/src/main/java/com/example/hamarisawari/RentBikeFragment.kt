@@ -23,6 +23,7 @@ class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
         // Inflate the layout for this fragment
 
         binding = FragmentRentBikeBinding.inflate(inflater, container, false)
+
         var priceSB: SeekBar = binding!!.priceSeekBar
         var locationSB: SeekBar = binding!!.locationSeekBar
         var priceBar = binding!!.priceBar

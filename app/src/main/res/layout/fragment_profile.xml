@@ -12,6 +12,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/profileImg"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/ic_profile"
@@ -20,13 +21,13 @@
             ></ImageView>
 
         <Button
+            android:id="@+id/uploadPic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Change picture"
+            android:text="Upload picture"
             android:textStyle="italic"
             android:textColor="@color/white"
-            android:id="@+id/changeDp"
             android:background="@drawable/mybtn"
             android:backgroundTint="#000"
             android:layout_margin="5dp"
@@ -45,16 +46,16 @@
             android:layout_marginLeft="10dp"
             android:src="@drawable/pp"
             ></ImageView>
-        <EditText
+        <TextView
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:text="Your Name"
             android:textColorHint="@color/black"
             android:layout_marginLeft="20dp"
             android:textColor="@color/black"
+            android:textSize="25dp"
             android:id="@+id/Name"
-            android:inputType="textPersonName"
-            ></EditText>
+            ></TextView>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -67,16 +68,16 @@
             android:layout_marginLeft="10dp"
             android:src="@drawable/age"
             ></ImageView>
-        <EditText
+        <TextView
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:textColorHint="@color/black"
-            android:hint="Age"
+            android:text="Your Age"
             android:layout_marginLeft="22dp"
             android:textColor="@color/black"
+            android:textSize="25dp"
             android:id="@+id/Age"
-            android:inputType="number"
-            ></EditText>
+            ></TextView>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -89,16 +90,15 @@
             android:layout_marginLeft="10dp"
             android:src="@drawable/phone"
             ></ImageView>
-        <EditText
+        <TextView
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:hint="Contact"
+            android:text="Your Number"
             android:layout_marginLeft="22dp"
-            android:inputType="number"
-            android:textColorHint="@color/black"
             android:textColor="@color/black"
+            android:textSize="25dp"
             android:id="@+id/Contact"
-            ></EditText>
+            ></TextView>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -112,16 +112,15 @@
             android:src="@drawable/email"
             ></ImageView>
 
-        <EditText
+        <TextView
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
-            android:hint="Email"
-            android:inputType="textPassword"
-            android:textColorHint="@color/black"
+            android:text="Your Email"
             android:textColor="@color/black"
-            android:id="@+id/Password"
-            ></EditText>
+            android:textSize="25dp"
+            android:id="@+id/Email"
+            ></TextView>
     </LinearLayout>
     <Button
         android:layout_width="wrap_content"
