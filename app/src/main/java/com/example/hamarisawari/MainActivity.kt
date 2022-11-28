@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    private val url = "http://192.168.178.1/hamarisawari/login.php"
+    private val url = "http://192.168.100.157/hamarisawari/login.php"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         signup.setOnClickListener {
-
+            finish()
             startActivity(Intent(this, signUp::class.java))
         }
 

@@ -139,13 +139,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:hint="Milage"
-                android:id="@+id/CarMilage"
+                android:inputType="number"
+                android:id="@+id/BikeMilage"
                 ></EditText>
             <EditText
                 android:layout_width="175dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:hint="Bike Model"
+                android:inputType="number"
                 android:id="@+id/BikeModel"
                 ></EditText>
 
@@ -179,40 +181,6 @@
             android:max="10000"
             android:min="0"
             android:progress="5000"
-            android:progressTint="@color/HS"
-            android:thumbTint="@color/HS"
-            android:layout_gravity="center"
-            ></SeekBar>
-
-        <TextView
-            android:id="@+id/locationRadius"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Location Radius"
-            android:textColor="@color/HS"
-            android:textSize="25sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp">
-            ></TextView>
-        <TextView
-            android:id="@+id/locationBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5 km"
-            android:textColor="@color/HS"
-            android:textSize="16sp"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center">
-            ></TextView>
-
-        <SeekBar
-            android:id="@+id/locationSeekBar"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:max="30"
-            android:min="1"
-            android:progress="5"
             android:progressTint="@color/HS"
             android:thumbTint="@color/HS"
             android:layout_gravity="center"
