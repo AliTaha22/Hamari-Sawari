@@ -14,7 +14,6 @@ import com.android.volley.toolbox.Volley
 class signUp : AppCompatActivity() {
 
 
-    private val url = "http://192.168.100.157/hamarisawari/signup.php"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +50,7 @@ class signUp : AppCompatActivity() {
     private fun signUpUser(Name: String, Age: String, Gender: String, Contact: String, Id: String, Pass: String ){
 
         val request: StringRequest = object : StringRequest(
-            Request.Method.POST, url,
+            Request.Method.POST, URLs().signUp_URL,
             Response.Listener { response ->
 
                 Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show()

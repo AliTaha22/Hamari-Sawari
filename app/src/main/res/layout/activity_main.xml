@@ -29,7 +29,7 @@
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:textColor="@color/black"
-        android:textColorHint="@color/black"></EditText>
+        android:textColorHint="#808080"></EditText>
 
     <EditText
         android:id="@+id/Pass"
@@ -41,7 +41,7 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:textColor="@color/black"
-        android:textColorHint="@color/black"></EditText>
+        android:textColorHint="#808080"></EditText>
 
     <Button
         android:id="@+id/signIn"

@@ -1,4 +1,4 @@
-package com.example.hamarisawari
+package com.example.hamarisawari.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,67 +9,37 @@ import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.hamarisawari.R
+import com.example.hamarisawari.URLs
 import com.example.hamarisawari.databinding.FragmentRentBikeBinding
-import com.example.hamarisawari.databinding.FragmentRentCarBinding
 
 
 class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
 
     private var binding : FragmentRentBikeBinding?=null
-    private val url = "http://192.168.100.157/hamarisawari/postbike.php"
-    override fun onResume() {
-        super.onResume()
 
-        displayDropDown()
-    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
         binding = FragmentRentBikeBinding.inflate(inflater, container, false)
-
-        var priceSB: SeekBar = binding!!.priceSeekBar
-        var priceBar = binding!!.priceBar
-        displayDropDown()   //calling function that displays the dropdown menu
-        var color=binding!!.color
         var upload=binding!!.btnUpload
-        var manufacture=binding!!.manufacturer
-        var condition=binding!!.condition
-        var engineCapacity=binding!!.engine
-        var milage=binding!!.BikeMilage
-        var bikeModel=binding!!.BikeModel
-        var engineNumber=binding!!.EngineNumber
-        var numberPlate=binding!!.NumberPlate
-        var description=binding!!.BikeDis
-        var mySharedPref = this.getActivity()?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        var userName= mySharedPref?.getString("username","unknown")
+
+
+        var mySharedPref = context?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        var username= mySharedPref?.getString("username",null)
 
         displayDropDown()   //calling function that displays the dropdown menu
 
-        //seekbars
-        priceSB.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                priceBar.text = progress.toString()
 
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
-
-        })
 
         upload.setOnClickListener {
 
-            //var m=color.toString()
-            //Toast.makeText(context, "$m", Toast.LENGTH_SHORT).show()
-            if (userName != null) {
-                postAdd(userName,priceBar.text.toString(),color.text.toString(),manufacture.text.toString(),condition.text.toString(),engineCapacity.text.toString(),milage.text.toString(),bikeModel.text.toString(),engineNumber.text.toString(),numberPlate.text.toString(),description.text.toString())
+            if (username != null) {
+                postAdd(username)
             }
         }
 
@@ -77,12 +47,11 @@ class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
         return binding!!.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onResume() {
+        super.onResume()
+        displayDropDown()
 
-        binding = null
     }
-
 
     private fun displayDropDown()
     {
@@ -92,7 +61,8 @@ class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
         val condition = resources.getStringArray(R.array.Condition)
 
 
-        val arrayAdapterManufacturer = ArrayAdapter(requireContext(), R.layout.dropdown_menu, manufacturer)
+        val arrayAdapterManufacturer = ArrayAdapter(requireContext(),
+            R.layout.dropdown_menu, manufacturer)
         val arrayAdapterEngine = ArrayAdapter(requireContext(), R.layout.dropdown_menu, engine)
         val arrayAdapterColor = ArrayAdapter(requireContext(), R.layout.dropdown_menu, color)
         val arrayAdapterCondition = ArrayAdapter(requireContext(), R.layout.dropdown_menu, condition)
@@ -105,10 +75,23 @@ class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
         binding!!.condition.setAdapter(arrayAdapterCondition)
     }
 
-    private fun postAdd(userName:String,priceBar:String,color:String,manufacture:String,condition:String,engineCapacity:String,milage:String,bikeModel:String,engineNumber:String,numberPlate:String,description:String){
+    private fun postAdd(username:String){
+
+
+        var color=binding!!.color.text.toString()
+        var manufacturer=binding!!.manufacturer.text.toString()
+        var condition=binding!!.condition.text.toString()
+        var engineCapacity=binding!!.engine.text.toString()
+        var mileage=binding!!.BikeMilage.text.toString()
+        var bikeModel=binding!!.BikeModel.text.toString()
+        var engineNumber=binding!!.EngineNumber.text.toString()
+        var numberPlate=binding!!.NumberPlate.text.toString()
+        var description=binding!!.BikeDis.text.toString()
+        var price=binding!!.rentingPriceBike.text.toString()
+
 
         val request: StringRequest = object : StringRequest(
-            Request.Method.POST, url,
+            Method.POST, URLs().rentBike_URL,
             Response.Listener { response ->
 
                 Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show()
@@ -127,13 +110,13 @@ class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
 
                 val map : MutableMap<String,String> = HashMap()
 
-                map["userName"] = userName
-                map["priceBar"] = priceBar
+                map["username"] = username
+                map["rentingPrice"] = price
                 map["color"] = color
-                map["manufacture"] = manufacture
+                map["manufacturer"] = manufacturer
                 map["condition"] = condition
                 map["engineCapacity"] = engineCapacity
-                map["milage"] = milage
+                map["mileage"] = mileage
                 map["bikeModel"] = bikeModel
                 map["engineNumber"] = engineNumber
                 map["numberPlate"] = numberPlate
@@ -144,6 +127,13 @@ class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
 
         val queue = Volley.newRequestQueue(context)
         queue.add(request)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+
     }
 
 }

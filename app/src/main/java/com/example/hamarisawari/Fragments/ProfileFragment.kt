@@ -1,11 +1,7 @@
-package com.example.hamarisawari
+package com.example.hamarisawari.Fragments
 
 import android.Manifest
-import android.R.attr
-import android.R.attr.bitmap
 import android.app.Activity.RESULT_OK
-import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -15,18 +11,15 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.android.volley.AuthFailureError
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
+import com.example.hamarisawari.R
+import com.example.hamarisawari.URLs
 import com.example.hamarisawari.databinding.FragmentProfileBinding
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -34,6 +27,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
@@ -45,12 +39,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private var binding : FragmentProfileBinding?=null
 
-    private var url = "http://192.168.178.1/hamarisawari/fileupload.php"
     lateinit var profilepic:ImageView
     lateinit var uploadpic:Button
     lateinit var encoded_image: String
     lateinit var bitmap: Bitmap
     lateinit var username: String
+
+    lateinit var usernameTV: TextView
+    lateinit var name: TextView
+    lateinit var contact: TextView
+    lateinit var email: TextView
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,12 +66,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         profilepic = binding!!.profileImg
         uploadpic = binding!!.uploadPic
 
-        var name = binding!!.Name
-        var age = binding!!.Age
-        var contact = binding!!.Contact
-        var email = binding!!.Email
 
-        profilepic.setOnClickListener(View.OnClickListener {
+        name = binding!!.Name
+        contact = binding!!.Contact
+        email = binding!!.Email
+        usernameTV = binding!!.username
+        usernameTV.text = username
+
+
+        fetchUserInfo()
+
+        profilepic.setOnClickListener {
             Dexter.withActivity(activity)
                 .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 .withListener(object : PermissionListener {
@@ -90,9 +94,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                         token.continuePermissionRequest()
                     }
                 }).check()
-        })
+        }
 
-        uploadpic.setOnClickListener(View.OnClickListener { uploadDataToDB() })
+        uploadpic.setOnClickListener { uploadDataToDB() }
 
 
         return binding!!.root
@@ -115,7 +119,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             } catch (ex: Exception) {
             }
         }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun encodeBitmapImage(bitmap: Bitmap) {
@@ -124,39 +127,28 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         val bytesofimage: ByteArray = byteArrayOutputStream.toByteArray()
         encoded_image = Base64.encodeToString(bytesofimage, Base64.DEFAULT)
+
     }
 
     private fun uploadDataToDB()
     {
-
-
-
         val request: StringRequest = object : StringRequest(
-            Request.Method.POST, url,
+            Method.POST, URLs().fileUpload_URL,
             Response.Listener { response ->
 
-                profilepic.setImageResource(R.drawable.ic_profile)
-                Toast.makeText(
-                    context,
-                    response, Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(context, response, Toast.LENGTH_LONG).show()
             },
             Response.ErrorListener { error ->
-                Toast.makeText(
-                    context,
-                    error.toString(),
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show()
+
             }) {
             override fun getParams(): Map<String, String> {
                 val map: MutableMap<String, String> = HashMap()
                 map["upload"] = encoded_image
-                map["username"] = username.toString()
+                map["username"] = username
                 return map
             }
         }
-
-
         val queue = Volley.newRequestQueue(requireActivity().applicationContext)
         queue.add(request)
 
@@ -164,19 +156,30 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private fun fetchUserInfo()
     {
-        val url = "http://192.168.178.1/hamarisawari/profileInfo.php"
-        val request: StringRequest = object : StringRequest(Request.Method.POST, url,
 
-            Response.Listener { response -> },
-            Response.ErrorListener { error -> }){
 
+        val request: StringRequest = object : StringRequest(
+            Method.POST, URLs().profileInfo_URL,
+            Response.Listener { response ->
+
+                val jsonObject = JSONObject(response)
+
+                name.text = jsonObject.getString("name")
+                contact.text = jsonObject.getString("contact")
+
+
+
+                val dest = "http://192.168.178.1/hamarisawari/images/" + jsonObject.getString("picture")
+                context?.let { Glide.with(it).load(dest).into(profilepic) }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show()
+            }) {
             override fun getParams(): Map<String, String> {
                 val map: MutableMap<String, String> = HashMap()
                 map["username"] = username
-
                 return map
             }
-
         }
 
         val queue = Volley.newRequestQueue(requireActivity().applicationContext)

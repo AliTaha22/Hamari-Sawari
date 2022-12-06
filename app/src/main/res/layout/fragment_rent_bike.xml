@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
-    tools:context=".RentBikeFragment">
+    tools:context=".Fragments.RentBikeFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -138,7 +138,7 @@
                 android:layout_width="175dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:hint="Milage"
+                android:hint="Mileage"
                 android:inputType="number"
                 android:id="@+id/BikeMilage"
                 ></EditText>
@@ -152,44 +152,20 @@
                 ></EditText>
 
         </LinearLayout>
-        <TextView
-            android:id="@+id/priceRange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Price Range"
-            android:textColor="@color/HS"
-            android:textSize="25sp"
+        <EditText
+            android:layout_width="175dp"
+            android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp">
-            ></TextView>
-        <TextView
-            android:id="@+id/priceBar"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5000"
-            android:textColor="@color/HS"
-            android:textSize="16sp"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center">
-            ></TextView>
-
-        <SeekBar
-            android:id="@+id/priceSeekBar"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:max="10000"
-            android:min="0"
-            android:progress="5000"
-            android:progressTint="@color/HS"
-            android:thumbTint="@color/HS"
-            android:layout_gravity="center"
-            ></SeekBar>
+            android:hint="Price (PKR)"
+            android:inputType="number"
+            android:id="@+id/rentingPriceBike"
+            ></EditText>
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:hint="Enter Discription about your vehicle"
+            android:hint="Enter Description about your vehicle"
             android:id="@+id/BikeDis"
             android:gravity="center"
             android:layout_gravity="center"

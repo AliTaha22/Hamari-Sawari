@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -14,12 +15,10 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 
-
 class MainActivity : AppCompatActivity() {
 
 
 
-    private val url = "http://192.168.100.157/hamarisawari/login.php"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +28,14 @@ class MainActivity : AppCompatActivity() {
         //creating a shared preference to store status of user i.e. logged in or not
         var mySharedPref = getSharedPreferences("userInfo", MODE_PRIVATE)
         var loginStatus = mySharedPref.getBoolean("loggedIn", false)
+
+        Log.d("Login Status: ", loginStatus.toString())
+
+        //by default, the fragment should be home fragment.
+        var dataEditor = mySharedPref.edit()
+        dataEditor.putString("fragmentStatus", "homeFragment")
+        dataEditor.apply()
+        dataEditor.commit()
 
 
         //accessing buttons from layout file
@@ -43,13 +50,15 @@ class MainActivity : AppCompatActivity() {
         //if the user is already logged in, this activity will be destroyed and user will be redirected to MainMenu.
         if(loginStatus)
         {
+
             startActivity(Intent(this@MainActivity, MainMenu::class.java))
             finish()
         }
 
         signup.setOnClickListener {
+
+            startActivity(Intent(this@MainActivity, signUp::class.java))
             finish()
-            startActivity(Intent(this, signUp::class.java))
         }
 
         signIn.setOnClickListener {
@@ -61,8 +70,6 @@ class MainActivity : AppCompatActivity() {
 
         }
         forgotPass.setOnClickListener {
-
-            var q = Volley.newRequestQueue(applicationContext)
 
             //
         }
@@ -77,14 +84,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun loginUser(username: String,  password: String, ){
 
+
+
         val request: StringRequest = object : StringRequest(
-            Request.Method.POST, url,
+            Method.POST, URLs().logIn_URL,
             Response.Listener { response ->
 
-                if(response.equals("Login Success")){
 
-                    var mySharedPref = getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+                if(response.contains("Login Success")){
+
+                    var mySharedPref = getSharedPreferences("userInfo", MODE_PRIVATE)
                     var dataEditor = mySharedPref.edit()
+
 
                     //setting user status as true. Since the user is successfully logged in.
                     dataEditor.putBoolean("loggedIn", true)
@@ -92,21 +103,21 @@ class MainActivity : AppCompatActivity() {
                     dataEditor.apply()
                     dataEditor.commit()
 
+                    Toast.makeText(this@MainActivity, response, Toast.LENGTH_SHORT).show()
                     //shifting to next activity and destroying the current activity i.e. MainActivity
-                    val i = Intent(this, MainMenu::class.java)
-                    startActivity(i)
+                    startActivity(Intent(this@MainActivity, MainMenu::class.java))
                     finish()
 
-                    Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
 
                 }
-                else
-                    Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
+                else {
+                    Toast.makeText(this@MainActivity, response, Toast.LENGTH_SHORT).show()
+                }
 
             },
             Response.ErrorListener { error ->
 
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, error.toString(), Toast.LENGTH_SHORT).show()
 
             }){
 
@@ -121,8 +132,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val queue = Volley.newRequestQueue(this)
+        val queue = Volley.newRequestQueue(this@MainActivity)
         queue.add(request)
     }
+
 
 }

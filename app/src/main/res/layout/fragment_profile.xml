@@ -4,7 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ProfileFragment">
+    tools:context=".Fragments.ProfileFragment">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_id"
+            ></ImageView>
+    <TextView
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textColorHint="@color/black"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:textStyle="bold|italic"
+        android:id="@+id/username"
+        ></TextView>
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -13,10 +40,10 @@
 
         <ImageView
             android:id="@+id/profileImg"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:src="@drawable/ic_profile"
-            android:layout_margin="50dp"
+            android:layout_marginLeft="15dp"
 
             ></ImageView>
 
@@ -57,28 +84,7 @@
             android:id="@+id/Name"
             ></TextView>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/age"
-            ></ImageView>
-        <TextView
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/black"
-            android:text="Your Age"
-            android:layout_marginLeft="22dp"
-            android:textColor="@color/black"
-            android:textSize="25dp"
-            android:id="@+id/Age"
-            ></TextView>
-    </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -155,18 +161,6 @@
         android:layout_height="1dp"
         android:background="@color/underline"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:text="Provide Proof of Ownership"
-        android:textColor="@color/HS"
-        android:textSize="10sp"
-        android:textStyle="italic"
-        android:textAllCaps="false"
-        android:layout_marginLeft="10dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:backgroundTint="@color/white"></Button>
 
 
 </LinearLayout>

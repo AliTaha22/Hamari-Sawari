@@ -1,36 +1,43 @@
 package com.example.hamarisawari
 
-import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.hamarisawari.databinding.FragmentHomeBinding
+import com.example.hamarisawari.Fragments.*
 import com.google.android.material.navigation.NavigationView
 
 
-class MainMenu : AppCompatActivity() {
+class MainMenu : AppCompatActivity(), Communicator {
 
 
      lateinit var toggle: ActionBarDrawerToggle
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
 
+        var mySharedPref: SharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE)
+        var currentFragment = mySharedPref.getString("fragmentStatus", "homeFragment").toString()
+        var dataEditor = mySharedPref.edit()
 
+        checkFragmentStatus(currentFragment)
+
+
+        Log.d("Fragment Status: ", currentFragment.toString())
 
         val drawerlayout: DrawerLayout = findViewById(R.id.drawerLayout)
         val navView: NavigationView = findViewById(R.id.nav_view)
 
-        var mySharedPref = getSharedPreferences("userStatus", AppCompatActivity.MODE_PRIVATE)
-        var dataEditor = mySharedPref.edit()
+
 
 
         toggle = ActionBarDrawerToggle(this, drawerlayout, R.string.open, R.string.close)
@@ -65,8 +72,6 @@ class MainMenu : AppCompatActivity() {
 
 
 
-        replaceFragment(HomeFragment())
-
 
         var searchVh: ImageView = findViewById(R.id.imgSearch)
         var rentVh: ImageView = findViewById(R.id.imgRent)
@@ -75,15 +80,36 @@ class MainMenu : AppCompatActivity() {
 
 
         profile.setOnClickListener {
+
+            dataEditor.putString("fragmentStatus", "profileFragment")
+            dataEditor.apply()
+            dataEditor.commit()
+
             replaceFragment(ProfileFragment())
+
         }
         searchVh.setOnClickListener {
+
+            dataEditor.putString("fragmentStatus", "searchFragment")
+            dataEditor.apply()
+            dataEditor.commit()
+
             replaceFragment(SearchFragment())
         }
         home.setOnClickListener {
+
+            dataEditor.putString("fragmentStatus", "homeFragment")
+            dataEditor.apply()
+            dataEditor.commit()
+
             replaceFragment(HomeFragment())
         }
         rentVh.setOnClickListener {
+
+            dataEditor.putString("fragmentStatus", "rentFragment")
+            dataEditor.apply()
+            dataEditor.commit()
+
             replaceFragment(RentFragment())
         }
 
@@ -106,5 +132,32 @@ class MainMenu : AppCompatActivity() {
         fragmentTransaction.commit()
 
     }
+    private fun checkFragmentStatus(currentFragment: String) {
+
+        if(currentFragment == "homeFragment"){
+            replaceFragment(HomeFragment())
+        }
+        else if(currentFragment == "rentFragment"){
+            replaceFragment(RentFragment())
+        }
+        else if(currentFragment == "searchFragment"){
+            replaceFragment(SearchFragment())
+        }
+        else if(currentFragment == "profileFragment"){
+            replaceFragment(ProfileFragment())
+        }
+    }
+
+    override fun passDataCom(images: ArrayList<String>) {
+
+        val bundle = Bundle()
+        bundle.putStringArrayList("images", images)
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentCar = RentCarFragment()
+        fragmentCar.arguments = bundle
+        transaction.replace(R.id.mainFragment, fragmentCar)
+        transaction.commit()
+    }
+
 
 }
