@@ -59,8 +59,8 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
                 Log.d("Car_DATA: ", array[0].toString());
 
 
-                getVehiclesData(array.getJSONArray(0)) //0 index has car data
-                //getVehiclesData(array.getJSONArray(1))  //1 index has bike data
+                getVehiclesData(array.getJSONArray(0),0) //0 index has car data
+                getVehiclesData(array.getJSONArray(1),1)  //1 index has bike data
 
                 //Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show()
 
@@ -84,7 +84,7 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
         queue.add(request)
     }
 
-    private fun getVehiclesData(array: JSONArray){
+    private fun getVehiclesData(array: JSONArray,flag:Int){
 
         var count=0
         while(count<array.length())
@@ -106,29 +106,56 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
             }
 
 
-            var vehicleData = jsonobj?.getString("username")?.let {
-                vehicles(
-                    it,
-                    jsonobj.getString("rentingprice"),
-                    jsonobj.getString("color"),
-                    jsonobj.getString("manufacturer"),
-                    jsonobj.getString("conditionn"),
-                    jsonobj.getString("transmission"),
-                    jsonobj.getString("type"),
-                    jsonobj.getString("enginecapacity"),
-                    jsonobj.getString("mileage"),
-                    jsonobj.getString("model"),
-                    jsonobj.getString("enginenumber"),
-                    jsonobj.getString("numberplate"),
-                    jsonobj.getString("description"),
-                    images)
-            }
+            if(flag==0) {
+                var vehicleData = jsonobj?.getString("username")?.let {
+                    vehicles(
+                        it,
+                        jsonobj.getString("rentingprice"),
+                        jsonobj.getString("color"),
+                        jsonobj.getString("manufacturer"),
+                        jsonobj.getString("conditionn"),
+                        jsonobj.getString("transmission"),
+                        jsonobj.getString("type"),
+                        jsonobj.getString("enginecapacity"),
+                        jsonobj.getString("mileage"),
+                        jsonobj.getString("model"),
+                        jsonobj.getString("enginenumber"),
+                        jsonobj.getString("numberplate"),
+                        jsonobj.getString("description"),
+                        images
+                    )
+                }
 
-            //Log.d("Home FrG: ", veh.images?.get(0).toString())
-            if (vehicleData != null) {
-                dataList.add(vehicleData)
+                //Log.d("Home FrG: ", veh.images?.get(0).toString())
+                if (vehicleData != null) {
+                    dataList.add(vehicleData)
+                }
             }
+            else{
+                var vehicleData = jsonobj?.getString("username")?.let {
+                    vehicles(
+                        it,
+                        jsonobj.getString("rentingprice"),
+                        jsonobj.getString("color"),
+                        jsonobj.getString("manufacturer"),
+                        jsonobj.getString("conditionn"),
+                        "Manual",
+                        "Bike",
+                        jsonobj.getString("enginecapacity"),
+                        jsonobj.getString("mileage"),
+                        jsonobj.getString("model"),
+                        jsonobj.getString("enginenumber"),
+                        jsonobj.getString("numberplate"),
+                        jsonobj.getString("description"),
+                        images
+                    )
+                }
 
+                //Log.d("Home FrG: ", veh.images?.get(0).toString())
+                if (vehicleData != null) {
+                    dataList.add(vehicleData)
+                }
+            }
             count+=1
 
         }

@@ -141,7 +141,7 @@ class RentCarFragment : Fragment(R.layout.fragment_rent_car) {
 
 
                 map["username"] = username
-                map["priceBar"] = price
+                map["rentingPrice"] = price
                 map["color"] = color
                 map["manufacturer"] = manufacturer
                 map["condition"] = condition

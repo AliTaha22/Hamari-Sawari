@@ -7,14 +7,6 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:textSize="5dp"
-        android:background="@drawable/pp"
-        android:id="@+id/adminbtn"
-        ></Button>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,11 +20,11 @@
         android:textStyle="italic"></TextView>
 
     <EditText
-        android:id="@+id/id"
+        android:id="@+id/adminid"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="@string/user_id"
+        android:hint="Admin_id"
         android:text=""
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
@@ -40,7 +32,7 @@
         android:textColorHint="#808080"></EditText>
 
     <EditText
-        android:id="@+id/Pass"
+        android:id="@+id/APass"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -52,7 +44,7 @@
         android:textColorHint="#808080"></EditText>
 
     <Button
-        android:id="@+id/signIn"
+        android:id="@+id/AdminsignIn"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -63,33 +55,5 @@
         android:textColor="@color/white"
         android:textStyle="italic"
         app:backgroundTint="@color/HS"></Button>
-
-    <Button
-        android:id="@+id/signUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:text="@string/sign_up"
-        android:textColor="@color/HS"
-        android:textSize="12sp"
-        android:textStyle="italic"
-        app:backgroundTint="@color/white"></Button>
-
-    <Button
-        android:id="@+id/forgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:text="Forgot password?"
-        android:textColor="#0276AA"
-        android:textSize="10sp"
-        android:textStyle="italic"
-        android:layout_gravity="center"
-        android:background="?android:attr/selectableItemBackground"
-        app:backgroundTint="@color/white"></Button>
-
-
-
 
 </LinearLayout>

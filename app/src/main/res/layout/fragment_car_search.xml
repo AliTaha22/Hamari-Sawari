@@ -3,16 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.SearchCarFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Fragments.SearchCarFragment">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -41,10 +41,10 @@
             android:hint="Transmission">
 
             <AutoCompleteTextView
-                android:layout_marginLeft="5dp"
                 android:id="@+id/transmission"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
                 android:inputType="none"
                 android:text="Automatic"
                 android:textColor="@color/black"
@@ -58,9 +58,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp">
+        android:orientation="horizontal">
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -70,10 +70,10 @@
             android:hint="Type">
 
             <AutoCompleteTextView
-                android:layout_marginRight="5dp"
                 android:id="@+id/type"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
                 android:inputType="none"
                 android:text="Sedan"
                 android:textColor="@color/black"
@@ -83,12 +83,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <EditText
+            android:id="@+id/BikeModel"
             android:layout_width="175dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
-            android:hint="Car Model"
-            android:id="@+id/BikeModel"
-            ></EditText>
+            android:hint="Car Model"></EditText>
 
     </LinearLayout>
 
@@ -96,70 +95,69 @@
         android:id="@+id/priceRange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Price Range"
-        android:textColor="@color/HS"
-        android:textSize="25sp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:text="Price Range"
+        android:textColor="@color/HS"
+        android:textSize="25sp">
         ></TextView>
+
     <TextView
         android:id="@+id/priceBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
         android:text="5000"
         android:textColor="@color/HS"
-        android:textSize="16sp"
-        android:layout_marginLeft="20dp"
-        android:layout_gravity="center">
+        android:textSize="16sp">
         ></TextView>
 
     <SeekBar
         android:id="@+id/priceSeekBar"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:max="50000"
         android:min="0"
         android:progress="5000"
         android:progressTint="@color/HS"
-        android:thumbTint="@color/HS"
-        android:layout_gravity="center"
-        ></SeekBar>
+        android:thumbTint="@color/HS"></SeekBar>
 
     <TextView
         android:id="@+id/locationRadius"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location Radius"
-        android:textColor="@color/HS"
-        android:textSize="25sp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:text="Location Radius"
+        android:textColor="@color/HS"
+        android:textSize="25sp">
         ></TextView>
+
     <TextView
         android:id="@+id/locationBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
         android:text="5 km"
         android:textColor="@color/HS"
-        android:textSize="16sp"
-        android:layout_marginLeft="20dp"
-        android:layout_gravity="center">
+        android:textSize="16sp">
         ></TextView>
 
     <SeekBar
         android:id="@+id/locationSeekBar"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:max="30"
         android:min="1"
         android:progress="5"
         android:progressTint="@color/HS"
-        android:thumbTint="@color/HS"
-        android:layout_gravity="center"
-        ></SeekBar>
-
+        android:thumbTint="@color/HS"></SeekBar>
 
 
 </LinearLayout>

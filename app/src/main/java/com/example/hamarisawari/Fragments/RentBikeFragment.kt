@@ -20,6 +20,7 @@ import com.example.hamarisawari.databinding.FragmentRentBikeBinding
 class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
 
     private var binding : FragmentRentBikeBinding?=null
+    var encoded_image: ArrayList<String>? = ArrayList()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,6 +32,11 @@ class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
 
         var mySharedPref = context?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         var username= mySharedPref?.getString("username",null)
+
+        val bundle = this.arguments
+        if (bundle != null) {
+            encoded_image = bundle.getStringArrayList("images") as ArrayList<String>
+        }
 
         displayDropDown()   //calling function that displays the dropdown menu
 
@@ -121,6 +127,12 @@ class RentBikeFragment : Fragment(R.layout.fragment_rent_bike) {
                 map["engineNumber"] = engineNumber
                 map["numberPlate"] = numberPlate
                 map["description"] = description
+
+                for(i in 0 until encoded_image?.size!!){
+
+                    map["image" + i] = encoded_image?.get(i)!!
+
+                }
                 return map
             }
         }

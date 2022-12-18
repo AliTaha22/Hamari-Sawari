@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         //accessing buttons from layout file
         var signup: Button = findViewById(R.id.signUp)
         var signIn: Button = findViewById(R.id.signIn)
+        var adminBtn: Button=findViewById(R.id.adminbtn)
         var forgotPass: Button = findViewById(R.id.forgotPassword)
 
         var signIn_ID: EditText = findViewById(R.id.id)
@@ -55,6 +56,10 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
+        adminBtn.setOnClickListener {
+            startActivity(Intent(this,AdminLogin::class.java))
+            finish()
+        }
         signup.setOnClickListener {
 
             startActivity(Intent(this@MainActivity, signUp::class.java))
