@@ -51,7 +51,7 @@ class AdminAddAdapter(_ctx: Context, _data:ArrayList<vehicles>): RecyclerView.Ad
 
         if(data[position].images?.get(0).toString() != null){
 
-            val dest = "http://10.8.191.101/hamarisawari/images/" + data[position].images?.get(0).toString()
+            val dest = "http://192.168.100.157/hamarisawari/images/" + data[position].images?.get(0).toString()
 
             //Log.d("My IMG", data.get(position).images?.get(0).toString())
             //Log.d("My position", position.toString())

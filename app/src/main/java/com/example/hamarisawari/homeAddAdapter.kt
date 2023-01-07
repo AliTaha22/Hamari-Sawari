@@ -24,7 +24,7 @@ class homeAddAdapter(_ctx:Context,_data:ArrayList<vehicles>): RecyclerView.Adapt
         var mileageview: TextView =itemView.findViewById(R.id.milageview)
         var modelview: TextView =itemView.findViewById(R.id.modelview)
         var manufacturerview: TextView =itemView.findViewById(R.id.manufacturerview)
-        var discriptionview: TextView =itemView.findViewById(R.id.discriptionview)
+        //var discriptionview: TextView =itemView.findViewById(R.id.discriptionview)
         var imageview: ImageView =itemView.findViewById(R.id.imageview)
 
 
@@ -45,11 +45,11 @@ class homeAddAdapter(_ctx:Context,_data:ArrayList<vehicles>): RecyclerView.Adapt
         holder.mileageview.text= data[position].mileage
         holder.modelview.text= data[position].carModel
         holder.manufacturerview.text= data[position].manufacturer
-        holder.discriptionview.text= data[position].description
+       // holder.discriptionview.text= data[position].description
 
         if(data[position].images?.get(0).toString() != null){
 
-            val dest = "http://10.8.191.101/hamarisawari/images/" + data[position].images?.get(0).toString()
+            val dest = "http://192.168.100.157/hamarisawari/images/" + data[position].images?.get(0).toString()
 
             //Log.d("My IMG", data.get(position).images?.get(0).toString())
             //Log.d("My position", position.toString())

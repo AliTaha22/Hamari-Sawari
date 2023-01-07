@@ -38,6 +38,30 @@
             android:layout_marginTop="10dp"
             android:layout_height="25dp"
             android:layout_marginLeft="10dp"
+            android:src="@drawable/deg"
+
+            ></ImageView>
+        <EditText
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter your CNIC without dashes"
+            android:textColorHint="@color/black"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:id="@+id/CNIC"
+            android:inputType="number"
+
+            ></EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/age"
             ></ImageView>
         <EditText

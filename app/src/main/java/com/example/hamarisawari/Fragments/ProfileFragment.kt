@@ -169,7 +169,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
 
 
-                val dest = "http://10.8.191.101/hamarisawari/images/" + jsonObject.getString("picture")
+                val dest = "http://192.168.100.157/hamarisawari/images/" + jsonObject.getString("picture")
                 context?.let { Glide.with(it).load(dest).into(profilepic) }
             },
             Response.ErrorListener { error ->
