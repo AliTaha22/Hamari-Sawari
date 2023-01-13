@@ -5,6 +5,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="@color/white">
+
+
+    <TextView
+        android:id="@+id/anameview"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Vehicle Name Here"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="0dp"
+        android:textColor="@color/black"
+        ></TextView>
+
     <ImageView
         android:layout_width="90dp"
         android:layout_height="90dp"
@@ -79,9 +94,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:hint="Condition"
+            android:hint="Seating Capacity"
             android:textSize="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="20dp"
@@ -92,10 +107,10 @@
         <TextView
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:hint="Milage"
+            android:hint="Mileage"
             android:textSize="10dp"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="143dp"
+            android:layout_marginLeft="123dp"
             android:layout_marginBottom="0dp"
             android:textColorHint="#504E4E"
             android:textColor="@color/black"
@@ -108,13 +123,13 @@
         <TextView
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:hint="Condition"
+            android:hint="Seating Capacity"
             android:textSize="20dp"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="20dp"
             android:textColorHint="#504E4E"
             android:textColor="@color/black"
-            android:id="@+id/aconditionview"
+            android:id="@+id/aseatingcapacityview"
             ></TextView>
         <TextView
             android:layout_width="180dp"

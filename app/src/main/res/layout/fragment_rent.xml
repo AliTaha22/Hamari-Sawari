@@ -4,50 +4,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.RentFragment"
-    android:orientation="vertical"
-    android:weightSum="100">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/vhPicture"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:src="@drawable/ic_addpicture"
-        android:layout_weight="30"
-        ></ImageView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+        android:layout_height="60dp">
 
         <Button
-            android:id="@+id/rentCarFragment"
+            android:id="@+id/rentCar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:baselineAligned="false"
             android:backgroundTint="@color/HS"
-            android:text="Car"></Button>
+            android:text="Add New Car"></Button>
 
         <Button
-            android:id="@+id/rentBikeFragment"
+            android:id="@+id/rentBike"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:baselineAligned="false"
             android:backgroundTint="@color/HS"
-            android:text="Bike"></Button>
-
+            android:text="Add New Bike"></Button>
 
     </LinearLayout>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/rentFragment"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="60"></androidx.fragment.app.FragmentContainerView>
+        android:layout_height="1dp"
+        android:background="@color/underline"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Vehicles"
+        android:textAllCaps="false"
+        android:textColor="@color/HS"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"></TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myVehiclesRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+
+        ></androidx.recyclerview.widget.RecyclerView>
+
 
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.hamarisawari
+package com.example.hamarisawari.Admin
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,6 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.hamarisawari.R
+import com.example.hamarisawari.users
 
 class AdminUserAdapter(_ctx: Context, _data:ArrayList<users>):RecyclerView.Adapter<AdminUserAdapter.userviewholder>() {
     var ctx=_ctx
@@ -30,7 +32,7 @@ class AdminUserAdapter(_ctx: Context, _data:ArrayList<users>):RecyclerView.Adapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): userviewholder {
         var itemView= LayoutInflater.from(ctx).inflate(R.layout.adminuseradapter,parent,false)
-        return AdminUserAdapter.userviewholder(itemView)
+        return userviewholder(itemView)
     }
 
     override fun onBindViewHolder(holder: userviewholder, position: Int) {

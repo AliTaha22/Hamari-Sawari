@@ -1,4 +1,4 @@
-package com.example.hamarisawari
+package com.example.hamarisawari.Admin
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,6 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.hamarisawari.R
+import com.example.hamarisawari.URLs
+import com.example.hamarisawari.vehicles
 
 class AdminAddAdapter(_ctx: Context, _data:ArrayList<vehicles>): RecyclerView.Adapter<AdminAddAdapter.addviewholder>() {
     var ctx=_ctx
@@ -17,8 +20,9 @@ class AdminAddAdapter(_ctx: Context, _data:ArrayList<vehicles>): RecyclerView.Ad
 
     class addviewholder(itemView: View):RecyclerView.ViewHolder(itemView){
 
+        var nameview: TextView =itemView.findViewById(R.id.anameview)
         var priceview: TextView =itemView.findViewById(R.id.apriceview)
-        var conditionview: TextView =itemView.findViewById(R.id.aconditionview)
+        var conditionview: TextView =itemView.findViewById(R.id.aseatingcapacityview)
         var typeview: TextView =itemView.findViewById(R.id.atypeview)
         var mileageview: TextView =itemView.findViewById(R.id.amilageview)
         var modelview: TextView =itemView.findViewById(R.id.amodelview)
@@ -33,13 +37,14 @@ class AdminAddAdapter(_ctx: Context, _data:ArrayList<vehicles>): RecyclerView.Ad
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): addviewholder {
 
         var itemView= LayoutInflater.from(ctx).inflate(R.layout.adminaddadapter,parent,false)
-        return AdminAddAdapter.addviewholder(itemView)
+        return addviewholder(itemView)
     }
 
     override fun onBindViewHolder(holder: addviewholder, position: Int) {
 
+        holder.nameview.text= data[position].name
         holder.priceview.text= data[position].rentingprice
-        holder.conditionview.text= data[position].condition
+        holder.conditionview.text= data[position].seatingCapacity
         holder.typeview.text= data[position].type
         holder.mileageview.text= data[position].mileage
         holder.modelview.text= data[position].carModel
@@ -51,11 +56,11 @@ class AdminAddAdapter(_ctx: Context, _data:ArrayList<vehicles>): RecyclerView.Ad
 
         if(data[position].images?.get(0).toString() != null){
 
-            val dest = "http://192.168.100.157/hamarisawari/images/" + data[position].images?.get(0).toString()
+            val dest = URLs().images_URL + data[position].images?.get(0).toString()
 
             //Log.d("My IMG", data.get(position).images?.get(0).toString())
             //Log.d("My position", position.toString())
-            ctx?.let { Glide.with(it).load(dest).into(holder.imageview)}
+            ctx.let { Glide.with(it).load(dest).into(holder.imageview)}
         }
     }
 

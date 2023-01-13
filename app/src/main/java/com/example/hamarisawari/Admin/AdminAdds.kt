@@ -1,4 +1,4 @@
-package com.example.hamarisawari
+package com.example.hamarisawari.Admin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.hamarisawari.R
+import com.example.hamarisawari.URLs
+import com.example.hamarisawari.vehicles
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -91,10 +94,11 @@ class AdminAdds : AppCompatActivity() {
                 var vehicleData = jsonobj?.getString("username")?.let {
                     vehicles(
                         it,
+
                         jsonobj.getString("rentingprice"),
                         jsonobj.getString("color"),
                         jsonobj.getString("manufacturer"),
-                        jsonobj.getString("conditionn"),
+                        jsonobj.getString("seatingcapacity"),
                         jsonobj.getString("transmission"),
                         jsonobj.getString("type"),
                         jsonobj.getString("enginecapacity"),
@@ -103,6 +107,7 @@ class AdminAdds : AppCompatActivity() {
                         jsonobj.getString("enginenumber"),
                         jsonobj.getString("numberplate"),
                         jsonobj.getString("description"),
+                        jsonobj.getString("name"),
                         images
                     )
                 }
@@ -116,10 +121,11 @@ class AdminAdds : AppCompatActivity() {
                 var vehicleData = jsonobj?.getString("username")?.let {
                     vehicles(
                         it,
+
                         jsonobj.getString("rentingprice"),
                         jsonobj.getString("color"),
                         jsonobj.getString("manufacturer"),
-                        jsonobj.getString("conditionn"),
+                        jsonobj.getString("seatingcapacity"),
                         "Manual",
                         "Bike",
                         jsonobj.getString("enginecapacity"),
@@ -128,6 +134,7 @@ class AdminAdds : AppCompatActivity() {
                         jsonobj.getString("enginenumber"),
                         jsonobj.getString("numberplate"),
                         jsonobj.getString("description"),
+                        jsonobj.getString("name"),
                         images
                     )
                 }

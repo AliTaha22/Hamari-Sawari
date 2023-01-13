@@ -1,9 +1,10 @@
-package com.example.hamarisawari
+package com.example.hamarisawari.Admin
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.example.hamarisawari.R
 
 class AdminMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,10 +20,10 @@ class AdminMainActivity : AppCompatActivity() {
 
 
         User.setOnClickListener {
-            startActivity(Intent(this,AdminUser::class.java))
+            startActivity(Intent(this, AdminUser::class.java))
         }
         Add.setOnClickListener {
-            startActivity(Intent(this,AdminAdds::class.java))
+            startActivity(Intent(this, AdminAdds::class.java))
         }
     }
 }

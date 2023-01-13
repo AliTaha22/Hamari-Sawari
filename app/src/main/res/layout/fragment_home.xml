@@ -5,13 +5,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Fragments.HomeFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:text="All"
+            android:textSize="8dp"
+            android:textColor="@color/white"
+            android:id="@+id/showAll"
+            android:background="@drawable/mybtn2"
+            android:layout_marginRight="7dp"
+            ></Button>
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="Cars"
+            android:textSize="8dp"
+            android:textColor="@color/white"
+            android:id="@+id/showCars"
+            android:background="@drawable/mybtn2"
+            android:layout_marginRight="7dp"
+            ></Button>
+        <Button
+            android:layout_width="65dp"
+            android:layout_height="30dp"
+            android:text="Bikes"
+            android:textSize="8dp"
+            android:textColor="@color/white"
+            android:id="@+id/showBikes"
+            android:background="@drawable/mybtn2"
+            android:layout_marginRight="7dp"
+            ></Button>
+
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/homeRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
 
         ></androidx.recyclerview.widget.RecyclerView>
 

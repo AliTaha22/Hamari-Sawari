@@ -58,17 +58,17 @@
         <item>Automatic</item>
         <item>Manual</item>
     </string-array>
-    <string-array name="Condition">
-        <item>10/10</item>
-        <item>9/10</item>
-        <item>8/10</item>
-        <item>7/10</item>
-        <item>6/10</item>
-        <item>5/10</item>
-        <item>4/10</item>
-        <item>3/10</item>
-        <item>2/10</item>
-        <item>1/10</item>
+    <string-array name="seatingCapacityBike">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="seatingCapacityCar">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
 
     <string-array name="Type">
@@ -83,4 +83,13 @@
 
 
     </string-array>
+    <string name="title_activity_rent_car">RentCar</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

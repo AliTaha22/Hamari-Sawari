@@ -1,43 +1,36 @@
 package com.example.hamarisawari.Fragments
 
-import android.Manifest
-import android.app.Activity.RESULT_OK
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import com.example.hamarisawari.Communicator
-import com.example.hamarisawari.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.hamarisawari.*
+import com.example.hamarisawari.Adapters.myVehiclesAdapter
 import com.example.hamarisawari.databinding.FragmentRentBinding
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class RentFragment : Fragment(R.layout.fragment_rent) {
 
 
 
-    var encoded_image: ArrayList<String>? = ArrayList()
+    //var encoded_image: ArrayList<String>? = ArrayList()
     private var binding : FragmentRentBinding?=null
-    private lateinit var communicator: Communicator
+    var dataList= ArrayList<vehicles>()
 
-    lateinit var pictures: ImageView
+    lateinit var username: String
     lateinit var btnRentCar: Button
     lateinit var btnRentBike: Button
 
@@ -47,148 +40,162 @@ class RentFragment : Fragment(R.layout.fragment_rent) {
 
         binding = FragmentRentBinding.inflate(inflater, container, false)
 
-        btnRentCar = binding!!.rentCarFragment
-        btnRentBike = binding!!.rentBikeFragment
-        pictures = binding!!.vhPicture
 
-        shiftFragment(RentBikeFragment())
+        //fetching username
+        var mySharedPref = context?.getSharedPreferences("userInfo", MODE_PRIVATE)
+        username = mySharedPref!!.getString("username", null).toString()
+
+
+
+        //initializing buttons
+        btnRentCar = binding!!.rentCar
+        btnRentBike = binding!!.rentBike
+
 
         btnRentCar.setOnClickListener {
 
-            shiftFragment(RentCarFragment())
+            startActivity(Intent(context, RentCar::class.java))
         }
         btnRentBike.setOnClickListener {
 
-            shiftFragment(RentBikeFragment())
+            startActivity(Intent(context, RentBike::class.java))
         }
 
 
-
-        pictures.setOnClickListener{
-
-
-
-            Dexter.withActivity(activity)
-                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(object : PermissionListener {
-                    override fun onPermissionGranted(response: PermissionGrantedResponse) {
-
-
-                        val intent = Intent()
-                        // setting type to select to be image
-                        intent.type = "image/*"
-                        // allowing multiple image to be selected
-                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                        intent.action = Intent.ACTION_GET_CONTENT
-                        startActivityForResult(
-                            Intent.createChooser(intent, "Select Picture"),
-                            1
-                        )
-                    }
-                    override fun onPermissionDenied(response: PermissionDeniedResponse) {}
-                    override fun onPermissionRationaleShouldBeShown(
-                        permission: PermissionRequest?,
-                        token: PermissionToken
-                    ) {
-                        token.continuePermissionRequest()
-                    }
-                }).check()
+        var rv= binding!!.myVehiclesRV
+        readpost(rv)
 
 
 
-
-        }
         return binding!!.root
     }
-    private fun encodeBitmapImage(bitmap: Bitmap): String {
 
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        val bytesofimage: ByteArray = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(bytesofimage, Base64.DEFAULT)
+
+    private fun readpost(rv: RecyclerView){
+        val request: StringRequest = object : StringRequest(
+            Method.POST, URLs().viewMyVehicles_URL,
+            Response.Listener { response ->
+
+                //Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show()
+
+
+                var array= JSONArray(response)
+                Log.d("My Response: ", response.toString());
+
+                var carArray= JSONArray(array[0].toString())
+                var bikeArray= JSONArray(array[1].toString())
+
+
+//                Log.d("Car_DATA: ", array[0].toString());
+
+                getVehiclesData(array.getJSONArray(0),0) //0 index has car data
+                getVehiclesData(array.getJSONArray(1),1)  //1 index has bike data
+
+                //Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show()
+
+                //Log.d("Car_DATA: ", dataList.toString())
+
+
+                //recycler view implimentation
+                rv.layoutManager= LinearLayoutManager(context)
+                rv.adapter= context?.let { myVehiclesAdapter(it, dataList) }
+            },
+            Response.ErrorListener { error ->
+
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+
+            }){
+            override fun getParams(): Map<String, String> {
+                val map : MutableMap<String,String> = HashMap()
+
+                map["username"] = username
+
+                return map
+            }
+        }
+        val queue = Volley.newRequestQueue(context)
+        queue.add(request)
     }
 
-    private fun shiftFragment(fragment: Fragment)
-    {
-        val frag = fragment
-        val transaction: FragmentTransaction = requireFragmentManager().beginTransaction()
-        transaction.replace(R.id.rentFragment, frag)
-        transaction.commit()
-    }
+    private fun getVehiclesData(array: JSONArray, flag:Int){
 
-     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        var count=0
+        while(count<array.length())
+        {
+            var arrayData = JSONArray(array[count].toString())
+            var jsonobj= JSONObject(arrayData[0].toString())
 
+            var i=1
+            var images: ArrayList<String>? = ArrayList()
+            while(i<arrayData.length()){
 
-        // When an Image is picked
-        if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
-            // Get the Image from data
-            if (data.clipData != null) {
-                val mClipData = data.clipData
-                val count = data.clipData!!.itemCount
+                var job = JSONObject(arrayData[1].toString())
+                var a = job.getString("image")
+                images?.add(a)
+                i+=1
 
-                if(count <= 5){
-
-                    for (i in 0 until count) {
-                        // adding imageuri in array
-
-                        val imageurl: Uri = data.clipData!!.getItemAt(i).uri
-
-                        try {
-                            var inputStream: InputStream? = imageurl?.let {
-                                activity?.contentResolver?.openInputStream(
-                                    it
-                                )
-                            }
-                            var bitmap = BitmapFactory.decodeStream(inputStream)
-                            pictures.setImageBitmap(bitmap)
-
-                            encoded_image?.add(encodeBitmapImage(bitmap))
-
-                        } catch (ex: Exception) {
-                        }
-
-                    }
+            }
 
 
-                }else {
-                    Toast.makeText(context, "You can only select up to 5 images", Toast.LENGTH_LONG).show()
+            if(flag==0) {
+                var vehicleData = jsonobj?.getString("username")?.let {
+                    vehicles(
+                        it,
 
+                        jsonobj.getString("rentingprice"),
+                        jsonobj.getString("color"),
+                        jsonobj.getString("manufacturer"),
+                        jsonobj.getString("seatingcapacity"),
+                        jsonobj.getString("transmission"),
+                        jsonobj.getString("type"),
+                        jsonobj.getString("enginecapacity"),
+                        jsonobj.getString("mileage"),
+                        jsonobj.getString("model"),
+                        jsonobj.getString("enginenumber"),
+                        jsonobj.getString("numberplate"),
+                        jsonobj.getString("description"),
+                        jsonobj.getString("name"),
+                        images
+                    )
                 }
-            } else {
 
-                val imageurl: Uri? = data.data
-                try {
-                    var inputStream: InputStream? = imageurl?.let {
-                        activity?.contentResolver?.openInputStream(
-                            it
-                        )
-                    }
-                    var bitmap = BitmapFactory.decodeStream(inputStream)
-                    pictures.setImageBitmap(bitmap)
-
-                    encoded_image?.add(encodeBitmapImage(bitmap).toString())
-
-                } catch (ex: Exception) {
+                //Log.d("Home FrG: ", veh.images?.get(0).toString())
+                if (vehicleData != null) {
+                    dataList.add(vehicleData)
                 }
             }
-        } else {
-            // show this if no image is selected
-            Toast.makeText(context, "Please select an image to upload", Toast.LENGTH_LONG).show()
+            else{
+                var vehicleData = jsonobj?.getString("username")?.let {
+                    vehicles(
+                        it,
+
+                        jsonobj.getString("rentingprice"),
+                        jsonobj.getString("color"),
+                        jsonobj.getString("seatingcapacity"),
+                        jsonobj.getString("conditionn"),
+                        "Manual",
+                        "Bike",
+                        jsonobj.getString("enginecapacity"),
+                        jsonobj.getString("mileage"),
+                        jsonobj.getString("model"),
+                        jsonobj.getString("enginenumber"),
+                        jsonobj.getString("numberplate"),
+                        jsonobj.getString("description"),
+                        jsonobj.getString("name"),
+                        images
+                    )
+                }
+
+                //Log.d("Home FrG: ", veh.images?.get(0).toString())
+                if (vehicleData != null) {
+                    dataList.add(vehicleData)
+                }
+            }
+            count+=1
+
         }
 
-
-
-
-         communicator = activity as Communicator
-         encoded_image?.let { communicator.passDataCom(it) }
-
-         //Toast.makeText(context, encoded_image.toString(), Toast.LENGTH_LONG).show()
     }
-
-
-
-
 
 
 }

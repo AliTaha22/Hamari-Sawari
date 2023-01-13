@@ -21,8 +21,6 @@
         android:weightSum="100">
 
 
-
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/mainFragment"
             android:layout_width="match_parent"

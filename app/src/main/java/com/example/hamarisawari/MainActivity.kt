@@ -14,6 +14,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.hamarisawari.Admin.AdminLogin
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         adminBtn.setOnClickListener {
-            startActivity(Intent(this,AdminLogin::class.java))
+            startActivity(Intent(this@MainActivity, AdminLogin::class.java))
             finish()
         }
         signup.setOnClickListener {

@@ -13,28 +13,44 @@
         android:theme="@style/Theme.HamariSawari"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".AdminUser"
+            android:name=".RentBike"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".AdminAdds"
+            android:name=".RentCar"
+            android:exported="false"
+            android:label="@string/title_activity_rent_car"
+            android:theme="@style/Theme.HamariSawari.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Admin.AdminUser"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".AdminMainActivity"
+            android:name=".Admin.AdminAdds"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".AdminLogin"
+            android:name=".Admin.AdminMainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Admin.AdminLogin"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

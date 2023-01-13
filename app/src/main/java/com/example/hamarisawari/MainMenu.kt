@@ -14,7 +14,7 @@ import com.example.hamarisawari.Fragments.*
 import com.google.android.material.navigation.NavigationView
 
 
-class MainMenu : AppCompatActivity(), Communicator {
+class MainMenu : AppCompatActivity() {
 
 
      lateinit var toggle: ActionBarDrawerToggle
@@ -148,16 +148,6 @@ class MainMenu : AppCompatActivity(), Communicator {
         }
     }
 
-    override fun passDataCom(images: ArrayList<String>) {
-
-        val bundle = Bundle()
-        bundle.putStringArrayList("images", images)
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentCar = RentCarFragment()
-        fragmentCar.arguments = bundle
-        transaction.replace(R.id.mainFragment, fragmentCar)
-        transaction.commit()
-    }
 
 
 }
