@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".RentCar">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/carPicture"
+            android:layout_width="match_parent"
+            android:layout_height="225dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_addpicture"
+            android:background="#EFEDED"
+            ></ImageView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:hint="Manufacturer">
+
+                <AutoCompleteTextView
+                    android:id="@+id/manufacturerCar"
+                    android:layout_marginRight="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none"
+                    android:text="Toyota"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black">
+
+                </AutoCompleteTextView>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:hint="Transmission">
+
+                <AutoCompleteTextView
+                    android:id="@+id/transmission"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:inputType="none"
+                    android:text="Automatic"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black">
+
+                </AutoCompleteTextView>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:hint="Type">
+
+                <AutoCompleteTextView
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none"
+                    android:text="Sedan"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black">
+
+                </AutoCompleteTextView>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:hint="Seating Capacity">
+
+                <AutoCompleteTextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/seatingCapacityCar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none"
+                    android:text="4"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black">
+
+                </AutoCompleteTextView>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:hint="Color">
+
+                <AutoCompleteTextView
+                    android:id="@+id/colorCar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none"
+                    android:layout_marginRight="5dp"
+                    android:text="White"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black">
+
+                </AutoCompleteTextView>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:hint="Engine">
+
+                <AutoCompleteTextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/engineCar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none"
+                    android:text="660"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black">
+
+                </AutoCompleteTextView>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
+            <EditText
+                android:layout_width="175dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="wrap_content"
+                android:hint="Engine Number"
+                android:id="@+id/engineNumberCar"
+                ></EditText>
+            <EditText
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:hint="Number Plate"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/numberplateCar"
+                ></EditText>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
+            <EditText
+                android:layout_width="175dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="wrap_content"
+                android:hint="Mileage"
+                android:inputType="number"
+                android:id="@+id/mileageCar"
+                ></EditText>
+            <EditText
+                android:layout_width="175dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content"
+                android:hint="Car Model"
+                android:inputType="number"
+                android:id="@+id/modelCar"
+                ></EditText>
+
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="175dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:hint="Price (PKR)"
+            android:inputType="number"
+            android:id="@+id/rentingPriceCar"
+            ></EditText>
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:hint="Enter Description about your vehicle"
+            android:id="@+id/CarDis"
+            android:gravity="center"
+            android:layout_gravity="center"
+            ></EditText>
+
+
+        <Button
+            android:id="@+id/uploadCar"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Upload"
+            android:backgroundTint="@color/HS"
+            android:background="@drawable/mybtn"></Button>
+    </LinearLayout>
+</ScrollView>
