@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Time Remaining"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="26sp"></TextView>
+
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:id="@+id/countDownText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Countdown wil be displayed here"
+            android:textColor="@color/black"
+            android:textSize="20sp"></TextView>
+
+    </LinearLayout>
+
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Contact"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:layout_marginRight="30dp"
+        android:layout_gravity="right"
+        ></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+
+        <Button
+            android:id="@+id/messageRenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="10dp"
+            android:backgroundTint="@color/purple_200"
+            android:backgroundTintMode="src_in"
+            android:background="@drawable/ic_message"
+            ></Button>
+
+        <Button
+            android:id="@+id/callRenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:background="@drawable/baseline_call_24"
+            ></Button>
+
+    </LinearLayout>
+
+
+
+
+
+    <Button
+        android:id="@+id/bookVehicle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Deal Done"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:layout_gravity="center"
+        android:backgroundTint="#55d17c"
+        ></Button>
+
+
+</LinearLayout>

@@ -108,7 +108,9 @@ class AdminAdds : AppCompatActivity() {
                         jsonobj.getString("numberplate"),
                         jsonobj.getString("description"),
                         jsonobj.getString("name"),
-                        images
+                        images,
+                        jsonobj.getString("latitude"),
+                        jsonobj.getString("longitude")
                     )
                 }
 
@@ -135,7 +137,9 @@ class AdminAdds : AppCompatActivity() {
                         jsonobj.getString("numberplate"),
                         jsonobj.getString("description"),
                         jsonobj.getString("name"),
-                        images
+                        images,
+                        jsonobj.getString("latitude"),
+                        jsonobj.getString("longitude")
                     )
                 }
 

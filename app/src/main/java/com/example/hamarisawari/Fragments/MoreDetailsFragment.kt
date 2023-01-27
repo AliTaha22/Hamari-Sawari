@@ -1,21 +1,18 @@
 package com.example.hamarisawari.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
-import com.example.hamarisawari.R
-import com.example.hamarisawari.URLs
+import com.example.hamarisawari.*
 import com.example.hamarisawari.databinding.FragmentMoreDetailsBinding
 import org.json.JSONArray
 import org.json.JSONObject
@@ -37,6 +34,10 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
     lateinit var vehicleType: TextView
     lateinit var vehicleDescription: TextView
 
+    lateinit var contact: Button
+
+    lateinit var latitude: String
+    lateinit var longitude: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +60,10 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
         vehicleType = binding!!.vehType
         vehicleDescription = binding!!.vehDescription
 
+        contact = binding!!.contactRenter
+
+
+
 
         //receiving data from bundle
         var mBundle: Bundle
@@ -66,11 +71,30 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
          // key must be same which was given in first fragment
 
 
+
+
         //Log.d("USERNAME: ", mBundle.getString("username").toString())
         //Log.d("NUMBERPLATE: ", mBundle.getString("numberplate").toString())
         //Log.d("NUMBERPLATE: ", mBundle.getString("type").toString())
 
+        //using this function to fetch the details of the VEHICLE-AD owner
         fetchDetails(mBundle.getString("username"), mBundle.getString("numberplate"), mBundle.getString("type")  )
+
+
+        contact.setOnClickListener {
+
+            var renterUsername = mBundle.getString("username")
+            val i = Intent(activity, ContactAndCommunications::class.java)
+
+            val bundle = Bundle()
+            bundle.putString("latitude", latitude)
+            bundle.putString("longitude", longitude)
+            bundle.putString("username", renterUsername)
+
+            i.putExtras(bundle)
+            startActivity(i)
+        }
+
 
         // Inflate the layout for this fragment
         return binding!!.root
@@ -156,6 +180,9 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
 
         context?.let { Glide.with(it).load(URLs().images_URL + userJsonobj.getString("picture")).into(picture) }
         context?.let { Glide.with(it).load(URLs().images_URL + vehicleJsonobjImg.getString("image")).into(vehicleImage) }
+
+        latitude = vehicleJsonobj.getString("latitude")
+        longitude = vehicleJsonobj.getString("longitude")
     }
 
 

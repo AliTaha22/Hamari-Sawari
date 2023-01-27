@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +15,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HamariSawari"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ContactAndCommunicationsRenter"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name=".com.example.hamarisawari.notifications_TARGET_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+
+
+
+
+        <activity
+            android:name=".CurrentlyActiveBooking"
+            android:exported="false" />
+        <activity
+            android:name=".ContactAndCommunications"
+            android:exported="false">
+
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDaRaoj5-0qzlT5gxj0kR0_ev8CkyTUruY" />
+
         <activity
             android:name=".RentBike"
             android:exported="false">
@@ -71,6 +105,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".com.example.hamarisawari.notification.MyFirebaseService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

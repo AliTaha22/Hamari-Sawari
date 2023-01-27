@@ -28,7 +28,7 @@ class RentFragment : Fragment(R.layout.fragment_rent) {
 
     //var encoded_image: ArrayList<String>? = ArrayList()
     private var binding : FragmentRentBinding?=null
-    var dataList= ArrayList<vehicles>()
+    var dataList= ArrayList<MyVehiclesClass>()
 
     lateinit var username: String
     lateinit var btnRentCar: Button
@@ -65,8 +65,6 @@ class RentFragment : Fragment(R.layout.fragment_rent) {
         var rv= binding!!.myVehiclesRV
         readpost(rv)
 
-
-
         return binding!!.root
     }
 
@@ -96,7 +94,7 @@ class RentFragment : Fragment(R.layout.fragment_rent) {
                 //Log.d("Car_DATA: ", dataList.toString())
 
 
-                //recycler view implimentation
+                //recycler view implementation
                 rv.layoutManager= LinearLayoutManager(context)
                 rv.adapter= context?.let { myVehiclesAdapter(it, dataList) }
             },
@@ -120,77 +118,16 @@ class RentFragment : Fragment(R.layout.fragment_rent) {
     private fun getVehiclesData(array: JSONArray, flag:Int){
 
         var count=0
-        while(count<array.length())
+        while(count<array.length()) //no. of vehs in array
         {
-            var arrayData = JSONArray(array[count].toString())
-            var jsonobj= JSONObject(arrayData[0].toString())
-
-            var i=1
-            var images: ArrayList<String>? = ArrayList()
-            while(i<arrayData.length()){
-
-                var job = JSONObject(arrayData[1].toString())
-                var a = job.getString("image")
-                images?.add(a)
-                i+=1
-
-            }
+            var arrayData = JSONArray(array[count].toString()) //count = index no, its an array with both pics and details
+            var jsonobj= JSONObject(arrayData[0].toString()) // this is the current index accessing only details
+            var job = JSONObject(arrayData[1].toString()) // this is the current index accessing only pics
+            var image = job.getString("image")
 
 
-            if(flag==0) {
-                var vehicleData = jsonobj?.getString("username")?.let {
-                    vehicles(
-                        it,
-
-                        jsonobj.getString("rentingprice"),
-                        jsonobj.getString("color"),
-                        jsonobj.getString("manufacturer"),
-                        jsonobj.getString("seatingcapacity"),
-                        jsonobj.getString("transmission"),
-                        jsonobj.getString("type"),
-                        jsonobj.getString("enginecapacity"),
-                        jsonobj.getString("mileage"),
-                        jsonobj.getString("model"),
-                        jsonobj.getString("enginenumber"),
-                        jsonobj.getString("numberplate"),
-                        jsonobj.getString("description"),
-                        jsonobj.getString("name"),
-                        images
-                    )
-                }
-
-                //Log.d("Home FrG: ", veh.images?.get(0).toString())
-                if (vehicleData != null) {
-                    dataList.add(vehicleData)
-                }
-            }
-            else{
-                var vehicleData = jsonobj?.getString("username")?.let {
-                    vehicles(
-                        it,
-
-                        jsonobj.getString("rentingprice"),
-                        jsonobj.getString("color"),
-                        jsonobj.getString("seatingcapacity"),
-                        jsonobj.getString("conditionn"),
-                        "Manual",
-                        "Bike",
-                        jsonobj.getString("enginecapacity"),
-                        jsonobj.getString("mileage"),
-                        jsonobj.getString("model"),
-                        jsonobj.getString("enginenumber"),
-                        jsonobj.getString("numberplate"),
-                        jsonobj.getString("description"),
-                        jsonobj.getString("name"),
-                        images
-                    )
-                }
-
-                //Log.d("Home FrG: ", veh.images?.get(0).toString())
-                if (vehicleData != null) {
-                    dataList.add(vehicleData)
-                }
-            }
+            var vehicleData  = MyVehiclesClass(jsonobj.getString("name"),image )
+            dataList.add(vehicleData)
             count+=1
 
         }

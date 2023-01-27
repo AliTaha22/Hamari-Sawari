@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:background="@drawable/ic_launcher_background"></androidx.fragment.app.FragmentContainerView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Contact"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:layout_marginRight="30dp"
+        android:layout_gravity="right"
+        ></TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+
+        <Button
+            android:id="@+id/messageRenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="10dp"
+            android:backgroundTint="@color/purple_200"
+            android:backgroundTintMode="src_in"
+            android:background="@drawable/ic_message"
+            ></Button>
+
+        <Button
+            android:id="@+id/callRenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:background="@drawable/baseline_call_24"
+            ></Button>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bookVehicle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Confirm Booking"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:layout_gravity="center"
+        android:backgroundTint="#55d17c"
+        ></Button>
+    <Button
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Cancel"
+        android:textSize="12dp"
+        android:textStyle="italic"
+        android:textColor="#FFFF0000"
+        android:id="@+id/cancelBooking"
+        app:backgroundTint="@color/white"
+        ></Button>
+
+</LinearLayout>

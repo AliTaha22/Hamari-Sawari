@@ -29,6 +29,9 @@ class RentCar : AppCompatActivity() {
     var encoded_image: ArrayList<String>? = ArrayList()
     lateinit var pictures: ImageView
 
+    lateinit var latitude: String
+    lateinit var longitude: String
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +44,10 @@ class RentCar : AppCompatActivity() {
         //fetching username
         var mySharedPref = getSharedPreferences("userInfo", MODE_PRIVATE)
         var username= mySharedPref?.getString("username",null)
+
+        //fetching user's current location to store it as Vehicle's location of rent.
+        latitude = mySharedPref.getString("latitude",null).toString()
+        longitude = mySharedPref.getString("longitude",null).toString()
 
         displayDropDown()   //calling function that displays the dropdown menu
 
@@ -245,7 +252,8 @@ class RentCar : AppCompatActivity() {
                 map["engineNumber"] = engineNumber
                 map["numberPlate"] = numberPlate
                 map["description"] = description
-
+                map["latitude"] = latitude
+                map["longitude"] = longitude
 
                 //Log.d("IMG_SIZE: " , encoded_image?.size!!.toString())
 

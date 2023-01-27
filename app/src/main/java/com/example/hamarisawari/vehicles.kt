@@ -1,6 +1,9 @@
 package com.example.hamarisawari
 
-class vehicles(_username:String, _rentingPrice:String?, _color:String?, _manufacturer:String?, _seatingCapacity:String?, _transmission:String?, _type:String?, _engineCapacity:String?, _mileage:String?, _carModel:String?, _engineNumber:String?, _numberPlate:String?, _description:String?, _name: String, _images: ArrayList<String>?)
+class vehicles(_username:String?, _rentingPrice:String?, _color:String?, _manufacturer:String?, _seatingCapacity:String?,
+               _transmission:String?, _type:String?, _engineCapacity:String?, _mileage:String?, _carModel:String?, _engineNumber:String?,
+               _numberPlate:String?, _description:String?, _name: String?, _images: ArrayList<String>?,
+               _latitude: String, _longitude: String)
 {
 
     var name = _name
@@ -18,6 +21,8 @@ class vehicles(_username:String, _rentingPrice:String?, _color:String?, _manufac
     var numberPlate = _numberPlate
     var description = _description
     var images = _images
+    var latitude = _latitude
+    var longitude = _longitude
 
 
 }

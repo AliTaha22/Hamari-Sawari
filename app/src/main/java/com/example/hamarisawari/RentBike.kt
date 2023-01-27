@@ -2,8 +2,10 @@ package com.example.hamarisawari
 
 import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,9 +17,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.material.textfield.TextInputLayout
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -33,6 +37,9 @@ class RentBike : AppCompatActivity() {
     var encoded_image: ArrayList<String>? = ArrayList()
     lateinit var pictures: ImageView
 
+    lateinit var latitude: String
+    lateinit var longitude: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rent_bike)
@@ -44,6 +51,10 @@ class RentBike : AppCompatActivity() {
         //fetching username
         var mySharedPref = getSharedPreferences("userInfo", MODE_PRIVATE)
         var username= mySharedPref.getString("username",null)
+
+        //fetching user's current location to store it as Vehicle's location of rent.
+        latitude = mySharedPref.getString("latitude",null).toString()
+        longitude = mySharedPref.getString("longitude",null).toString()
 
 
         displayDropDown()   //calling function that displays the dropdown menu
@@ -233,6 +244,8 @@ class RentBike : AppCompatActivity() {
                 map["engineNumber"] = engineNumber
                 map["numberPlate"] = numberPlate
                 map["description"] = description
+                map["latitude"] = latitude
+                map["longitude"] = longitude
 
                 for(i in 0 until encoded_image?.size!!){
 
@@ -246,7 +259,5 @@ class RentBike : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this@RentBike)
         queue.add(request)
     }
-
-
 
 }

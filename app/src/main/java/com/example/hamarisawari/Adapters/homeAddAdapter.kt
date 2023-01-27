@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -19,10 +18,11 @@ import com.example.hamarisawari.URLs
 import com.example.hamarisawari.vehicles
 
 
-class homeAddAdapter(_ctx:Context,_data:ArrayList<vehicles>): RecyclerView.Adapter<homeAddAdapter.homeViewHolder>() {
+class homeAddAdapter(_ctx:Context,_data:ArrayList<vehicles>, _locations:ArrayList<String>): RecyclerView.Adapter<homeAddAdapter.homeViewHolder>() {
 
     var ctx=_ctx
     var data=_data
+    var locations = _locations
 
 
 
@@ -30,6 +30,7 @@ class homeAddAdapter(_ctx:Context,_data:ArrayList<vehicles>): RecyclerView.Adapt
 
         var nameview: TextView =itemView.findViewById(R.id.nameview)
         var priceview: TextView =itemView.findViewById(R.id.priceview)
+        var distanceview: TextView =itemView.findViewById(R.id.distanceview)
         //var discriptionview: TextView =itemView.findViewById(R.id.discriptionview)
         var imageview: ImageView =itemView.findViewById(R.id.imageview)
         var btn: Button = itemView.findViewById(R.id.moreDetails)
@@ -49,6 +50,10 @@ class homeAddAdapter(_ctx:Context,_data:ArrayList<vehicles>): RecyclerView.Adapt
 
         holder.nameview.text = data[position].name
         holder.priceview.text= data[position].rentingprice
+        holder.distanceview.text = locations[position]
+
+
+
         var username = data[position].username
         var numberplate = data[position].numberPlate
         var type = data[position].type

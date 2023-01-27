@@ -8,11 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.hamarisawari.MyVehiclesClass
 import com.example.hamarisawari.R
 import com.example.hamarisawari.URLs
 import com.example.hamarisawari.vehicles
 
-class myVehiclesAdapter(_ctx:Context,_data:ArrayList<vehicles>): RecyclerView.Adapter<myVehiclesAdapter.homeViewHolder>() {
+class myVehiclesAdapter(_ctx:Context,_data:ArrayList<MyVehiclesClass>): RecyclerView.Adapter<myVehiclesAdapter.homeViewHolder>() {
 
     var ctx=_ctx
     var data=_data
@@ -35,9 +36,9 @@ class myVehiclesAdapter(_ctx:Context,_data:ArrayList<vehicles>): RecyclerView.Ad
 
         holder.nameview.text = data[position].name
 
-        if(data[position].images?.get(0).toString() != null){
+        if(data[position].image != null){
 
-            val dest = URLs().images_URL + data[position].images?.get(0).toString()
+            val dest = URLs().images_URL + data[position].image
 
             //Log.d("My IMG", data.get(position).images?.get(0).toString())
             //Log.d("My position", position.toString())

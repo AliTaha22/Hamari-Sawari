@@ -1,5 +1,7 @@
 package com.example.hamarisawari.Fragments
 
+import android.content.Context.MODE_PRIVATE
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.hamarisawari.Adapters.homeAddAdapter
 import com.example.hamarisawari.R
 import com.example.hamarisawari.URLs
-import com.example.hamarisawari.Adapters.homeAddAdapter
 import com.example.hamarisawari.databinding.FragmentHomeBinding
 import com.example.hamarisawari.vehicles
 import org.json.JSONArray
@@ -30,8 +32,11 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
     lateinit var showBikes: Button
     lateinit var carArray: JSONArray
     lateinit var bikeArray: JSONArray
+    lateinit var latitude: String
+    lateinit var longitude: String
 
     var dataList= ArrayList<vehicles>()
+    var locationList= ArrayList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +53,13 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
         var rv=binding.homeRV
         readpost(rv)
 
+        var mySharedPref = context?.getSharedPreferences("userInfo", MODE_PRIVATE)
 
+        //fetching user's current location to store it as Vehicle's location of rent.
+        if (mySharedPref != null) {
+            latitude = mySharedPref.getString("latitude",null).toString()
+            longitude = mySharedPref.getString("longitude",null).toString()
+        }
 
         showAllVehicles.setOnClickListener {
 
@@ -58,7 +69,7 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
 
             //recycler view implimentation
             rv.layoutManager= LinearLayoutManager(context)
-            rv.adapter= context?.let { homeAddAdapter(it, dataList) }
+            rv.adapter= context?.let { homeAddAdapter(it, dataList, locationList) }
         }
         showCars.setOnClickListener {
 
@@ -68,7 +79,7 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
 
             //recycler view implimentation
             rv.layoutManager= LinearLayoutManager(context)
-            rv.adapter= context?.let { homeAddAdapter(it, dataList) }
+            rv.adapter= context?.let { homeAddAdapter(it, dataList, locationList) }
         }
         showBikes.setOnClickListener {
 
@@ -78,7 +89,7 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
 
             //recycler view implimentation
             rv.layoutManager= LinearLayoutManager(context)
-            rv.adapter= context?.let { homeAddAdapter(it, dataList) }
+            rv.adapter= context?.let { homeAddAdapter(it, dataList, locationList) }
         }
 
 
@@ -99,7 +110,6 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
                  bikeArray=JSONArray(array[1].toString())
 
 
-                Log.d("Car_DATA: ", array[0].toString());
 
 
                 //getVehiclesData(array.getJSONArray(0),0) //0 index has car data
@@ -158,12 +168,28 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
                         jsonobj.getString("numberplate"),
                         jsonobj.getString("description"),
                         jsonobj.getString("name"),
-                        images
+                        images,
+                        jsonobj.getString("latitude"),
+                        jsonobj.getString("longitude")
                     )
                 }
 
                 //Log.d("Home FrG: ", veh.images?.get(0).toString())
                 if (vehicleData != null) {
+                    val loc1 = Location("")
+
+                    loc1.latitude = latitude.toDouble()
+                    loc1.longitude = longitude.toDouble()
+
+                    val loc2 = Location("")
+                    loc2.latitude = vehicleData.latitude.toDouble()
+                    loc2.longitude = vehicleData.longitude.toDouble()
+
+                    val distanceInMeters: Float = loc1.distanceTo(loc2)
+                    val distanceInKM  = (distanceInMeters / 1000)
+                    val distanceString = String.format("%.1f KM", distanceInKM)
+
+                    locationList.add(distanceString)
                     dataList.add(vehicleData)
                 }
             count+=1
@@ -207,14 +233,32 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
                         jsonobj.getString("numberplate"),
                         jsonobj.getString("description"),
                         jsonobj.getString("name"),
-                        images
+                        images,
+                        jsonobj.getString("latitude"),
+                        jsonobj.getString("longitude")
                     )
                 }
 
                 //Log.d("Home FrG: ", veh.images?.get(0).toString())
-                if (vehicleData != null) {
-                    dataList.add(vehicleData)
-                }
+            if (vehicleData != null) {
+                val loc1 = Location("")
+                loc1.latitude = latitude.toDouble()
+                loc1.longitude = longitude.toDouble()
+
+                val loc2 = Location("")
+                loc2.latitude = vehicleData.latitude.toDouble()
+                loc2.longitude = vehicleData.longitude.toDouble()
+
+                val distanceInMeters: Float = loc1.distanceTo(loc2)
+                val distanceInKM  = (distanceInMeters / 1000)
+                val distanceString = String.format("%.1f KM", distanceInKM)
+
+                //val distanceInKM = distance.toString() + "KM"
+
+                //Log.d("MY DISTANCE: ", distance.toString())
+                locationList.add(distanceString)
+                dataList.add(vehicleData)
+            }
             count+=1
 
         }

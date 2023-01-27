@@ -60,31 +60,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/distance"></ImageView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Distance"
+                android:layout_marginTop="8dp"
+                android:text="City"
                 android:textSize="10dp"
                 android:textColor="#504E4E"
                 ></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="City"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:id="@+id/renterCity"
+                ></TextView>
+
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/renterDistance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="5.0 KM"
-            android:textSize="12dp"
-            android:textColor="@color/black"
-            ></TextView>
-
     </LinearLayout>
 
 
@@ -278,7 +272,7 @@
     <TextView
         android:id="@+id/vehDescription"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:textSize="12dp"
         android:textColor="@color/black"
         android:layout_marginTop="5dp"

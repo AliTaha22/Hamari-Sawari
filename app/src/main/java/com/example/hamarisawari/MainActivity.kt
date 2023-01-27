@@ -3,6 +3,8 @@ package com.example.hamarisawari
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,13 +12,18 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.hamarisawari.Admin.AdminLogin
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
 
 class MainActivity : AppCompatActivity() {
+
 
 
 
@@ -47,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         var signIn_ID: EditText = findViewById(R.id.id)
         var signIn_password: EditText = findViewById(R.id.Pass)
+
 
 
         //if the user is already logged in, this activity will be destroyed and user will be redirected to MainMenu.
@@ -109,7 +117,11 @@ class MainActivity : AppCompatActivity() {
                     dataEditor.apply()
                     dataEditor.commit()
 
+
+
                     Toast.makeText(this@MainActivity, response, Toast.LENGTH_SHORT).show()
+
+
                     //shifting to next activity and destroying the current activity i.e. MainActivity
                     startActivity(Intent(this@MainActivity, MainMenu::class.java))
                     finish()
@@ -141,6 +153,5 @@ class MainActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this@MainActivity)
         queue.add(request)
     }
-
 
 }
