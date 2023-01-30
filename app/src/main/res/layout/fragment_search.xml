@@ -42,19 +42,9 @@
         android:id="@+id/searchFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="78"/>
+        android:layout_weight="75"/>
 
-    <Button
-        android:id="@+id/btnSearchVh"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text="Search"
-        android:backgroundTint="@color/HS"
-        android:layout_alignParentBottom="true"
-        android:layout_weight="10"
-        android:background="@drawable/mybtn"></Button>
+
 
 
 

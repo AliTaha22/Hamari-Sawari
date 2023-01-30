@@ -1,4 +1,4 @@
-package com.example.hamarisawari.Admin
+package com.example.hamarisawari
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,20 +10,18 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.hamarisawari.Admin.AdminUserAdapter
-import com.example.hamarisawari.R
-import com.example.hamarisawari.URLs
-import com.example.hamarisawari.users
 import org.json.JSONArray
 
-class AdminUser : AppCompatActivity() {
+class AdminUserB : AppCompatActivity() {
     var dataList= ArrayList<users>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin_user)
+        setContentView(R.layout.activity_admin_user_b)
 
 
-        var RV: RecyclerView =findViewById(R.id.AdminUserRV)
+        var RV:RecyclerView=findViewById(R.id.AdminUserBRV)
         readpost(RV)
+
 
     }
     private fun readpost(rv: RecyclerView){
@@ -48,7 +46,7 @@ class AdminUser : AppCompatActivity() {
 
                 //recycler view implementation
                 rv.layoutManager= LinearLayoutManager(this)
-                rv.adapter= this?.let { AdminUserAdapter(it, dataList,0) }
+                rv.adapter= this?.let { AdminUserAdapter(it, dataList,1) }
             },
             Response.ErrorListener { error ->
 
@@ -57,7 +55,7 @@ class AdminUser : AppCompatActivity() {
             }){
             override fun getParams(): Map<String, String> {
                 val map : MutableMap<String,String> = HashMap()
-                map["check"]=1.toString()
+                map["check"]=0.toString()
                 return map }
         }
         val queue = Volley.newRequestQueue(this)
@@ -70,20 +68,20 @@ class AdminUser : AppCompatActivity() {
         {
 
             var jsonobj=array.getJSONObject(count)
-                var userData = users(
-                        jsonobj?.getString("name"),
-                        jsonobj.getString("age"),
-                        jsonobj.getString("gender"),
-                        jsonobj.getString("contact"),
-                        jsonobj.getString("username"),
-                        jsonobj.getString("id"),
-                        jsonobj.getString("picture"),
-                        jsonobj.getString("rating"))
-                //Log.d("Home FrG: ", veh.images?.get(0).toString())
+            var userData = users(
+                jsonobj?.getString("name"),
+                jsonobj.getString("age"),
+                jsonobj.getString("gender"),
+                jsonobj.getString("contact"),
+                jsonobj.getString("username"),
+                jsonobj.getString("id"),
+                jsonobj.getString("picture"),
+                jsonobj.getString("rating"))
+            //Log.d("Home FrG: ", veh.images?.get(0).toString())
 
-                //Log.d("Home FrG: ", veh.images?.get(0).toString())
-                if (userData != null) {
-                    dataList.add(userData) }
+            //Log.d("Home FrG: ", veh.images?.get(0).toString())
+            if (userData != null) {
+                dataList.add(userData) }
             count+=1
 
         }

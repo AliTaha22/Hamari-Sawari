@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -44,7 +45,7 @@ class signUp : AppCompatActivity() {
                         if (Cnic!=null && Cnic.length==13)
                         {
                             cnic.background.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
-                            signUpUser(Name, Age, Gender, Contact, Id, Pass)
+                            signUpUser(Name, Age, Gender, Contact, Id, Pass,Cnic)
                         }
                         else
                         {
@@ -71,11 +72,12 @@ class signUp : AppCompatActivity() {
             }
         }
     }
-    private fun signUpUser(Name: String, Age: String, Gender: String, Contact: String, Id: String, Pass: String ){
+    private fun signUpUser(Name: String, Age: String, Gender: String, Contact: String, Id: String, Pass: String, Cnic: String ){
         val request: StringRequest = object : StringRequest(
             Request.Method.POST, URLs().signUp_URL,
             Response.Listener { response ->
                 Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show()
+                Log.d("Bike_DATA: ", response.toString());
                 finish()
                 startActivity(Intent(this, MainActivity::class.java))
             },
@@ -90,6 +92,8 @@ class signUp : AppCompatActivity() {
                 map["contact"] = Contact
                 map["username"] = Id
                 map["password"] = Pass
+                map["cnic"]=Cnic
+                map["block"]=1.toString()
                 return map
             }
         }

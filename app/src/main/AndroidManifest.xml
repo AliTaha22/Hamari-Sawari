@@ -16,27 +16,23 @@
         android:theme="@style/Theme.HamariSawari"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AdminUserB"
+            android:exported="false" />
+        <activity
             android:name=".ContactAndCommunicationsRenter"
             android:exported="false">
-
             <intent-filter>
                 <action android:name=".com.example.hamarisawari.notifications_TARGET_NOTIFICATION" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
-
-
-
-
         <activity
             android:name=".CurrentlyActiveBooking"
             android:exported="false" />
         <activity
             android:name=".ContactAndCommunications"
             android:exported="false">
-
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

@@ -86,6 +86,7 @@
             android:layout_marginLeft="5dp"
             android:hint="Bike Model"
             android:id="@+id/BikeModel"
+            android:inputType="number"
             ></EditText>
     </LinearLayout>
     <TextView
@@ -155,6 +156,22 @@
         android:thumbTint="@color/HS"
         android:layout_gravity="center"
         ></SeekBar>
+    <Button
+        android:id="@+id/btnSearchVh"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="Search"
+        android:backgroundTint="@color/HS"
+        android:background="@drawable/mybtn"></Button>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
 
+        ></androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

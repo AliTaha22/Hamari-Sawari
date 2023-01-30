@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "715822609548",
+    "project_id": "pushnotifications-f9698",
+    "storage_bucket": "pushnotifications-f9698.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:715822609548:android:3ebbb8217b7fcaf4be37a9",
+        "android_client_info": {
+          "package_name": "com.example.hamarisawari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "715822609548-ni6t8qdpbeuul5t6uv67gj6kju89b4ok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5Lee2OyXdM5txxq9jAfSkd8MjacYzrqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "715822609548-ni6t8qdpbeuul5t6uv67gj6kju89b4ok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

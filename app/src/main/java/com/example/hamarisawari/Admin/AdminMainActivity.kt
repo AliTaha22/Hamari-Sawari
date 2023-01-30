@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.example.hamarisawari.AdminUserB
 import com.example.hamarisawari.R
 
 class AdminMainActivity : AppCompatActivity() {
@@ -14,6 +15,7 @@ class AdminMainActivity : AppCompatActivity() {
 
         var Add:Button=findViewById(R.id.AdminAdd)
         var User:Button=findViewById(R.id.AdminUser)
+        var UserB:Button=findViewById(R.id.AdminBlock)
 
 
 
@@ -24,6 +26,9 @@ class AdminMainActivity : AppCompatActivity() {
         }
         Add.setOnClickListener {
             startActivity(Intent(this, AdminAdds::class.java))
+        }
+        UserB.setOnClickListener {
+            startActivity(Intent(this, AdminUserB::class.java))
         }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -111,13 +112,20 @@ class MainMenu : AppCompatActivity() {
         var profile: ImageView = findViewById(R.id.imgProfile)
         var home: ImageView = findViewById(R.id.imgHome)
 
+        profile.setColorFilter(Color.parseColor("#000000"))
+        searchVh.setColorFilter(Color.parseColor("#000000"))
+        home.setColorFilter(Color.parseColor("#8E0707"))
+        rentVh.setColorFilter(Color.parseColor("#000000"))
 
         profile.setOnClickListener {
 
             dataEditor.putString("fragmentStatus", "profileFragment")
             dataEditor.apply()
             dataEditor.commit()
-
+            profile.setColorFilter(Color.parseColor("#8E0707"))
+            searchVh.setColorFilter(Color.parseColor("#000000"))
+            home.setColorFilter(Color.parseColor("#000000"))
+            rentVh.setColorFilter(Color.parseColor("#000000"))
             replaceFragment(ProfileFragment())
 
         }
@@ -127,6 +135,10 @@ class MainMenu : AppCompatActivity() {
             dataEditor.apply()
             dataEditor.commit()
 
+            profile.setColorFilter(Color.parseColor("#000000"))
+            searchVh.setColorFilter(Color.parseColor("#8E0707"))
+            home.setColorFilter(Color.parseColor("#000000"))
+            rentVh.setColorFilter(Color.parseColor("#000000"))
             replaceFragment(SearchFragment())
         }
         home.setOnClickListener {
@@ -134,7 +146,10 @@ class MainMenu : AppCompatActivity() {
             dataEditor.putString("fragmentStatus", "homeFragment")
             dataEditor.apply()
             dataEditor.commit()
-
+            profile.setColorFilter(Color.parseColor("#000000"))
+            searchVh.setColorFilter(Color.parseColor("#000000"))
+            home.setColorFilter(Color.parseColor("#8E0707"))
+            rentVh.setColorFilter(Color.parseColor("#000000"))
             replaceFragment(HomeFragment())
         }
         rentVh.setOnClickListener {
@@ -142,7 +157,10 @@ class MainMenu : AppCompatActivity() {
             dataEditor.putString("fragmentStatus", "rentFragment")
             dataEditor.apply()
             dataEditor.commit()
-
+            profile.setColorFilter(Color.parseColor("#000000"))
+            searchVh.setColorFilter(Color.parseColor("#000000"))
+            home.setColorFilter(Color.parseColor("#000000"))
+            rentVh.setColorFilter(Color.parseColor("#8E0707"))
             replaceFragment(RentFragment())
         }
 

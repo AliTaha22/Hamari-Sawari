@@ -83,11 +83,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <EditText
-            android:id="@+id/BikeModel"
+            android:id="@+id/CarModel"
             android:layout_width="175dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
-            android:hint="Car Model"></EditText>
+            android:hint="Car Model"
+            android:inputType="number"></EditText>
 
     </LinearLayout>
 
@@ -158,6 +159,23 @@
         android:progress="5"
         android:progressTint="@color/HS"
         android:thumbTint="@color/HS"></SeekBar>
+    <Button
+        android:id="@+id/btnSearchVh"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:text="Search"
+        android:backgroundTint="@color/HS"
+        android:background="@drawable/mybtn"></Button>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
+        ></androidx.recyclerview.widget.RecyclerView>
 
 
 </LinearLayout>
