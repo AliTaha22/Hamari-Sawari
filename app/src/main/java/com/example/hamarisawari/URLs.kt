@@ -18,9 +18,11 @@ class URLs {
     val requestBooking_URL = "http://192.168.18.139/hamarisawari/requestbooking.php"
     val cancelBooking_URL = "http://192.168.18.139/hamarisawari/cancelbooking.php"
     val confirmBooking_URL = "http://192.168.18.139/hamarisawari/confirmbooking.php"
-    val checkBookingRequest_URL = "http://192.168.18.139/hamarisawari/checkbookingrequest.php"
     val checkOwnerResponse_URL = "http://192.168.18.139/hamarisawari/checkownerresponse.php"
     val checkMyBookings_URL = "http://192.168.18.139/hamarisawari/checkmybookings.php"
     val submitReport_URL = "http://192.168.18.139/hamarisawari/submitreport.php"
     val initializeBooking_URL = "http://192.168.18.139/hamarisawari/initializebooking.php"
+    val removeadd_URL = "http://192.168.18.139/hamarisawari/removeadd.php"
+    val blockunblock_URL = "http://192.168.18.139/hamarisawari/blockunblock.php"
+    val searchData_URL = "http://192.168.18.139/hamarisawari/searchdata.php"
 }
