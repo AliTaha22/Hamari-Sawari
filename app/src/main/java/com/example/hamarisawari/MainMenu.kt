@@ -84,7 +84,14 @@ class MainMenu : AppCompatActivity() {
             it.isChecked = true
             when(it.itemId){
 
-                R.id.nav_addlocation -> Toast.makeText(this, "Clicked addLocation", Toast.LENGTH_LONG).show()
+                R.id.nav_viewBookings -> {
+
+                    startActivity(Intent(this, ViewMyBookings::class.java))
+                }
+
+                R.id.nav_complaints -> {
+                    startActivity(Intent(this, ProblemReport::class.java))
+                }
 
                 R.id.nav_logout -> {
                     dataEditor.putBoolean("loggedIn", false)
@@ -96,8 +103,6 @@ class MainMenu : AppCompatActivity() {
                     finish()
                 }
 
-
-                R.id.nav_message -> Toast.makeText(this, "Clicked message", Toast.LENGTH_LONG).show()
             }
 
             true

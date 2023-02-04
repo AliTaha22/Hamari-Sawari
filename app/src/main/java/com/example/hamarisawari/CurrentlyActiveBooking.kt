@@ -1,7 +1,10 @@
 package com.example.hamarisawari
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
@@ -17,11 +20,36 @@ class CurrentlyActiveBooking : AppCompatActivity() {
     private var mEndTime: Long = 0
     private var remainingTimeInMillis: Long = 0
 
+    lateinit var finishButton: Button
+    lateinit var reportProblem: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_currently_active_booking)
 
+//        val bundle = intent.extras
+//        var Days = bundle?.getString("days").toString()
+//        var Hours = bundle?.getString("hours").toString()
+//        var Minutes = bundle?.getString("minutes").toString()
+
         mTextViewCountDown = findViewById(R.id.countDownText)
+        finishButton = findViewById(R.id.finishBooking)
+        reportProblem = findViewById(R.id.report)
+
+        //making the buttons invisible.
+        finishButton.visibility = View.GONE
+        reportProblem.visibility = View.GONE
+
+        finishButton.setOnClickListener {
+
+            startActivity(Intent(this, PostBooking::class.java))
+
+        }
+
+        reportProblem.setOnClickListener {
+
+            //startActivity(Intent(this, PostBooking::class.java))
+        }
     }
 
     private fun startTimer() {
@@ -35,6 +63,7 @@ class CurrentlyActiveBooking : AppCompatActivity() {
             override fun onFinish() {
                 updateCountDownText()
                 startTimer()
+                displayButtons()
             }
         }.start()
 
@@ -85,5 +114,9 @@ class CurrentlyActiveBooking : AppCompatActivity() {
         startTimer()
     }
 
+    private fun displayButtons() {
+        finishButton.visibility = View.VISIBLE
+        reportProblem.visibility = View.VISIBLE
+    }
 
 }

@@ -1,12 +1,19 @@
 package com.example.hamarisawari.Fragments
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -39,6 +46,8 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
     lateinit var latitude: String
     lateinit var longitude: String
 
+    private val CHANNEL_ID = "101"
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +55,61 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
 
 
         binding = FragmentMoreDetailsBinding.inflate(inflater, container, false)
+        var mySharedPref = context?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+
+        //getting ids of all the details of xml.
+        bindUserDetails()
+
+
+
+        //receiving data from bundle
+        var mBundle: Bundle
+        mBundle = arguments!!
+         // key must be same which was given in first fragment
+        var renterUsername = mBundle.getString("username")
+        var numberPlate = mBundle.getString("numberplate")
+        var typE = mBundle.getString("type")
+
+
+
+
+        //Log.d("USERNAME: ", mBundle.getString("username").toString())
+        //Log.d("NUMBERPLATE: ", mBundle.getString("numberplate").toString())
+        //Log.d("NUMBERPLATE: ", mBundle.getString("type").toString())
+
+        //using this function to fetch the details of the VEHICLE-AD owner
+        fetchDetails(renterUsername, numberPlate, typE)
+
+
+        contact.setOnClickListener {
+
+            val i = Intent(activity, ContactAndCommunications::class.java)
+
+            val bundle = Bundle()
+            bundle.putString("latitude", latitude)
+            bundle.putString("longitude", longitude)
+            bundle.putString("username", renterUsername)
+            bundle.putString("vhtype", typE)
+            bundle.putString("vhnumberplate", numberPlate)
+
+
+            //here when the user clicks on contact button, a notification is sent to the owner of vehicle.
+            createNotificationChannel()
+            //when the notification is sent, the status of his/her vehicle also changes from Available to Pending
+            //until further proceedings. it is again set to available if owner rejects booking request.
+            sendNotificationToRenter(mySharedPref!!.getString("username", null).toString(),
+                                    renterUsername.toString(), numberPlate.toString(), typE.toString() )
+
+            i.putExtras(bundle)
+            startActivity(i)
+        }
+
+
+        // Inflate the layout for this fragment
+        return binding!!.root
+    }
+
+    private fun bindUserDetails() {
 
         picture = binding!!.renterPicture
         username = binding!!.renterUsername
@@ -61,43 +125,6 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
         vehicleDescription = binding!!.vehDescription
 
         contact = binding!!.contactRenter
-
-
-
-
-        //receiving data from bundle
-        var mBundle: Bundle
-        mBundle = arguments!!
-         // key must be same which was given in first fragment
-
-
-
-
-        //Log.d("USERNAME: ", mBundle.getString("username").toString())
-        //Log.d("NUMBERPLATE: ", mBundle.getString("numberplate").toString())
-        //Log.d("NUMBERPLATE: ", mBundle.getString("type").toString())
-
-        //using this function to fetch the details of the VEHICLE-AD owner
-        fetchDetails(mBundle.getString("username"), mBundle.getString("numberplate"), mBundle.getString("type")  )
-
-
-        contact.setOnClickListener {
-
-            var renterUsername = mBundle.getString("username")
-            val i = Intent(activity, ContactAndCommunications::class.java)
-
-            val bundle = Bundle()
-            bundle.putString("latitude", latitude)
-            bundle.putString("longitude", longitude)
-            bundle.putString("username", renterUsername)
-
-            i.putExtras(bundle)
-            startActivity(i)
-        }
-
-
-        // Inflate the layout for this fragment
-        return binding!!.root
     }
 
 
@@ -154,7 +181,6 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
     private fun putDetailsOnScreen(myArray: JSONArray) {
 
 
-
         var userJsonobj = JSONObject(myArray[0].toString())
         //var userJsonobj= JSONObject(userArrayData[0].toString())
 
@@ -185,5 +211,55 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
         longitude = vehicleJsonobj.getString("longitude")
     }
 
+    private fun sendNotificationToRenter(myUsername: String, renterUsername: String, numberPlate: String, typE: String) {
+
+
+        val request: StringRequest = object : StringRequest(
+            Method.POST, URLs().notifyRenter_URL,
+            Response.Listener { response ->
+
+                Toast.makeText(context, response, Toast.LENGTH_LONG).show()
+
+                //Log.d("My Response:", response.toString() )
+            },
+            Response.ErrorListener { error ->
+
+                Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show()
+
+                Log.d("My Error:", error.toString() )
+            }){
+
+            override fun getParams(): Map<String, String> {
+
+                val map : MutableMap<String,String> = HashMap()
+                map["renteeUsername"] = myUsername
+                map["renterUsername"] = renterUsername
+                map["type"] = typE
+                map["numberPlate"] = numberPlate
+
+                return map
+            }
+        }
+        val queue = Volley.newRequestQueue(context)
+        queue.add(request)
+
+    }
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Vehicle Booking Request"
+            val descriptionText = "Someone wants to book your vehicle"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                requireContext().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
 
 }

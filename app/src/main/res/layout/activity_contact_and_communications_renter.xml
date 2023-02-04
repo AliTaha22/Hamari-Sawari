@@ -55,27 +55,15 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/bookVehicle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Confirm Booking"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="18dp"
-        android:layout_gravity="center"
-        android:backgroundTint="#55d17c"
-        ></Button>
-    <Button
-        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Cancel"
+        android:text="Cancel Booking"
         android:textSize="12dp"
         android:textStyle="italic"
         android:textColor="#FFFF0000"
-        android:id="@+id/cancelBooking"
+        android:id="@+id/cancelBookingRenter"
         app:backgroundTint="@color/white"
         ></Button>
 

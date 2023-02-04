@@ -5,29 +5,14 @@
 
 
     <item
-        android:id="@+id/nav_addlocation"
-        android:title="Add Location"
-        android:icon="@drawable/ic_addlocation"
+        android:id="@+id/nav_viewBookings"
+        android:title="My Current Bookings"
+        android:icon="@drawable/ic_pageview"
         />
     <item
-        android:id="@+id/nav_history"
-        android:title="History"
-        android:icon="@drawable/ic_history"
-        />
-    <item
-        android:id="@+id/nav_message"
-        android:title="Message"
-        android:icon="@drawable/ic_message"
-        />
-    <item
-        android:id="@+id/nav_report"
-        android:title="Reports and Complaints"
+        android:id="@+id/nav_complaints"
+        android:title="Report a Problem"
         android:icon="@drawable/ic_report"
-        />
-    <item
-        android:id="@+id/nav_feedback"
-        android:title="Profile Feedbacks"
-        android:icon="@drawable/ic_feedback"
         />
     <item
         android:id="@+id/nav_logout"

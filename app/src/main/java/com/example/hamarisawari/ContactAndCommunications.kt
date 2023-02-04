@@ -23,27 +23,38 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.util.*
+import kotlin.collections.HashMap
 
 class ContactAndCommunications : AppCompatActivity() {
 
 
     lateinit var googleMap: GoogleMap
     lateinit var username: String
-    private val CHANNEL_ID = "101"
+    private val CHANNEL_ID = "102"
+
+    lateinit var rentingDays: String
+    lateinit var rentingHours: String
+    lateinit var rentingMinutes: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_and_communications)
 
+        //fetching user and owners details to put it on screen.
+        //<<--------------------------------------------------------------------------------
         var mySharedPref = getSharedPreferences("userInfo", MODE_PRIVATE)
+        username = mySharedPref.getString("username", null).toString()
         var myLatitude = mySharedPref.getString("latitude", null).toString()
         var myLongitude = mySharedPref.getString("longitude", null).toString()
-        username = mySharedPref.getString("username", null).toString()
 
         val bundle = intent.extras
         var renterLatitude = bundle?.getString("latitude").toString()
         var renterLongitude = bundle?.getString("longitude").toString()
         var renterUsername = bundle?.getString("username").toString()
+        var renterVhType = bundle?.getString("vhtype").toString()
+        var renterVhNumberplate = bundle?.getString("vhnumberplate").toString()
+        //-------------------------------------------------------------------------------->>
 
 
         //this is the menu for selecting days of rent
@@ -53,28 +64,29 @@ class ContactAndCommunications : AppCompatActivity() {
         initializeMap(myLatitude, myLongitude, renterLatitude, renterLongitude)
 
 
-        createNotificationChannel()
-        sendNotificationToRenter(renterUsername)
-
         var bookingButton = findViewById<Button>(R.id.bookVehicle)
         bookingButton.setOnClickListener {
 
-            var rentingDays = findViewById<AutoCompleteTextView>(R.id.rentDays).text.toString()
-            var rentingHours = findViewById<AutoCompleteTextView>(R.id.rentHours).text.toString()
-            var rentingMinutes = findViewById<AutoCompleteTextView>(R.id.rentMinutes).text.toString()
+            rentingDays = findViewById<AutoCompleteTextView>(R.id.rentDays).text.toString()
+            rentingHours = findViewById<AutoCompleteTextView>(R.id.rentHours).text.toString()
+            rentingMinutes = findViewById<AutoCompleteTextView>(R.id.rentMinutes).text.toString()
 
             MaterialAlertDialogBuilder(this)
-                .setTitle("Warning")
-                .setMessage("You are sending a request to rent a vehicle for $rentingDays Days $rentingHours Hours AND $rentingMinutes Minutes." +
-                        "Once the owner accepts your request your timer will start immediately. Do you wish to send request?")
-                .setNegativeButton("No"){
-                        dialog, which ->
+                .setTitle("IMPORTANT!")
+                .setMessage(
+                    "You are sending a request to rent a vehicle for $rentingDays Days $rentingHours Hours AND $rentingMinutes Minutes." +
+                            "Once the owner accepts your request your timer will start immediately. Do you wish to send request?"
+                )
+                .setNegativeButton("No") { dialog, which ->
                     dialog.cancel()
                 }
-                .setPositiveButton("Yes"){
-                        dialog, which ->
+                .setPositiveButton("Yes") { dialog, which ->
 
+                    //if the user agrees, a confirmation notification will be sent to Owner of vehicle.
+                    createNotificationChannel()
+                    sendNotificationToRenter(renterUsername,renterVhType, renterVhNumberplate )
 
+                    //user waits until the owner responds to the notification.
 //                    val nDialog: ProgressDialog
 //                    nDialog = ProgressDialog(this)
 //                    nDialog.setMessage("Please wait while the user responds to your request.")
@@ -82,28 +94,88 @@ class ContactAndCommunications : AppCompatActivity() {
 //                    nDialog.isIndeterminate = false
 //                    nDialog.setCancelable(true)
 //                    nDialog.show()
-                startActivity(Intent(this, CurrentlyActiveBooking::class.java))
+
+                    Log.d("MAIN", "BEFORE CALLING FUNCTION")
+                    checkOwnerResponse(username, renterUsername)
+
+
                 }
                 .show()
-
-            sendBookingRequest()
-
-
         }
 
 
     }
 
-    private fun sendBookingRequest() {
+
+    private fun checkOwnerResponse(myUsername: String, renterUsername: String){
+
+        Log.d("Inside Function: ", "HELLO")
+        var previousData = "Initialized"
+        val timer = Timer()
+        val task = object : TimerTask() {
+            override fun run() {
+                val request: StringRequest = object : StringRequest(
+                    Method.POST, URLs().checkOwnerResponse_URL,
+                    Response.Listener { response ->
+
+                        Log.d("Response: ", response.toString())
+                        if(response.contains("Booked")){
+                            runOnUiThread{
+                                bookingConfirmed()
+                            }
+                            timer.cancel()
+                        }
+                        else if(response.contains("Cancelled")){
+                            runOnUiThread{
+                                bookingCancelled()
+                            }
+                            timer.cancel()
+
+                        }
+                        /*Log.d("Response: ", response.toString())
+                        // Parse the response and extract the data
+                        val latestData = response
+                        Log.d("Latest Data: ", latestData.toString())
+                        if (latestData != previousData) {
+
+                            Log.d("Updated: ", latestData.toString())
+                            // Update UI on main thread
+                            runOnUiThread {
+                                if(response.contains("Booked")){
+                                    bookingConfirmed()
+                                }
+                                else if(latestData.contains("Cancelled")){
+                                    bookingCancelled()
+                                }
+                            }
+                            previousData = latestData
+                        }*/
+                    },
+                    Response.ErrorListener { error ->
+
+                        Toast.makeText(this@ContactAndCommunications, error.toString(), Toast.LENGTH_LONG).show()
+
+                        Log.d("My Error:", error.toString())
+                    }) {
+
+                    override fun getParams(): Map<String, String> {
+
+                        val map: MutableMap<String, String> = HashMap()
+                        map["myUsername"] = myUsername
+                        map["renterUsername"] = renterUsername
+
+                        return map
+                    }
+                }
+                val queue = Volley.newRequestQueue(this@ContactAndCommunications)
+                queue.add(request)
+            }
+        }
+        timer.schedule(task, 0, 2000)
 
     }
 
-    private fun initializeMap(
-        myLatitude: String,
-        myLongitude: String,
-        renterLatitude: String,
-        renterLongitude: String
-    ) {
+    private fun initializeMap(myLatitude: String, myLongitude: String, renterLatitude: String, renterLongitude: String) {
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.mapFragment) as SupportMapFragment
@@ -119,14 +191,13 @@ class ContactAndCommunications : AppCompatActivity() {
         })
     }
 
-    private fun sendNotificationToRenter(renterUsername: String) {
-
+    private fun sendNotificationToRenter(renterUsername: String, renterVhType: String,renterVhNumberplate: String) {
 
         val request: StringRequest = object : StringRequest(
-            Method.POST, URLs().notifyRenter_URL,
+            Method.POST, URLs().requestBooking_URL,
             Response.Listener { response ->
 
-                Toast.makeText(this, "Notification Sent", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, response, Toast.LENGTH_LONG).show()
 
                 //Log.d("My Response:", response.toString() )
             },
@@ -141,6 +212,12 @@ class ContactAndCommunications : AppCompatActivity() {
 
                 val map : MutableMap<String,String> = HashMap()
                 map["renterUsername"] = renterUsername
+                map["renteeUsername"] = username
+                map["days"] = rentingDays
+                map["hours"] = rentingHours
+                map["minutes"] = rentingMinutes
+                map["type"] = renterVhType
+                map["numberplate"] = renterVhNumberplate
 
                 return map
             }
@@ -156,10 +233,10 @@ class ContactAndCommunications : AppCompatActivity() {
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Vehicle Booking Confirmation"
-            val descriptionText = "Someone wants to book your vehicle"
+            val descriptionText = "Confirm or not?"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
 
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+            val channel = NotificationChannel("102", name, importance).apply {
                 description = descriptionText
             }
             // Register the channel with the system
@@ -167,6 +244,33 @@ class ContactAndCommunications : AppCompatActivity() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+    private fun bookingCancelled() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Request Cancelled")
+            .setMessage(
+                "Unfortunately the owner of vehicle has cancelled your booking request. Click OK to continue."
+            )
+            .setNeutralButton("OK"){dialog, which ->
+
+                startActivity(Intent(this, MainMenu::class.java))
+                finish()
+
+            }.show()
+    }
+
+    private fun bookingConfirmed() {
+
+        val i = Intent(this, CurrentlyActiveBooking::class.java)
+
+        val bundle = Bundle()
+        bundle.putString("days", rentingDays)
+        bundle.putString("hours", rentingHours)
+        bundle.putString("minutes", rentingMinutes)
+
+        i.putExtras(bundle)
+        startActivity(i)
+        finish()
     }
 
     private fun displayDropDown()

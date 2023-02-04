@@ -79,17 +79,132 @@
             ></Button>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/underline"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Booking ID"
+                android:textSize="12dp"
+                android:textColorHint="#504E4E"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Renter"
+                android:textSize="12dp"
+                android:textColorHint="#504E4E"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Rentee"
+                android:textSize="12dp"
+                android:textColorHint="#504E4E"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Vehicle Type"
+                android:textSize="12dp"
+                android:textColorHint="#504E4E"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Status"
+                android:textSize="12dp"
+                android:textColorHint="#504E4E"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/bookingID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Booking ID"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
+            <TextView
+                android:id="@+id/renterID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Renter"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/renteeID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rentee"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/vehicleTypeID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vehicle Type"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/statusID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
+        </LinearLayout>
+
+    </LinearLayout>
 
     <Button
-        android:id="@+id/bookVehicle"
-        android:layout_width="match_parent"
+        android:id="@+id/finishBooking"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Deal Done"
+        android:text="Finish"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="18dp"
@@ -97,5 +212,13 @@
         android:backgroundTint="#55d17c"
         ></Button>
 
+    <Button
+        android:id="@+id/report"
+        android:layout_margin="8dp"
+        android:layout_gravity="center"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Report a Problem"
+        ></Button>
 
 </LinearLayout>
