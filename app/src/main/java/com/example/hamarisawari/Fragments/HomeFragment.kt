@@ -34,7 +34,7 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
     lateinit var bikeArray: JSONArray
     lateinit var latitude: String
     lateinit var longitude: String
-
+    lateinit var username: String
     var dataList= ArrayList<vehicles>()
     var locationList= ArrayList<String>()
 
@@ -59,8 +59,11 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
         if (mySharedPref != null) {
             latitude = mySharedPref.getString("latitude",null).toString()
             longitude = mySharedPref.getString("longitude",null).toString()
+            username = mySharedPref.getString("username",null).toString()
         }
 
+
+        //getCarsData(carArray)
         showAllVehicles.setOnClickListener {
 
             dataList.clear()
@@ -92,7 +95,6 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
             rv.adapter= context?.let { homeAddAdapter(it, dataList, locationList) }
         }
 
-
         return binding!!.root
     }
 
@@ -101,23 +103,10 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
             Method.POST, URLs().readData_URL,
             Response.Listener { response ->
 
-                //Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show()
-
-
+                Log.d("Bike_DATA: ", response.toString());
                 var array= JSONArray(response)
-
                  carArray=JSONArray(array[0].toString())
                  bikeArray=JSONArray(array[1].toString())
-
-
-
-
-                //getVehiclesData(array.getJSONArray(0),0) //0 index has car data
-                //getVehiclesData(array.getJSONArray(1),1)  //1 index has bike data
-
-                //Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show()
-
-                //Log.d("Car_DATA: ", dataList.toString())
 
             },
             Response.ErrorListener { error ->
@@ -127,6 +116,7 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
             }){
             override fun getParams(): Map<String, String> {
                 val map : MutableMap<String,String> = HashMap()
+                map["username"]=username
                 return map }
         }
         val queue = Volley.newRequestQueue(context)

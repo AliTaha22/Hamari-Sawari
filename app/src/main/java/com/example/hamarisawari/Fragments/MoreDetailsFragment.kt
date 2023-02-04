@@ -198,12 +198,18 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
         vehicleManufacturer.text = vehicleJsonobj.getString("manufacturer")
         vehiclePrice.text = vehicleJsonobj.getString("rentingprice")
         vehicleSeatingCapacity.text = vehicleJsonobj.getString("seatingcapacity")
-//        vehicleTransmission = vehicleJsonobj.getString("transmission")
         vehicleModel.text = vehicleJsonobj.getString("model")
-        //vehicleType.text = vehicleJsonobj.getString("type")
         vehicleDescription.text = vehicleJsonobj.getString("description")
-
-
+        if(vehicleSeatingCapacity.text as String > 2.toString())
+        {
+            vehicleTransmission.text = vehicleJsonobj.getString("transmission")
+            vehicleType.text = vehicleJsonobj.getString("type")
+        }
+        else
+        {
+            vehicleTransmission.text = "Manual"
+            vehicleType.text = "Bike"
+        }
         context?.let { Glide.with(it).load(URLs().images_URL + userJsonobj.getString("picture")).into(picture) }
         context?.let { Glide.with(it).load(URLs().images_URL + vehicleJsonobjImg.getString("image")).into(vehicleImage) }
 

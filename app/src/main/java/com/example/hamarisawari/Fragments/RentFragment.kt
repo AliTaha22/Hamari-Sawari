@@ -126,7 +126,7 @@ class RentFragment : Fragment(R.layout.fragment_rent) {
             var image = job.getString("image")
 
 
-            var vehicleData  = MyVehiclesClass(jsonobj.getString("name"),image )
+            var vehicleData  = MyVehiclesClass(jsonobj.getString("name"),image,jsonobj.getString("numberplate"), jsonobj.getString("seatingcapacity") )
             dataList.add(vehicleData)
             count+=1
 

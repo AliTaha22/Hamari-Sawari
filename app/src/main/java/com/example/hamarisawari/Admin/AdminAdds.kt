@@ -63,6 +63,7 @@ class AdminAdds : AppCompatActivity() {
             }){
             override fun getParams(): Map<String, String> {
                 val map : MutableMap<String,String> = HashMap()
+                map["username"]="admin"
                 return map }
         }
         val queue = Volley.newRequestQueue(this)
