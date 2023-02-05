@@ -87,13 +87,13 @@ class ContactAndCommunications : AppCompatActivity() {
                     sendNotificationToRenter(renterUsername,renterVhType, renterVhNumberplate )
 
                     //user waits until the owner responds to the notification.
-//                    val nDialog: ProgressDialog
-//                    nDialog = ProgressDialog(this)
-//                    nDialog.setMessage("Please wait while the user responds to your request.")
-//                    nDialog.setTitle("Waiting for response")
-//                    nDialog.isIndeterminate = false
-//                    nDialog.setCancelable(true)
-//                    nDialog.show()
+                    val nDialog: ProgressDialog
+                    nDialog = ProgressDialog(this)
+                    nDialog.setMessage("Please wait while the user responds to your request.")
+                    nDialog.setTitle("Waiting for response")
+                    nDialog.isIndeterminate = false
+                    nDialog.setCancelable(true)
+                    nDialog.show()
 
                     Log.d("MAIN", "BEFORE CALLING FUNCTION")
                     checkOwnerResponse(username, renterUsername)
@@ -103,6 +103,13 @@ class ContactAndCommunications : AppCompatActivity() {
                 .show()
         }
 
+        var cancelBookingButton = findViewById<Button>(R.id.cancelBooking)
+        cancelBookingButton.setOnClickListener {
+
+            startActivity(Intent(this, MainMenu::class.java))
+            finish()
+
+        }
 
     }
 
@@ -267,6 +274,7 @@ class ContactAndCommunications : AppCompatActivity() {
         bundle.putString("days", rentingDays)
         bundle.putString("hours", rentingHours)
         bundle.putString("minutes", rentingMinutes)
+
 
         i.putExtras(bundle)
         startActivity(i)

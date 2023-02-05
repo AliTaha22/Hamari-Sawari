@@ -48,7 +48,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     lateinit var usernameTV: TextView
     lateinit var name: TextView
     lateinit var contact: TextView
-    lateinit var email: TextView
+    lateinit var cnic: TextView
 
 
     override fun onCreateView(
@@ -69,7 +69,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         name = binding!!.Name
         contact = binding!!.Contact
-        email = binding!!.Email
+        cnic = binding!!.CNIC
         usernameTV = binding!!.username
         usernameTV.text = username
 
@@ -166,7 +166,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
                 name.text = jsonObject.getString("name")
                 contact.text = jsonObject.getString("contact")
-
+                cnic.text = jsonObject.getString("cnic")
 
 
                 val dest =  URLs().images_URL + jsonObject.getString("picture")

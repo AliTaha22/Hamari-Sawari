@@ -94,6 +94,7 @@
     </string-array>
 
     <string-array name="Hours">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -117,10 +118,10 @@
         <item>21</item>
         <item>22</item>
         <item>23</item>
-        <item>24</item>
     </string-array>
 
     <string-array name="Minutes">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -180,7 +181,6 @@
         <item>57</item>
         <item>58</item>
         <item>59</item>
-        <item>60</item>
     </string-array>
 
     <string name="title_activity_rent_car">RentCar</string>

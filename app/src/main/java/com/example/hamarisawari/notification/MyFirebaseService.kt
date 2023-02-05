@@ -32,12 +32,17 @@ class MyFirebaseService : FirebaseMessagingService() {
             val renterUsername = data["renter"]
             val renterVehicleType = data["type"]
             val renterVehicleNumberplate = data["numberplate"]
+            val renteeLatitude = data["renteeLatitude"]
+            val renteeLongitude = data["renteeLongitude"]
 
             //putting the data inside a bundle
             bundle.putString("rentee", renteeUsername)
             bundle.putString("renter", renterUsername)
             bundle.putString("VehicleType", renterVehicleType)
             bundle.putString("Numberplate", renterVehicleNumberplate)
+            bundle.putString("renteeLatitude", renteeLatitude)
+            bundle.putString("renteeLongitude", renteeLongitude)
+
         } else if (message.data["messageType"].equals("requestBooking")) {
             val data: Map<String, String> = message.data
 

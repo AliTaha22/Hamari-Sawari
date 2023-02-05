@@ -42,6 +42,8 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
         var renter: String = ""
         var VehicleType: String = ""
         var Numberplate: String = ""
+        var renteeLatitude: String = ""
+        var renteeLongitude: String = ""
 
         //Log.d("ClickActionActivity", "Activity Launched")
         val extras = intent.extras
@@ -57,6 +59,9 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
             renter = extras.getString("renter").toString()
             VehicleType = extras.getString("VehicleType").toString()
             Numberplate = extras.getString("Numberplate").toString()
+            renteeLatitude = extras.getString("renteeLatitude").toString()
+            renteeLongitude = extras.getString("renteeLongitude").toString()
+
             initializeBooking(renter, rentee, VehicleType, Numberplate)
         }
         else{
@@ -64,7 +69,7 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
         }
 
         //initializing map and setting a mark for the users & vehicle's location.
-        initializeMap(myLatitude, myLongitude)
+        initializeMap(myLatitude, myLongitude, renteeLatitude, renteeLongitude)
 
 
         cancelBooking.setOnClickListener {
@@ -123,7 +128,7 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
     }
 
 
-    private fun initializeMap(myLatitude: String, myLongitude: String) {
+    private fun initializeMap(myLatitude: String, myLongitude: String, renteeLatitude: String, renteeLongitude: String) {
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.mapFragment) as SupportMapFragment
@@ -134,8 +139,8 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
             googleMap.addMarker(MarkerOptions().position(myLocation).title("My Location"))
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 10.0f))
 
-            //val renterLocation = LatLng(renterLatitude.toDouble(), renterLongitude.toDouble())
-            //googleMap.addMarker(MarkerOptions().position(renterLocation).title("Renter Location"))
+            val renteeLocation = LatLng(renteeLatitude.toDouble(), renteeLongitude.toDouble())
+            googleMap.addMarker(MarkerOptions().position(renteeLocation).title("Rentee Location"))
         })
     }
     private fun cancelBooking(myUsername: String, renteeUsername: String, typE: String, numberPlate: String) {

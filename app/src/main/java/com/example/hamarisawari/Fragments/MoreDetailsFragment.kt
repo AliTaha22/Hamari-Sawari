@@ -56,6 +56,8 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
 
         binding = FragmentMoreDetailsBinding.inflate(inflater, container, false)
         var mySharedPref = context?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        var myLatitude = mySharedPref?.getString("latitude", null).toString()
+        var myLongitude = mySharedPref?.getString("longitude", null).toString()
 
         //getting ids of all the details of xml.
         bindUserDetails()
@@ -98,7 +100,7 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
             //when the notification is sent, the status of his/her vehicle also changes from Available to Pending
             //until further proceedings. it is again set to available if owner rejects booking request.
             sendNotificationToRenter(mySharedPref!!.getString("username", null).toString(),
-                                    renterUsername.toString(), numberPlate.toString(), typE.toString() )
+                                    renterUsername.toString(), numberPlate.toString(), typE.toString(), myLatitude, myLongitude )
 
             i.putExtras(bundle)
             startActivity(i)
@@ -217,7 +219,8 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
         longitude = vehicleJsonobj.getString("longitude")
     }
 
-    private fun sendNotificationToRenter(myUsername: String, renterUsername: String, numberPlate: String, typE: String) {
+    private fun sendNotificationToRenter(myUsername: String, renterUsername: String, numberPlate: String, typE: String,
+                                         myLatitude: String, myLongitude: String) {
 
 
         val request: StringRequest = object : StringRequest(
@@ -242,6 +245,8 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
                 map["renterUsername"] = renterUsername
                 map["type"] = typE
                 map["numberPlate"] = numberPlate
+                map["renteeLatitude"] = myLatitude
+                map["renteeLongitude"] = myLongitude
 
                 return map
             }

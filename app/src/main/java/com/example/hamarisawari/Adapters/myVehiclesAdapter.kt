@@ -1,6 +1,8 @@
 package com.example.hamarisawari.Adapters
 
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,27 +10,27 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
-import com.example.hamarisawari.MyVehiclesClass
-import com.example.hamarisawari.R
-import com.example.hamarisawari.URLs
-import com.example.hamarisawari.vehicles
+import com.example.hamarisawari.*
 import org.json.JSONArray
 
 class myVehiclesAdapter(_ctx:Context,_data:ArrayList<MyVehiclesClass>): RecyclerView.Adapter<myVehiclesAdapter.homeViewHolder>() {
 
     var ctx=_ctx
     var data=_data
-    var seat=""
+    var seat: Int = 0
     class homeViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
 
         var nameview: TextView =itemView.findViewById(R.id.nameview)
         var imageview: ImageView =itemView.findViewById(R.id.imageview)
         var removeBtn: Button=itemView.findViewById(R.id.removeAd)
+        var viewAdBtn: Button=itemView.findViewById(R.id.viewPost)
 
     }
 
@@ -41,7 +43,8 @@ class myVehiclesAdapter(_ctx:Context,_data:ArrayList<MyVehiclesClass>): Recycler
     override fun onBindViewHolder(holder: homeViewHolder, position: Int) {
 
         holder.nameview.text = data[position].name
-        seat=data[position].seating.toString()
+        seat=data[position].seating
+
         holder.removeBtn.setOnClickListener {
         val request: StringRequest = object : StringRequest(
             Method.POST, URLs().removeadd_URL,
@@ -56,14 +59,14 @@ class myVehiclesAdapter(_ctx:Context,_data:ArrayList<MyVehiclesClass>): Recycler
             }){
             override fun getParams(): Map<String, String> {
                 val map : MutableMap<String,String> = HashMap()
-                if(seat> 2.toString())
+                if(seat > 2)
                 {
-                    map["numberPlate"]=data[holder.adapterPosition].numberPlate.toString()
+                    map["numberPlate"]=data[holder.adapterPosition].numberPlate
                     map["table"]="cars"
                 }
                 else
                 {
-                    map["numberPlate"]=data[holder.adapterPosition].numberPlate.toString()
+                    map["numberPlate"]=data[holder.adapterPosition].numberPlate
                     map["table"]="bikes"
                 }
                 return map }
@@ -74,6 +77,33 @@ class myVehiclesAdapter(_ctx:Context,_data:ArrayList<MyVehiclesClass>): Recycler
 
 
         }
+
+        holder.viewAdBtn.setOnClickListener(object: View.OnClickListener{
+            override fun onClick(v: View?) {
+                val activity = v!!.context as AppCompatActivity
+
+                val i = Intent(activity, ViewMyAd::class.java)
+
+                val bundle = Bundle()
+                bundle.putString("numberplate", data[position].numberPlate)
+
+                if(seat <= 2)
+                {
+                    bundle.putString("type", "Bike")
+                }
+                else
+                {
+                    bundle.putString("type", "Car")
+                }
+
+
+                i.putExtras(bundle)
+                activity.startActivity(i)
+
+            }
+        })
+
+
         if(data[position].image != null){
 
             val dest = URLs().images_URL + data[position].image

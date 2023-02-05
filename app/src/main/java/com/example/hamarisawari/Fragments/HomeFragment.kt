@@ -50,17 +50,20 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
         showCars = binding!!.showCars
         showBikes = binding!!.showBikes
 
-        var rv=binding.homeRV
-        readpost(rv)
+
 
         var mySharedPref = context?.getSharedPreferences("userInfo", MODE_PRIVATE)
-
         //fetching user's current location to store it as Vehicle's location of rent.
         if (mySharedPref != null) {
             latitude = mySharedPref.getString("latitude",null).toString()
             longitude = mySharedPref.getString("longitude",null).toString()
             username = mySharedPref.getString("username",null).toString()
         }
+
+
+        //when the readpost function is called, all the vehicles are displayed by default.
+        var rv=binding.homeRV
+        readpost(rv)
 
 
         //getCarsData(carArray)
@@ -107,6 +110,14 @@ class HomeFragment : Fragment(R.layout.fragment_home ) {
                 var array= JSONArray(response)
                  carArray=JSONArray(array[0].toString())
                  bikeArray=JSONArray(array[1].toString())
+
+
+                getCarsData(carArray)
+                getBikesData(bikeArray)
+
+                //recycler view implimentation
+                rv.layoutManager= LinearLayoutManager(context)
+                rv.adapter= context?.let { homeAddAdapter(it, dataList, locationList) }
 
             },
             Response.ErrorListener { error ->

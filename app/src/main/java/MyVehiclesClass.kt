@@ -1,6 +1,6 @@
 package com.example.hamarisawari
 
-class MyVehiclesClass (_name: String, _image: String, _numberplate: String, _seating: String){
+class MyVehiclesClass (_name: String, _image: String, _numberplate: String, _seating: Int){
 
     var name = _name
     var image = _image

@@ -80,9 +80,6 @@ class RentFragment : Fragment(R.layout.fragment_rent) {
                 var array= JSONArray(response)
                 Log.d("My Response: ", response.toString());
 
-                var carArray= JSONArray(array[0].toString())
-                var bikeArray= JSONArray(array[1].toString())
-
 
 //                Log.d("Car_DATA: ", array[0].toString());
 
@@ -126,7 +123,7 @@ class RentFragment : Fragment(R.layout.fragment_rent) {
             var image = job.getString("image")
 
 
-            var vehicleData  = MyVehiclesClass(jsonobj.getString("name"),image,jsonobj.getString("numberplate"), jsonobj.getString("seatingcapacity") )
+            var vehicleData  = MyVehiclesClass(jsonobj.getString("name"),image,jsonobj.getString("numberplate"), jsonobj.getString("seatingcapacity").toInt() )
             dataList.add(vehicleData)
             count+=1
 

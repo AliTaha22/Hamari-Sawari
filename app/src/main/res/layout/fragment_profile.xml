@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:text="Your Name"
             android:textColorHint="@color/black"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:textColor="@color/black"
             android:textSize="25dp"
             android:id="@+id/Name"
@@ -109,7 +109,7 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:text="Your Number"
-            android:layout_marginLeft="22dp"
+            android:layout_marginLeft="15dp"
             android:textColor="@color/black"
             android:textSize="25dp"
             android:id="@+id/Contact"
@@ -121,22 +121,26 @@
         android:orientation="horizontal">
         <ImageView
             android:layout_width="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/email"
+            android:src="@drawable/contact_cnic"
             ></ImageView>
 
         <TextView
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
-            android:text="Your Email"
+            android:layout_marginLeft="15dp"
+            android:text="CNIC"
             android:textColor="@color/black"
             android:textSize="25dp"
-            android:id="@+id/Email"
+            android:id="@+id/CNIC"
             ></TextView>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/underline"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -149,26 +153,8 @@
         android:layout_marginLeft="10dp"
         android:background="?android:attr/selectableItemBackground"
         android:backgroundTint="@color/white"></Button>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/underline"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:text="Verify Driving license"
-        android:textColor="@color/HS"
-        android:textSize="10sp"
-        android:textStyle="italic"
-        android:textAllCaps="false"
-        android:layout_marginLeft="10dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:backgroundTint="@color/white"></Button>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/underline"/>
+
+
 
 
 
