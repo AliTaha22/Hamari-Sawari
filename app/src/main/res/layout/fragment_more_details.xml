@@ -128,33 +128,30 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:hint="Manufacturer"
+            android:text="Manufacturer"
             android:textSize="18dp"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="20dp"
-            android:textColorHint="#504E4E"
             android:textColor="@color/black"
             android:id="@+id/vehManufacturer"
             ></TextView>
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:hint="Price"
+            android:text="Price"
             android:textSize="18dp"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="20dp"
-            android:textColorHint="#504E4E"
             android:textColor="@color/black"
             android:id="@+id/vehPrice"
             ></TextView>
         <TextView
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:hint="S-Capacity"
+            android:text="S-Capacity"
             android:textSize="18dp"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="20dp"
-            android:textColorHint="#504E4E"
             android:textColor="@color/black"
             android:id="@+id/seatingCapacity"
             ></TextView>
@@ -197,6 +194,8 @@
             android:textColor="@color/black"
             ></TextView>
     </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -205,37 +204,74 @@
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:hint="Transmission"
+            android:text="Transmission"
             android:textSize="18dp"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="20dp"
-            android:textColorHint="#504E4E"
             android:textColor="@color/black"
             android:id="@+id/vehTransmission"
             ></TextView>
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:hint="Model"
+            android:text="Model"
             android:textSize="18dp"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="20dp"
-            android:textColorHint="#504E4E"
             android:textColor="@color/black"
             android:id="@+id/vehModel"
             ></TextView>
         <TextView
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:hint="Type"
+            android:text="Type"
             android:textSize="18dp"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="15dp"
-            android:textColorHint="#504E4E"
             android:textColor="@color/black"
             android:id="@+id/vehType"
             ></TextView>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehicle Delivery Service: "
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/vehDelivery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="Available"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            ></TextView>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
