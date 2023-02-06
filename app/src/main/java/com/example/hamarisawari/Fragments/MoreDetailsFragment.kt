@@ -93,6 +93,7 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
             bundle.putString("username", renterUsername)
             bundle.putString("vhtype", typE)
             bundle.putString("vhnumberplate", numberPlate)
+            bundle.putString("vhprice", vehiclePrice.text.toString())
 
 
             //here when the user clicks on contact button, a notification is sent to the owner of vehicle.

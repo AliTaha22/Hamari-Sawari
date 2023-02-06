@@ -152,6 +152,15 @@
                 android:textColor="@color/black"
                 android:layout_marginRight="10dp"
                 ></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Total Amount "
+                android:textSize="12dp"
+                android:textColorHint="#504E4E"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -163,7 +172,7 @@
                 android:id="@+id/bookingID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Booking ID"
+                android:text="145"
                 android:textSize="12dp"
                 android:textColor="@color/black"
                 android:layout_marginRight="10dp"
@@ -172,7 +181,7 @@
                 android:id="@+id/renterID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Renter"
+                android:text="test2"
                 android:textSize="12dp"
                 android:textColor="@color/black"
                 android:layout_marginRight="10dp"
@@ -182,7 +191,7 @@
                 android:id="@+id/renteeID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rentee"
+                android:text="test"
                 android:textSize="12dp"
                 android:textColor="@color/black"
                 android:layout_marginRight="10dp"
@@ -192,7 +201,7 @@
                 android:id="@+id/vehicleTypeID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vehicle Type"
+                android:text="Sedan"
                 android:textSize="12dp"
                 android:textColor="@color/black"
                 android:layout_marginRight="10dp"
@@ -202,7 +211,16 @@
                 android:id="@+id/statusID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Status"
+                android:text="Booked"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
+                ></TextView>
+            <TextView
+                android:id="@+id/amountID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2500 PKR"
                 android:textSize="12dp"
                 android:textColor="@color/black"
                 android:layout_marginRight="10dp"
