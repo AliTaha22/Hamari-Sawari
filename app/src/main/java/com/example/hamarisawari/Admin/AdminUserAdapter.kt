@@ -94,7 +94,7 @@ class AdminUserAdapter(_ctx: Context, _data:ArrayList<users>,_check:Int):Recycle
 
         if(data[position].images.toString() != null){
 
-            val dest = "http://192.168.100.157/hamarisawari/images/" + data[position].images.toString()
+            val dest = "http://192.168.100.191/hamarisawari/images/" + data[position].images.toString()
 
             //Log.d("My IMG", data.get(position).images?.get(0).toString())
             //Log.d("My position", position.toString())

@@ -70,8 +70,6 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
 
         //initializing map and setting a mark for the users & vehicle's location.
         initializeMap(myLatitude, myLongitude, renteeLatitude, renteeLongitude)
-
-
         cancelBooking.setOnClickListener {
 
             MaterialAlertDialogBuilder(this)
@@ -89,7 +87,21 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
                 }
                 .show()
 
+            var msg: Button = findViewById(R.id.messageRenter)
+            msg.setOnClickListener {
 
+                val i = Intent(this, Chating::class.java)
+                var table = "$rentee$renter"
+                val bundle = Bundle()
+                bundle.putString("sender", renter)
+                bundle.putString("receiver", rentee)
+                bundle.putString("table", table)
+
+                i.putExtras(bundle)
+                startActivity(i)
+
+
+            }
         }
 
     }

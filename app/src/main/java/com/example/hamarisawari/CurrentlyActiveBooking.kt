@@ -27,7 +27,7 @@ class CurrentlyActiveBooking : AppCompatActivity() {
     private var timer: CountDownTimer? = null
     private var remainingTime = 0L
     private var startTime = 0L
-
+    lateinit var renterusername:String
 
 
     lateinit var finishButton: Button
@@ -48,6 +48,7 @@ class CurrentlyActiveBooking : AppCompatActivity() {
             days = bundle.getString("days", "0")
             hours = bundle.getString("hours", "0")
             minutes = bundle.getString("minutes", "0")
+            renterusername = bundle.getString("renter", "0")
 
             // Convert the strings to millis
             val millis = (days.toInt() * 24 * 60 * 60 + hours.toInt() * 60 * 60 + minutes.toInt() * 60) * 1000

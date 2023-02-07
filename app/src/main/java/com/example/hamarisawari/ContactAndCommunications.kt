@@ -7,13 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Response
@@ -34,11 +31,13 @@ class ContactAndCommunications : AppCompatActivity() {
 
     lateinit var googleMap: GoogleMap
     lateinit var username: String
+    private val CHANNEL_ID = "102"
+
+    lateinit var renterUsername:String
 
     lateinit var rentingDays: String
     lateinit var rentingHours: String
     lateinit var rentingMinutes: String
-    lateinit var priceTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,36 +53,25 @@ class ContactAndCommunications : AppCompatActivity() {
         val bundle = intent.extras
         var renterLatitude = bundle?.getString("latitude").toString()
         var renterLongitude = bundle?.getString("longitude").toString()
-        var renterUsername = bundle?.getString("username").toString()
+        renterUsername = bundle?.getString("username").toString()
         var renterVhType = bundle?.getString("vhtype").toString()
         var renterVhNumberplate = bundle?.getString("vhnumberplate").toString()
-        var vehicleRentingPrice = bundle?.getString("vhprice").toString()
         //-------------------------------------------------------------------------------->>
-
-        //accessing the id's of details on the screen
-        val daysAutoCompleteTextView = findViewById<AutoCompleteTextView>(R.id.rentDays)
-        val hoursAutoCompleteTextView = findViewById<AutoCompleteTextView>(R.id.rentHours)
-        val minutesAutoCompleteTextView = findViewById<AutoCompleteTextView>(R.id.rentMinutes)
-        priceTextView = findViewById(R.id.totalPrice)
-
-        calculatePrice(daysAutoCompleteTextView, hoursAutoCompleteTextView, minutesAutoCompleteTextView, vehicleRentingPrice.toInt())
 
 
         //this is the menu for selecting days of rent
         displayDropDown()
 
-
         //initializing map and setting a mark for the users & vehicle's location.
         initializeMap(myLatitude, myLongitude, renterLatitude, renterLongitude)
 
 
-        //the following actions happen when user clicks on confirm booking
         var bookingButton = findViewById<Button>(R.id.bookVehicle)
         bookingButton.setOnClickListener {
 
-            rentingDays = daysAutoCompleteTextView.text.toString()
-            rentingHours = hoursAutoCompleteTextView.text.toString()
-            rentingMinutes = minutesAutoCompleteTextView.text.toString()
+            rentingDays = findViewById<AutoCompleteTextView>(R.id.rentDays).text.toString()
+            rentingHours = findViewById<AutoCompleteTextView>(R.id.rentHours).text.toString()
+            rentingMinutes = findViewById<AutoCompleteTextView>(R.id.rentMinutes).text.toString()
 
             MaterialAlertDialogBuilder(this)
                 .setTitle("IMPORTANT!")
@@ -101,13 +89,13 @@ class ContactAndCommunications : AppCompatActivity() {
                     sendNotificationToRenter(renterUsername,renterVhType, renterVhNumberplate )
 
                     //user waits until the owner responds to the notification.
-                    val nDialog: ProgressDialog
-                    nDialog = ProgressDialog(this)
-                    nDialog.setMessage("Please wait while the user responds to your request.")
-                    nDialog.setTitle("Waiting for response")
-                    nDialog.isIndeterminate = false
-                    nDialog.setCancelable(true)
-                    nDialog.show()
+//                    val nDialog: ProgressDialog
+//                    nDialog = ProgressDialog(this)
+//                    nDialog.setMessage("Please wait while the user responds to your request.")
+//                    nDialog.setTitle("Waiting for response")
+//                    nDialog.isIndeterminate = false
+//                    nDialog.setCancelable(true)
+//                    nDialog.show()
 
                     Log.d("MAIN", "BEFORE CALLING FUNCTION")
                     checkOwnerResponse(username, renterUsername)
@@ -116,45 +104,22 @@ class ContactAndCommunications : AppCompatActivity() {
                 }
                 .show()
         }
+        var msg: Button = findViewById(R.id.messageRenter)
+        msg.setOnClickListener {
 
-        var cancelBookingButton = findViewById<Button>(R.id.cancelBooking)
-        cancelBookingButton.setOnClickListener {
+            val i = Intent(this, Chating::class.java)
+            var table = "$username$renterUsername"
+            val bundle = Bundle()
+            bundle.putString("sender", username)
+            bundle.putString("receiver", renterUsername)
+            bundle.putString("table", table)
 
-            startActivity(Intent(this, MainMenu::class.java))
-            finish()
+            i.putExtras(bundle)
+            startActivity(i)
+
 
         }
 
-        //listeners for text change of days/hours/minutes
-        daysAutoCompleteTextView.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                calculatePrice(daysAutoCompleteTextView, hoursAutoCompleteTextView, minutesAutoCompleteTextView, vehicleRentingPrice.toInt())
-            }
-        })
-
-        hoursAutoCompleteTextView.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                calculatePrice(daysAutoCompleteTextView, hoursAutoCompleteTextView, minutesAutoCompleteTextView, vehicleRentingPrice.toInt())
-            }
-        })
-
-        minutesAutoCompleteTextView.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                calculatePrice(daysAutoCompleteTextView, hoursAutoCompleteTextView, minutesAutoCompleteTextView, vehicleRentingPrice.toInt())
-            }
-        })
 
     }
 
@@ -319,7 +284,7 @@ class ContactAndCommunications : AppCompatActivity() {
         bundle.putString("days", rentingDays)
         bundle.putString("hours", rentingHours)
         bundle.putString("minutes", rentingMinutes)
-
+        bundle.putString("renter", renterUsername)
 
         i.putExtras(bundle)
         startActivity(i)
@@ -341,20 +306,5 @@ class ContactAndCommunications : AppCompatActivity() {
         findViewById<AutoCompleteTextView>(R.id.rentDays).setAdapter(arrayAdapterDays)
         findViewById<AutoCompleteTextView>(R.id.rentHours).setAdapter(arrayAdapterHours)
         findViewById<AutoCompleteTextView>(R.id.rentMinutes).setAdapter(arrayAdapterMinutes)
-
-    }
-
-    fun calculatePrice(
-        daysAutoCompleteTextView: AutoCompleteTextView, hoursAutoCompleteTextView: AutoCompleteTextView,
-        minutesAutoCompleteTextView: AutoCompleteTextView, pricePerDay: Int, ) {
-
-        val days = daysAutoCompleteTextView.text.toString().toIntOrNull() ?: 0
-        val hours = hoursAutoCompleteTextView.text.toString().toIntOrNull() ?: 0
-        val minutes = minutesAutoCompleteTextView.text.toString().toIntOrNull() ?: 0
-
-        val totalMinutes = (days * 24 * 60) + (hours * 60) + minutes
-        val totalPrice = totalMinutes * pricePerDay / (24 * 60)
-
-        priceTextView.text = "$totalPrice PKR"
     }
 }

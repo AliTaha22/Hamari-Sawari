@@ -20,6 +20,9 @@
             android:name=".ViewMyAd"
             android:exported="false" />
         <activity
+            android:name=".Chating"
+            android:exported="false" />
+        <activity
             android:name=".ProblemReport"
             android:exported="false" />
         <activity
