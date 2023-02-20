@@ -7,11 +7,16 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.viewpager2.widget.ViewPager2
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
+import com.example.hamarisawari.com.example.hamarisawari.Adapters.VehicleImagePagerAdapter
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
 class ViewMyAd : AppCompatActivity() {
@@ -19,7 +24,7 @@ class ViewMyAd : AppCompatActivity() {
     lateinit var picture: ImageView
     lateinit var username: TextView
     lateinit var rating: RatingBar
-    lateinit var vehicleImage: ImageView
+    lateinit var ratingCount: TextView
     lateinit var vehicleName: TextView
     lateinit var vehicleManufacturer: TextView
     lateinit var vehiclePrice: TextView
@@ -29,6 +34,8 @@ class ViewMyAd : AppCompatActivity() {
     lateinit var vehicleType: TextView
     lateinit var vehicleDescription: TextView
 
+    private lateinit var viewPager: ViewPager2
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +55,7 @@ class ViewMyAd : AppCompatActivity() {
         picture = findViewById(R.id.renterPicture)
         username = findViewById(R.id.renterUsername)
         rating = findViewById(R.id.renterRating)
-        vehicleImage = findViewById(R.id.vehicleImage)
+        ratingCount = findViewById(R.id.renterRatingCount)
         vehicleName = findViewById(R.id.vehName)
         vehicleManufacturer = findViewById(R.id.vehManufacturer)
         vehiclePrice = findViewById(R.id.vehPrice)
@@ -57,6 +64,8 @@ class ViewMyAd : AppCompatActivity() {
         vehicleModel = findViewById(R.id.vehModel)
         vehicleType = findViewById(R.id.vehType)
         vehicleDescription = findViewById(R.id.vehDescription)
+        viewPager = findViewById(R.id.viewPager)
+        tabLayout = findViewById(R.id.tabLayout)
 
 
         fetchDetails(myUsername, numberplate, type)
@@ -108,14 +117,37 @@ class ViewMyAd : AppCompatActivity() {
 
         var vehicleArrayData = JSONArray(myArray[1].toString())
         var vehicleJsonobj= JSONObject(vehicleArrayData[0].toString())
-        var vehicleJsonobjImg= JSONObject(vehicleArrayData[1].toString())
+
+        var i=1
+        var images: ArrayList<String> = ArrayList()
+        while(i<vehicleArrayData.length()){
+
+            var job = JSONObject(vehicleArrayData[i].toString())
+            Log.d("Vehicle IMG $i: ", job.toString())
+            var a = job.getString("image")
+            images?.add(URLs().images_URL + a)
+            i+=1
+        }
+        viewPager.adapter = VehicleImagePagerAdapter(this, images)
+
+// Connect the TabLayout with the ViewPager
+        TabLayoutMediator(tabLayout, viewPager) { tab, position -> }.attach()
 
         //Log.d("putDetailsOnScreen: ", userArrayData.toString())
         Log.d("putDetailsOnScreen2: ", vehicleArrayData.toString())
 
         username.text = userJsonobj.getString("username")
-        rating.numStars = userJsonobj.getString("rating").toInt()
-        //vehicleImage = URLs().images_URL + vehicleJsonobj.getString("picture")
+        try {
+            ratingCount.text = userJsonobj.getString("rating_count")
+
+        } catch (e: JSONException) {
+            // Handle the JSON exception
+            e.printStackTrace()
+
+            // Set a default value for the 'ratingCount' text view
+            ratingCount.text = "0"
+        }
+        rating.rating = userJsonobj.getString("rating").toFloat()
         vehicleName.text = vehicleJsonobj.getString("name")
         vehicleManufacturer.text = vehicleJsonobj.getString("manufacturer")
         vehiclePrice.text = vehicleJsonobj.getString("rentingprice")
@@ -133,7 +165,6 @@ class ViewMyAd : AppCompatActivity() {
             vehicleType.text = "Bike"
         }
         Glide.with(this).load(URLs().images_URL + userJsonobj.getString("picture")).into(picture)
-        Glide.with(this).load(URLs().images_URL + vehicleJsonobjImg.getString("image")).into(vehicleImage)
 
     }
 }

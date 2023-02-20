@@ -183,6 +183,11 @@
         <item>59</item>
     </string-array>
 
+    <string-array name="deliveryStatus">
+        <item>Available</item>
+        <item>Not Available</item>
+    </string-array>
+
     <string name="title_activity_rent_car">RentCar</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

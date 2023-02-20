@@ -34,6 +34,7 @@ class MyFirebaseService : FirebaseMessagingService() {
             val renterVehicleNumberplate = data["numberplate"]
             val renteeLatitude = data["renteeLatitude"]
             val renteeLongitude = data["renteeLongitude"]
+            val VhPrice = data["VhPrice"]
 
             //putting the data inside a bundle
             bundle.putString("rentee", renteeUsername)
@@ -42,6 +43,7 @@ class MyFirebaseService : FirebaseMessagingService() {
             bundle.putString("Numberplate", renterVehicleNumberplate)
             bundle.putString("renteeLatitude", renteeLatitude)
             bundle.putString("renteeLongitude", renteeLongitude)
+            bundle.putString("VhPrice", VhPrice)
 
         } else if (message.data["messageType"].equals("requestBooking")) {
             val data: Map<String, String> = message.data
@@ -53,6 +55,8 @@ class MyFirebaseService : FirebaseMessagingService() {
             val minutes = data["minutes"]
             val VhType = data["VhType"]
             val VhNumberplate = data["VhNumberplate"]
+            val VhPrice = data["VhPrice"]
+            val bookingID = data["bookingID"]
 
             //putting the data inside a bundle
             bundle.putString("renteeUsername", renteeUsername)
@@ -61,6 +65,8 @@ class MyFirebaseService : FirebaseMessagingService() {
             bundle.putString("Minutes", minutes)
             bundle.putString("VhType", VhType)
             bundle.putString("VhNumberplate", VhNumberplate)
+            bundle.putString("VhPrice", VhPrice)
+            bundle.putString("bookingID", bookingID)
         }
 //        if (message.data.isNotEmpty()) {
 //            // Get the data payload

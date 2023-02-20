@@ -1,6 +1,8 @@
 package com.example.hamarisawari
 
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.SharedPreferences.Editor
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -44,11 +46,16 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
         var Numberplate: String = ""
         var renteeLatitude: String = ""
         var renteeLongitude: String = ""
+        var VhPrice: String = ""
 
         //Log.d("ClickActionActivity", "Activity Launched")
         val extras = intent.extras
         //val extras = intent.getBundleExtra("AA")
         //Log.d("Extras", extras.toString())
+
+        var mySharedPref2: SharedPreferences = getSharedPreferences("BookingInfo", MODE_PRIVATE)
+        var bookingStatus = mySharedPref2.getBoolean("Status", false)
+
         if (extras != null) {
             Log.d("rentee", extras.getString("rentee").toString())
             Log.d("renter", extras.getString("renter").toString())
@@ -61,8 +68,12 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
             Numberplate = extras.getString("Numberplate").toString()
             renteeLatitude = extras.getString("renteeLatitude").toString()
             renteeLongitude = extras.getString("renteeLongitude").toString()
+            VhPrice = extras.getString("VhPrice").toString()
 
-            initializeBooking(renter, rentee, VehicleType, Numberplate)
+            if(bookingStatus == false){
+                initializeBooking(renter, rentee, VehicleType, Numberplate, renteeLatitude, renteeLongitude, myLatitude,myLongitude, VhPrice  )
+            }
+
         }
         else{
             Toast.makeText(this, "Booking could not be initialized, there must be some error in user request.", Toast.LENGTH_LONG).show()
@@ -86,33 +97,44 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
                     finish()
                 }
                 .show()
-
-            var msg: Button = findViewById(R.id.messageRenter)
-            msg.setOnClickListener {
-
-                val i = Intent(this, Chating::class.java)
-                var table = "$rentee$renter"
-                val bundle = Bundle()
-                bundle.putString("sender", renter)
-                bundle.putString("receiver", rentee)
-                bundle.putString("table", table)
-
-                i.putExtras(bundle)
-                startActivity(i)
+        }
 
 
-            }
+        var msg: Button = findViewById(R.id.messageRenter)
+        msg.setOnClickListener {
+
+            val i = Intent(this, Chating::class.java)
+            var table = "$rentee$renter"
+            val bundle = Bundle()
+            bundle.putString("sender", renter)
+            bundle.putString("receiver", rentee)
+            bundle.putString("table", table)
+
+            i.putExtras(bundle)
+            startActivity(i)
+
+
         }
 
     }
 
-    private fun initializeBooking(myUsername: String, renteeUsername: String, typE: String, numberPlate: String) {
+    private fun initializeBooking(myUsername: String, renteeUsername: String, typE: String, numberPlate: String,
+                                  renteeLatitude: String, renteeLongitude: String, renterLatitude: String, renterLongitude: String, VhPrice: String) {
 
         val request: StringRequest = object : StringRequest(
             Method.POST, URLs().initializeBooking_URL,
             Response.Listener { response ->
 
                 Toast.makeText(this, response, Toast.LENGTH_LONG).show()
+
+                if(response.contains("initialized")){
+
+                    var mySharedPref: SharedPreferences = getSharedPreferences("BookingInfo", MODE_PRIVATE)
+                    var dataEditor = mySharedPref.edit()
+                    dataEditor.putBoolean("Status", true)
+                    dataEditor.apply()
+                    dataEditor.commit()
+                }
 
                 //Log.d("My Response:", response.toString() )
             },
@@ -130,6 +152,11 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
                 map["renteeUsername"] = renteeUsername
                 map["type"] = typE
                 map["numberPlate"] = numberPlate
+                map["renteeLatitude"] = renteeLatitude
+                map["renteLongitude"] = renteeLongitude
+                map["renterLatitude"] = renterLatitude
+                map["renterLongitude"] = renterLongitude
+                map["VhPrice"] = VhPrice
 
                 return map
             }
@@ -162,6 +189,12 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
             Response.Listener { response ->
 
                 Toast.makeText(this, response, Toast.LENGTH_LONG).show()
+
+                var mySharedPref: SharedPreferences = getSharedPreferences("BookingInfo", MODE_PRIVATE)
+                var dataEditor = mySharedPref.edit()
+                dataEditor.putBoolean("Status", false)
+                dataEditor.apply()
+                dataEditor.commit()
 
                 //Log.d("My Response:", response.toString() )
             },

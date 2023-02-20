@@ -8,10 +8,12 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.android.volley.Response
@@ -49,6 +51,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     lateinit var name: TextView
     lateinit var contact: TextView
     lateinit var cnic: TextView
+    lateinit var verifyCnicImg:ImageView
 
 
     override fun onCreateView(
@@ -57,6 +60,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     ): View? {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false)
+
+        verifyCnicImg = binding!!.verified
+        verifyCnicImg.visibility = View.GONE
 
 
         var mySharedPref = context?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
@@ -98,8 +104,93 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         uploadpic.setOnClickListener { uploadDataToDB() }
 
+        val verifyCnicButton = binding!!.verifyCnicButton
+
+        verifyCnicButton.setOnClickListener {
+            showVerifyCnicDialog()
+        }
+
 
         return binding!!.root
+    }
+
+
+    private fun showVerifyCnicDialog() {
+        var builder = context?.let { AlertDialog.Builder(it) }
+        if (builder != null) {
+            builder.setTitle("Verify CNIC")
+        }
+
+        // Set up the layout of the dialog
+        val layout = LinearLayout(requireActivity().applicationContext)
+        layout.orientation = LinearLayout.VERTICAL
+
+        // Add an EditText for the user's CNIC
+        val cnicEditText = EditText(requireActivity().applicationContext)
+        cnicEditText.hint = "Enter your CNIC"
+        layout.addView(cnicEditText)
+
+        if (builder != null) {
+            builder.setView(layout)
+        }
+
+        // Set up the buttons
+        if (builder != null) {
+            builder.setPositiveButton("Submit") { _, _ ->
+                // When the user clicks "Submit", check the user's CNIC against the database
+                val _cnic = cnicEditText.text.toString()
+                verifyCnic(_cnic) // Replace with your own function to verify the CNIC
+
+            }
+        }
+        if (builder != null) {
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.cancel()
+            }
+        }
+
+        if (builder != null) {
+            builder.show()
+        }
+    }
+
+    private fun verifyCnic(_cnic: String){
+
+        Log.d("CNIC:", _cnic.toString() )
+        val request: StringRequest = object : StringRequest(
+            Method.POST, URLs().verifyCNIC_URL,
+            Response.Listener { response ->
+
+
+                Log.d("My Response:", response.toString() )
+                if(response.contains("Success")){
+
+                        // If the CNIC is verified, show a green tick or "Verified" text
+                        Toast.makeText(requireActivity().applicationContext, "Verified", Toast.LENGTH_SHORT).show()
+                        verifyCnicImg.visibility = View.VISIBLE
+                        cnic.text = _cnic
+                } else {
+                    // If the CNIC is not verified, show an error message
+                    Toast.makeText(requireActivity().applicationContext, "CNIC not found", Toast.LENGTH_SHORT).show()
+                }
+
+
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show()
+            }) {
+            override fun getParams(): Map<String, String> {
+                val map: MutableMap<String, String> = HashMap()
+                map["cnic"] = _cnic
+                map["username"] = username
+                return map
+            }
+        }
+
+        val queue = Volley.newRequestQueue(requireActivity().applicationContext)
+        queue.add(request)
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -167,6 +258,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 name.text = jsonObject.getString("name")
                 contact.text = jsonObject.getString("contact")
                 cnic.text = jsonObject.getString("cnic")
+                if(jsonObject.getString("verified") == "1"){
+                    verifyCnicImg.visibility = View.VISIBLE
+                }
 
 
                 val dest =  URLs().images_URL + jsonObject.getString("picture")

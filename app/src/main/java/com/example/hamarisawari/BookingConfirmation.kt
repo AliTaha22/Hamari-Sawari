@@ -1,6 +1,5 @@
 package com.example.hamarisawari
 
-import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,8 +9,6 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import org.json.JSONArray
-import org.json.JSONObject
 
 class BookingConfirmation : AppCompatActivity() {
 
@@ -36,6 +33,8 @@ class BookingConfirmation : AppCompatActivity() {
         var rentingMinutes = extras?.getString("Minutes").toString()
         var VhType = extras?.getString("VhType").toString()
         var VhNumberplate = extras?.getString("VhNumberplate").toString()
+        var VhPrice = extras?.getString("VhPrice").toString()
+        var bookingID = extras?.getString("bookingID").toString()
 
         //checkBookingRequest(username)
 
@@ -43,11 +42,11 @@ class BookingConfirmation : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setTitle("BOOKING CONFIRMATION")
             .setMessage("User $renteeUsername wants to book your vehicle for $rentingDays Days $rentingHours Hours AND $rentingMinutes Minutes." +
-                    "Do you accept this booking offer?")
+                    "For Amount: $VhPrice Do you accept this booking offer?")
             .setNegativeButton("No"){
                     dialog, which ->
 
-                cancelBooking(username, renteeUsername, VhType, VhNumberplate )
+                cancelBooking(username, renteeUsername, VhType, VhNumberplate,bookingID )
                 dialog.cancel()
                 startActivity(Intent(this, MainMenu::class.java))
                 finish()
@@ -56,13 +55,19 @@ class BookingConfirmation : AppCompatActivity() {
             .setPositiveButton("Yes"){
                     dialog, which ->
 
-                confirmBooking(username, renteeUsername, VhType, VhNumberplate)
+                confirmBooking(username, renteeUsername, VhType, VhNumberplate,VhPrice,bookingID )
                 val i = Intent(this, CurrentlyActiveBooking::class.java)
 
                 val bundle = Bundle()
                 bundle.putString("days", rentingDays)
                 bundle.putString("hours", rentingHours)
                 bundle.putString("minutes", rentingMinutes)
+
+                bundle.putString("renter", username)
+                bundle.putString("rentee", renteeUsername)
+                bundle.putString("numberplate", VhNumberplate)
+                bundle.putString("price", VhPrice)
+                bundle.putString("id", bookingID)
 
                 i.putExtras(bundle)
                 startActivity(i)
@@ -109,7 +114,7 @@ class BookingConfirmation : AppCompatActivity() {
 //        return myJSON
 //    }
 
-    private fun cancelBooking(myUsername: String, renteeUsername: String, VhType: String, VhNumberplate: String) {
+    private fun cancelBooking(myUsername: String, renteeUsername: String, VhType: String, VhNumberplate: String, bookingID: String) {
 
         val request: StringRequest = object : StringRequest(
             Method.POST, URLs().cancelBooking_URL,
@@ -133,6 +138,8 @@ class BookingConfirmation : AppCompatActivity() {
                 map["renteeUsername"] = renteeUsername
                 map["type"] = VhType
                 map["numberPlate"] = VhNumberplate
+                map["bookingID"] = bookingID
+
 
                 return map
             }
@@ -142,7 +149,8 @@ class BookingConfirmation : AppCompatActivity() {
     }
 
 
-    private fun confirmBooking(myUsername: String, renteeUsername: String, VhType: String, VhNumberplate: String) {
+    private fun confirmBooking(myUsername: String, renteeUsername: String, VhType: String, VhNumberplate: String, VhPrice: String
+    , bookingID: String) {
 
         val request: StringRequest = object : StringRequest(
             Method.POST, URLs().confirmBooking_URL,
@@ -166,6 +174,8 @@ class BookingConfirmation : AppCompatActivity() {
                 map["renteeUsername"] = renteeUsername
                 map["type"] = VhType
                 map["numberPlate"] = VhNumberplate
+                map["rentingPrice"] = VhPrice
+                map["bookingID"] = bookingID
 
                 return map
             }

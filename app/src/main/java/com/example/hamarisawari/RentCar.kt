@@ -181,6 +181,7 @@ class RentCar : AppCompatActivity() {
         val seatingCapacity = resources.getStringArray(R.array.seatingCapacityCar)
         val color = resources.getStringArray(R.array.CarColor)
         val engine = resources.getStringArray(R.array.CarEngine)
+        val deliveryStatus = resources.getStringArray(R.array.deliveryStatus)
 
 
         val arrayAdapterManufacturer = ArrayAdapter(this@RentCar, R.layout.dropdown_menu, manufacturer)
@@ -189,6 +190,7 @@ class RentCar : AppCompatActivity() {
         val arrayAdapterCondition = ArrayAdapter(this@RentCar, R.layout.dropdown_menu, seatingCapacity)
         val arrayAdapterColor = ArrayAdapter(this@RentCar, R.layout.dropdown_menu, color)
         val arrayAdapterEngine = ArrayAdapter(this@RentCar, R.layout.dropdown_menu, engine)
+        val arrayAdapterDelivery = ArrayAdapter(this@RentCar, R.layout.dropdown_menu, deliveryStatus)
 
 
 
@@ -198,6 +200,7 @@ class RentCar : AppCompatActivity() {
         findViewById<AutoCompleteTextView>(R.id.seatingCapacityCar).setAdapter(arrayAdapterCondition)
         findViewById<AutoCompleteTextView>(R.id.colorCar).setAdapter(arrayAdapterColor)
         findViewById<AutoCompleteTextView>(R.id.engineCar).setAdapter(arrayAdapterEngine)
+        findViewById<AutoCompleteTextView>(R.id.deliveryCar).setAdapter(arrayAdapterDelivery)
     }
 
     private fun postAdd(username: String){
@@ -210,6 +213,7 @@ class RentCar : AppCompatActivity() {
         var transmission = findViewById<AutoCompleteTextView>(R.id.transmission).text.toString()
         var type = findViewById<AutoCompleteTextView>(R.id.type).text.toString()
         var engineCapacity = findViewById<AutoCompleteTextView>(R.id.engineCar).text.toString()
+        var deliveryStatus = findViewById<AutoCompleteTextView>(R.id.deliveryCar).text.toString()
         var mileage = findViewById<EditText>(R.id.mileageCar).text.toString()
         var carModel = findViewById<EditText>(R.id.modelCar).text.toString()
         var engineNumber = findViewById<EditText>(R.id.engineNumberCar).text.toString()
@@ -252,6 +256,7 @@ class RentCar : AppCompatActivity() {
                 map["engineNumber"] = engineNumber
                 map["numberPlate"] = numberPlate
                 map["description"] = description
+                map["delivery"] = deliveryStatus
                 map["latitude"] = latitude
                 map["longitude"] = longitude
 

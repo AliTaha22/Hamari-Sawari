@@ -17,7 +17,7 @@ import org.json.JSONObject
 
 class ViewMyBookings : AppCompatActivity() {
 
-    lateinit var username: String
+    lateinit var myUsername: String
     lateinit var bookingsRV: RecyclerView
     var dataList= ArrayList<bookingDataClass>()
 
@@ -29,7 +29,7 @@ class ViewMyBookings : AppCompatActivity() {
 
         //fetching users username.
         var mySharedPref = getSharedPreferences("userInfo", MODE_PRIVATE)
-        username = mySharedPref.getString("username", null).toString()
+        myUsername = mySharedPref.getString("username", null).toString()
 
         bookingsRV = findViewById(R.id.viewMyBookingsRV)
         checkMyBookings()
@@ -49,14 +49,24 @@ class ViewMyBookings : AppCompatActivity() {
                 while(i<myJSONArray.length()){
 
                     var job = JSONObject(myJSONArray[i].toString())
-                    var bookingDataObj = bookingDataClass(job.getString("id"),job.getString("renter"),job.getString("rentee"),
-                        job.getString("type"),job.getString("status"))
+                    var bookingDataObj = bookingDataClass(job.getString("id"),
+                                                        job.getString("renter"),
+                                                        job.getString("rentee"),
+                                                        job.getString("numberplate"),
+                                                        job.getString("type"),
+                                                        job.getString("renteelat"),
+                                                        job.getString("renteelong"),
+                                                        job.getString("renterlat"),
+                                                        job.getString("renterlong"),
+                                                        job.getString("price"),
+                                                        job.getString("rentingprice"),
+                                                        job.getString("status"))
                     dataList.add(bookingDataObj)
                     i+=1
 
                 }
                 bookingsRV.layoutManager= LinearLayoutManager(this)
-                bookingsRV.adapter= this?.let { bookingAdapter(it, dataList) }
+                bookingsRV.adapter= this?.let { bookingAdapter(it, dataList, myUsername) }
 
             },
             Response.ErrorListener { error ->
@@ -67,7 +77,7 @@ class ViewMyBookings : AppCompatActivity() {
             override fun getParams(): Map<String, String> {
                 val map : MutableMap<String,String> = HashMap()
 
-                map["myUsername"] = username
+                map["myUsername"] = myUsername
 
                 return map
             }

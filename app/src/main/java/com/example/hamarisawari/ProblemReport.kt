@@ -5,14 +5,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.hamarisawari.com.example.hamarisawari.Adapters.bookingAdapter
-import com.example.hamarisawari.com.example.hamarisawari.bookingDataClass
-import org.json.JSONArray
-import org.json.JSONObject
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+
 
 class ProblemReport : AppCompatActivity() {
 
@@ -42,8 +39,17 @@ class ProblemReport : AppCompatActivity() {
             Method.POST, URLs().submitReport_URL,
             Response.Listener { response ->
 
-                Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show()
+
                 reportDescription.text.clear()
+                MaterialAlertDialogBuilder(this)
+                    .setTitle("Report Response")
+                    .setMessage("$response Press OK to continue." )
+                    .setPositiveButton("OK") { dialog, which ->
+
+                        finish()
+                    }
+                    .show()
+
 
             },
             Response.ErrorListener { error ->

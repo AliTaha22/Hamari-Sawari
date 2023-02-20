@@ -128,7 +128,7 @@
             ></ImageView>
 
         <TextView
-            android:layout_width="280dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:text="CNIC"
@@ -136,12 +136,20 @@
             android:textSize="25dp"
             android:id="@+id/CNIC"
             ></TextView>
+        <ImageView
+            android:id="@+id/verified"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_verified"
+            android:layout_marginLeft="5dp"></ImageView>
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/underline"/>
     <Button
+        android:id="@+id/verifyCnicButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"

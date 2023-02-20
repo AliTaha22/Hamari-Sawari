@@ -1,19 +1,22 @@
 package com.example.hamarisawari
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.BroadcastReceiver
+
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import org.w3c.dom.Text
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.json.JSONObject
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -23,24 +26,42 @@ class CurrentlyActiveBooking : AppCompatActivity() {
     private lateinit var days: String
     private lateinit var hours: String
     private lateinit var minutes: String
+
     lateinit var countdownTextView: TextView
     private var timer: CountDownTimer? = null
-    private var remainingTime = 0L
-    private var startTime = 0L
-    lateinit var renterusername:String
+    private var endTime = 0L
+
+
+    lateinit var renterUsername:String
+    lateinit var renteeUsername:String
+    lateinit var vehicleNumberPlate:String
+    lateinit var totalPrice:String
+    lateinit var _bookingID:String
+
+
 
 
     lateinit var finishButton: Button
     lateinit var reportProblem: Button
+
+    lateinit var myUsername:String
+    lateinit var typE:String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_currently_active_booking)
 
 
+        var mySharedPref = getSharedPreferences("userInfo", MODE_PRIVATE)
+        myUsername = mySharedPref.getString("username", null).toString()
+
         countdownTextView = findViewById(R.id.countDownText)
         finishButton = findViewById(R.id.finishBooking)
         reportProblem = findViewById(R.id.report)
+        //making the buttons invisible.
+        finishButton.visibility = View.GONE
+        reportProblem.visibility = View.GONE
 
 
         val bundle = intent.extras
@@ -48,46 +69,216 @@ class CurrentlyActiveBooking : AppCompatActivity() {
             days = bundle.getString("days", "0")
             hours = bundle.getString("hours", "0")
             minutes = bundle.getString("minutes", "0")
-            renterusername = bundle.getString("renter", "0")
 
+            renterUsername = bundle.getString("renter", "0")
+            renteeUsername = bundle.getString("rentee", "0")
+            vehicleNumberPlate = bundle.getString("numberplate", "0")
+            totalPrice = bundle.getString("price", "0")
+            _bookingID = bundle.getString("id", "0")
+
+
+        }
+        if(days != "0" || hours != "0" || minutes != "0"){
             // Convert the strings to millis
             val millis = (days.toInt() * 24 * 60 * 60 + hours.toInt() * 60 * 60 + minutes.toInt() * 60) * 1000
-            startTime = System.currentTimeMillis()
+            endTime = System.currentTimeMillis() + millis
             startTimer(millis.toLong())
-        } else {
+
+        }else{
+
+
             val sharedPref = getPreferences(Context.MODE_PRIVATE)
-            remainingTime = sharedPref.getLong("remaining_time", 0)
-            startTime = sharedPref.getLong("start_time", 0)
+            endTime = sharedPref.getLong("end_time", 0)
+            // Calculate the remaining time
+            val remainingTime = endTime - System.currentTimeMillis()
             if (remainingTime > 0) {
-                val timePassed = System.currentTimeMillis() - startTime
-                startTimer(remainingTime - timePassed)
+                startTimer(remainingTime)
             } else {
+                countdownTextView.text = "Finished!"
                 displayButtons()
             }
         }
 
-        //making the buttons invisible.
-        finishButton.visibility = View.GONE
-        reportProblem.visibility = View.GONE
-
-        finishButton.setOnClickListener {
 
 
-            startActivity(Intent(this, PostBooking::class.java))
+
+        fetchBookingDetails()
+
+
+
+
+        var msg: Button = findViewById(R.id.messageRenter)
+        msg.setOnClickListener {
+
+            if (myUsername == renteeUsername){
+
+                val i = Intent(this, Chating::class.java)
+                var table = "$renteeUsername$renterUsername"
+                val bundle = Bundle()
+                bundle.putString("sender", renteeUsername)
+                bundle.putString("receiver", renterUsername)
+                bundle.putString("table", table)
+
+                i.putExtras(bundle)
+                startActivity(i)
+
+            } else{
+
+                val i = Intent(this, Chating::class.java)
+                var table = "$renteeUsername$renterUsername"
+                val bundle = Bundle()
+                bundle.putString("sender", renterUsername)
+                bundle.putString("receiver", renteeUsername)
+                bundle.putString("table", table)
+
+                i.putExtras(bundle)
+                startActivity(i)
+
+
+            }
+
 
         }
 
+        finishButton.setOnClickListener {
+
+            MaterialAlertDialogBuilder(this)
+                .setTitle("WARNING!")
+                .setMessage(
+                    "Are you sure you want to finish the deal? Make sure to press finish when the deal is completely done i.e. vehicle has been returned/ total amount has been paid. If there" +
+                            "is any problem, report it immediately."
+                )
+                .setNegativeButton("No") { dialog, which ->
+                    dialog.cancel()
+                }
+                .setPositiveButton("Yes") { dialog, which ->
+                    finishBooking()
+
+                }
+                .show()
+
+
+        }
         reportProblem.setOnClickListener {
 
             startActivity(Intent(this, ProblemReport::class.java))
         }
     }
 
+    private fun finishBooking() {
+
+        val request: StringRequest = object : StringRequest(
+            Method.POST, URLs().finishBooking_URL,
+            Response.Listener { response ->
+
+                Toast.makeText(this, response, Toast.LENGTH_LONG).show()
+
+                var mySharedPref: SharedPreferences = getSharedPreferences("BookingInfo", MODE_PRIVATE)
+                var dataEditor = mySharedPref.edit()
+                dataEditor.putBoolean("Status", false)
+                dataEditor.apply()
+                dataEditor.commit()
+
+                val i = Intent(this, PostBooking::class.java)
+
+                val bundle = Bundle()
+
+                if(myUsername == renterUsername) {
+                    bundle.putString("rated_username", renteeUsername)
+                }
+                else {
+                    bundle.putString("rated_username", renterUsername)
+                }
+                bundle.putString("table", "$renteeUsername$renterUsername")
+                i.putExtras(bundle)
+                startActivity(i)
+                finish()
+
+                //Log.d("My Response:", response.toString() )
+            },
+            Response.ErrorListener { error ->
+
+                Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show()
+
+                Log.d("My Error:", error.toString() )
+            }){
+
+            override fun getParams(): Map<String, String> {
+
+                val map : MutableMap<String,String> = HashMap()
+                map["myUsername"] = myUsername
+                map["type"] = typE
+                map["numberPlate"] = vehicleNumberPlate
+
+                return map
+            }
+        }
+        val queue = Volley.newRequestQueue(this)
+        queue.add(request)
+    }
+
+    private fun fetchBookingDetails() {
+
+
+        var bookingID: TextView = findViewById(R.id.bookingID)
+        var renterID: TextView = findViewById(R.id.renterID)
+        var renteeID: TextView = findViewById(R.id.renteeID)
+        var vhTypeID: TextView = findViewById(R.id.vehicleTypeID)
+        var vhStatusID: TextView = findViewById(R.id.statusID)
+        var vhPriceID: TextView = findViewById(R.id.amountID)
+
+
+        val request: StringRequest = object : StringRequest(
+            Method.POST, URLs().bookingDetails_URL,
+            Response.Listener { response ->
+
+                val jsonObject = JSONObject(response)
+
+                bookingID.text = jsonObject.getString("id")
+                renterID.text = jsonObject.getString("renter")
+                renteeID.text = jsonObject.getString("rentee")
+                vhTypeID.text = jsonObject.getString("type")
+                typE = jsonObject.getString("type")
+                vhStatusID.text = jsonObject.getString("status")
+                vhPriceID.text = totalPrice
+
+
+                //Log.d("My Response:", response.toString() )
+            },
+            Response.ErrorListener { error ->
+
+                Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show()
+
+                Log.d("My Error:", error.toString() )
+            }){
+
+            override fun getParams(): Map<String, String> {
+
+                val map : MutableMap<String,String> = HashMap()
+                map["renterUsername"] = renterUsername
+                map["renteeUsername"] = renteeUsername
+                map["numberPlate"] = vehicleNumberPlate
+                map["id"] = _bookingID
+                return map
+            }
+        }
+        val queue = Volley.newRequestQueue(this)
+        queue.add(request)
+    }
+
     private fun startTimer(millis: Long) {
+
         timer = object : CountDownTimer(millis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                remainingTime = millisUntilFinished
-                updateTimer(millisUntilFinished)
+                // Calculate the remaining time
+                val remainingTime = endTime - System.currentTimeMillis()
+                if (remainingTime > 0) {
+                    updateTimer(remainingTime)
+                } else {
+                    countdownTextView.text = "Finished!"
+                    displayButtons()
+                    cancel()
+                }
             }
 
             override fun onFinish() {
@@ -110,16 +301,32 @@ class CurrentlyActiveBooking : AppCompatActivity() {
         super.onPause()
         timer?.cancel()
 
+        // Store the end time in SharedPreferences
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
-            putLong("remaining_time", remainingTime)
-            putLong("start_time", startTime)
+            putLong("end_time", endTime)
             apply()
         }
     }
+    override fun onResume() {
+        super.onResume()
+
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val savedEndTime = sharedPref.getLong("end_time", 0)
+        val remainingTime = savedEndTime - System.currentTimeMillis()
+
+        if (remainingTime > 0) {
+            startTimer(remainingTime)
+        } else {
+            countdownTextView.text = "Finished!"
+            displayButtons()
+        }
+    }
     private fun displayButtons() {
-        finishButton.visibility = View.VISIBLE
-        reportProblem.visibility = View.VISIBLE
+        if (endTime - System.currentTimeMillis() <= 0) {
+            finishButton.visibility = View.VISIBLE
+            reportProblem.visibility = View.VISIBLE
+        }
     }
 
 }

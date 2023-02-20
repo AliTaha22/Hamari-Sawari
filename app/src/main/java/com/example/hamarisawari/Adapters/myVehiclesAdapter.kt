@@ -11,14 +11,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
-import com.example.hamarisawari.*
-import org.json.JSONArray
+import com.example.hamarisawari.MyVehiclesClass
+import com.example.hamarisawari.R
+import com.example.hamarisawari.URLs
+import com.example.hamarisawari.ViewMyAd
 
 class myVehiclesAdapter(_ctx:Context,_data:ArrayList<MyVehiclesClass>): RecyclerView.Adapter<myVehiclesAdapter.homeViewHolder>() {
 
@@ -40,10 +41,10 @@ class myVehiclesAdapter(_ctx:Context,_data:ArrayList<MyVehiclesClass>): Recycler
         return homeViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: homeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: homeViewHolder, rawPosition: Int) {
 
-        holder.nameview.text = data[position].name
-        seat=data[position].seating
+        holder.nameview.text = data[holder.adapterPosition].name
+        seat=data[holder.adapterPosition].seating
 
         holder.removeBtn.setOnClickListener {
         val request: StringRequest = object : StringRequest(
@@ -85,15 +86,15 @@ class myVehiclesAdapter(_ctx:Context,_data:ArrayList<MyVehiclesClass>): Recycler
                 val i = Intent(activity, ViewMyAd::class.java)
 
                 val bundle = Bundle()
-                bundle.putString("numberplate", data[position].numberPlate)
+                bundle.putString("numberplate", data[holder.adapterPosition].numberPlate)
 
-                if(seat <= 2)
+                if(seat > 2)
                 {
-                    bundle.putString("type", "Bike")
+                    bundle.putString("type", "Car")
                 }
                 else
                 {
-                    bundle.putString("type", "Car")
+                    bundle.putString("type", "Bike")
                 }
 
 
@@ -104,9 +105,9 @@ class myVehiclesAdapter(_ctx:Context,_data:ArrayList<MyVehiclesClass>): Recycler
         })
 
 
-        if(data[position].image != null){
+        if(data[holder.adapterPosition].image != null){
 
-            val dest = URLs().images_URL + data[position].image
+            val dest = URLs().images_URL + data[holder.adapterPosition].image
 
             //Log.d("My IMG", data.get(position).images?.get(0).toString())
             //Log.d("My position", position.toString())

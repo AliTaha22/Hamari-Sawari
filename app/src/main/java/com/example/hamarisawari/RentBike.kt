@@ -2,27 +2,21 @@ package com.example.hamarisawari
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.material.textfield.TextInputLayout
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -184,19 +178,23 @@ class RentBike : AppCompatActivity() {
         val engine = resources.getStringArray(R.array.BikeEngine)
         val color = resources.getStringArray(R.array.BikeColor)
         val seatingCapacity = resources.getStringArray(R.array.seatingCapacityBike)
+        val deliveryStatus = resources.getStringArray(R.array.deliveryStatus)
+
 
 
         val arrayAdapterManufacturer = ArrayAdapter(this@RentBike, R.layout.dropdown_menu, manufacturer)
         val arrayAdapterEngine = ArrayAdapter(this@RentBike, R.layout.dropdown_menu, engine)
         val arrayAdapterColor = ArrayAdapter(this@RentBike, R.layout.dropdown_menu, color)
         val arrayAdapterCondition = ArrayAdapter(this@RentBike, R.layout.dropdown_menu, seatingCapacity)
-
+        val arrayAdapterDelivery = ArrayAdapter(this@RentBike, R.layout.dropdown_menu, deliveryStatus)
 
 
         findViewById<AutoCompleteTextView>(R.id.manufacturerBike).setAdapter(arrayAdapterManufacturer)
         findViewById<AutoCompleteTextView>(R.id.engineBike).setAdapter(arrayAdapterEngine)
         findViewById<AutoCompleteTextView>(R.id.colorBike).setAdapter(arrayAdapterColor)
         findViewById<AutoCompleteTextView>(R.id.seatingCapacityBike).setAdapter(arrayAdapterCondition)
+        findViewById<AutoCompleteTextView>(R.id.deliveryBike).setAdapter(arrayAdapterDelivery)
+
     }
 
     private fun postAdd(username:String){
@@ -205,6 +203,7 @@ class RentBike : AppCompatActivity() {
         var manufacturer = findViewById<AutoCompleteTextView>(R.id.manufacturerBike).text.toString()
         var seatingCapacity = findViewById<AutoCompleteTextView>(R.id.seatingCapacityBike).text.toString()
         var engineCapacity = findViewById<AutoCompleteTextView>(R.id.engineBike).text.toString()
+        var deliveryStatus = findViewById<AutoCompleteTextView>(R.id.deliveryBike).text.toString()
         var mileage = findViewById<EditText>(R.id.mileageBike).text.toString()
         var bikeModel = findViewById<EditText>(R.id.modelBike).text.toString()
         var engineNumber = findViewById<EditText>(R.id.enginenumberBike).text.toString()
@@ -244,6 +243,7 @@ class RentBike : AppCompatActivity() {
                 map["engineNumber"] = engineNumber
                 map["numberPlate"] = numberPlate
                 map["description"] = description
+                map["delivery"] = deliveryStatus
                 map["latitude"] = latitude
                 map["longitude"] = longitude
 

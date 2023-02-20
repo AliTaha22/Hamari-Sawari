@@ -2,7 +2,6 @@ package com.example.hamarisawari.Fragments
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.os.Build
@@ -13,15 +12,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.example.hamarisawari.*
+import com.example.hamarisawari.com.example.hamarisawari.Adapters.VehicleImagePagerAdapter
 import com.example.hamarisawari.databinding.FragmentMoreDetailsBinding
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
 class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
@@ -31,7 +34,7 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
     lateinit var picture: ImageView
     lateinit var username: TextView
     lateinit var rating: RatingBar
-    lateinit var vehicleImage: ImageView
+    lateinit var ratingCount: TextView
     lateinit var vehicleName: TextView
     lateinit var vehicleManufacturer: TextView
     lateinit var vehiclePrice: TextView
@@ -40,6 +43,7 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
     lateinit var vehicleModel: TextView
     lateinit var vehicleType: TextView
     lateinit var vehicleDescription: TextView
+    lateinit var vehicleDelivery: TextView
 
     lateinit var contact: Button
 
@@ -47,6 +51,9 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
     lateinit var longitude: String
 
     private val CHANNEL_ID = "101"
+
+    private lateinit var viewPager: ViewPager2
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -101,7 +108,7 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
             //when the notification is sent, the status of his/her vehicle also changes from Available to Pending
             //until further proceedings. it is again set to available if owner rejects booking request.
             sendNotificationToRenter(mySharedPref!!.getString("username", null).toString(),
-                                    renterUsername.toString(), numberPlate.toString(), typE.toString(), myLatitude, myLongitude )
+                                    renterUsername.toString(), numberPlate.toString(), typE.toString(), myLatitude, myLongitude, vehiclePrice.text.toString() )
 
             i.putExtras(bundle)
             startActivity(i)
@@ -117,7 +124,8 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
         picture = binding!!.renterPicture
         username = binding!!.renterUsername
         rating = binding!!.renterRating
-        vehicleImage = binding!!.vehicleImage
+        ratingCount = binding!!.renterRatingCount
+        //vehicleImage = binding!!.vehicleImage
         vehicleName = binding!!.vehName
         vehicleManufacturer = binding!!.vehManufacturer
         vehiclePrice = binding!!.vehPrice
@@ -126,6 +134,10 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
         vehicleModel = binding!!.vehModel
         vehicleType = binding!!.vehType
         vehicleDescription = binding!!.vehDescription
+        vehicleDelivery = binding!!.vehDelivery
+
+        viewPager = binding!!.viewPager
+        tabLayout = binding!!.tabLayout
 
         contact = binding!!.contactRenter
     }
@@ -141,7 +153,7 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
 
 
                 var array= JSONArray(response)
-
+                Log.d("More Details: ", array.toString())
                 //carArray= JSONArray(array[0].toString())
                 //bikeArray= JSONArray(array[1].toString())
 
@@ -184,18 +196,43 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
     private fun putDetailsOnScreen(myArray: JSONArray) {
 
 
-        var userJsonobj = JSONObject(myArray[0].toString())
-        //var userJsonobj= JSONObject(userArrayData[0].toString())
+        var userJsonobj = JSONObject(myArray[0].toString()) //user data
 
-        var vehicleArrayData = JSONArray(myArray[1].toString())
-        var vehicleJsonobj= JSONObject(vehicleArrayData[0].toString())
-        var vehicleJsonobjImg= JSONObject(vehicleArrayData[1].toString())
+        var vehicleArrayData = JSONArray(myArray[1].toString()) // this will give all data of vehicle including all images
+        var vehicleJsonobj= JSONObject(vehicleArrayData[0].toString()) // data of car w/o images
 
-        //Log.d("putDetailsOnScreen: ", userArrayData.toString())
+        var i=1
+        var images: ArrayList<String> = ArrayList()
+        while(i<vehicleArrayData.length()){
+
+            var job = JSONObject(vehicleArrayData[i].toString())
+            Log.d("Vehicle IMG $i: ", job.toString())
+            var a = job.getString("image")
+            images?.add(URLs().images_URL + a)
+            i+=1
+        }
+        viewPager.adapter = VehicleImagePagerAdapter(requireContext(), images)
+
+// Connect the TabLayout with the ViewPager
+        TabLayoutMediator(tabLayout, viewPager) { tab, position -> }.attach()
+
+
+
         Log.d("putDetailsOnScreen2: ", vehicleArrayData.toString())
 
         username.text = userJsonobj.getString("username")
-        rating.numStars = userJsonobj.getString("rating").toInt()
+        try {
+            ratingCount.text = userJsonobj.getString("rating_count")
+
+        } catch (e: JSONException) {
+            // Handle the JSON exception
+            e.printStackTrace()
+
+            // Set a default value for the 'ratingCount' text view
+            ratingCount.text = "0"
+        }
+
+        rating.rating = userJsonobj.getString("rating").toFloat()
         //vehicleImage = URLs().images_URL + vehicleJsonobj.getString("picture")
         vehicleName.text = vehicleJsonobj.getString("name")
         vehicleManufacturer.text = vehicleJsonobj.getString("manufacturer")
@@ -203,6 +240,7 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
         vehicleSeatingCapacity.text = vehicleJsonobj.getString("seatingcapacity")
         vehicleModel.text = vehicleJsonobj.getString("model")
         vehicleDescription.text = vehicleJsonobj.getString("description")
+        vehicleDelivery.text = vehicleJsonobj.getString("delivery")
         if(vehicleSeatingCapacity.text as String > 2.toString())
         {
             vehicleTransmission.text = vehicleJsonobj.getString("transmission")
@@ -214,14 +252,13 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
             vehicleType.text = "Bike"
         }
         context?.let { Glide.with(it).load(URLs().images_URL + userJsonobj.getString("picture")).into(picture) }
-        context?.let { Glide.with(it).load(URLs().images_URL + vehicleJsonobjImg.getString("image")).into(vehicleImage) }
 
         latitude = vehicleJsonobj.getString("latitude")
         longitude = vehicleJsonobj.getString("longitude")
     }
 
     private fun sendNotificationToRenter(myUsername: String, renterUsername: String, numberPlate: String, typE: String,
-                                         myLatitude: String, myLongitude: String) {
+                                         myLatitude: String, myLongitude: String, vehiclePrice: String) {
 
 
         val request: StringRequest = object : StringRequest(
@@ -248,6 +285,7 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
                 map["numberPlate"] = numberPlate
                 map["renteeLatitude"] = myLatitude
                 map["renteeLongitude"] = myLongitude
+                map["vehiclePrice"] = vehiclePrice
 
                 return map
             }

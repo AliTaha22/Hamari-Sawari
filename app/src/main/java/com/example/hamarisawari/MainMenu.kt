@@ -41,6 +41,7 @@ class MainMenu : AppCompatActivity() {
     private val permissionCode = 101
     lateinit var dataEditor : Editor
     lateinit var myToken: String
+    lateinit var currentFragment: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,17 +52,18 @@ class MainMenu : AppCompatActivity() {
 
         var mySharedPref: SharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE)
         username = mySharedPref.getString("username", null).toString()
-        var currentFragment = mySharedPref.getString("fragmentStatus", "homeFragment").toString()
+        currentFragment = mySharedPref.getString("fragmentStatus", "homeFragment").toString()
         dataEditor = mySharedPref.edit()
 
-        checkFragmentStatus(currentFragment)
-        //fetching user's current location to store it into database.
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        getCurrentLocationUser()
 
         //fetching & storing the device's notification token so we can send notification
         //to the device later on.
         getToken()
+        //fetching user's current location to store it into database.
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        getCurrentLocationUser()
+
+
 
 
 
@@ -230,6 +232,7 @@ class MainMenu : AppCompatActivity() {
                 dataEditor.apply()
                 dataEditor.commit()
                 updateUserLocationAndToken()
+                checkFragmentStatus(currentFragment)
             }
 
         }

@@ -163,6 +163,25 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="180dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:hint="Car Delivery">
+
+            <AutoCompleteTextView
+                android:id="@+id/deliveryCar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                android:layout_marginRight="5dp"
+                android:text="Available"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black">
+
+            </AutoCompleteTextView>
+        </com.google.android.material.textfield.TextInputLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
