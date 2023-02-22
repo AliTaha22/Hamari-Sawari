@@ -25,6 +25,7 @@ class AdminLogin : AppCompatActivity() {
             if(AdminId=="admin"&&adminpass=="admin")
             {
                 startActivity(Intent(this,AdminMainActivity::class.java))
+                finish()
             }
             else
             {

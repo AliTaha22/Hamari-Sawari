@@ -13,6 +13,8 @@ import android.widget.*
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.hamarisawari.Admin.AdminUser
+import com.example.hamarisawari.Fragments.HomeFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -53,14 +55,15 @@ class RentCar : AppCompatActivity() {
 
         pictures.setOnClickListener{
 
-
-
+            Log.d("On click","yes")
+            Toast.makeText(this, "HI", Toast.LENGTH_SHORT).show()
             Dexter.withActivity(this@RentCar)
                 .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 .withListener(object : PermissionListener {
                     override fun onPermissionGranted(response: PermissionGrantedResponse) {
 
 
+                        Log.d("On permission","yes")
                         val intent = Intent()
                         // setting type to select to be image
                         intent.type = "image/*"
@@ -72,7 +75,9 @@ class RentCar : AppCompatActivity() {
                             1
                         )
                     }
-                    override fun onPermissionDenied(response: PermissionDeniedResponse) {}
+                    override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                        Log.d("Denied","yes")
+                    }
                     override fun onPermissionRationaleShouldBeShown(
                         permission: PermissionRequest?,
                         token: PermissionToken
@@ -88,10 +93,23 @@ class RentCar : AppCompatActivity() {
 
         upload.setOnClickListener {
 
+            var mileage = findViewById<EditText>(R.id.mileageCar).text.toString()
+            var carModel = findViewById<EditText>(R.id.modelCar).text.toString()
+            var engineNumber = findViewById<EditText>(R.id.engineNumberCar).text.toString()
+            var numberPlate = findViewById<EditText>(R.id.numberplateCar).text.toString()
+            var description = findViewById<EditText>(R.id.CarDis).text.toString()
+            var price = findViewById<EditText>(R.id.rentingPriceCar).text.toString()
             //var m=color.toString()
             //Toast.makeText(context, "$m", Toast.LENGTH_SHORT).show()
-            if (username != null) {
-                postAdd(username)
+            if(mileage.toString().isNotEmpty()&&carModel.toString().isNotEmpty()&&engineNumber.toString().isNotEmpty()&&numberPlate.toString().isNotEmpty()&&price.toString().isNotEmpty()&&description.toString().isNotEmpty()) {
+                if (username != null) {
+                    postAdd(username)
+                }
+                startActivity(Intent(this, MainMenu::class.java))
+                finish()
+            }
+            else{
+                Toast.makeText(this, "Please Add all credentials", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -109,7 +127,7 @@ class RentCar : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        Log.d("On Activity","yes")
 
         // When an Image is picked
         if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
@@ -259,6 +277,7 @@ class RentCar : AppCompatActivity() {
                 map["delivery"] = deliveryStatus
                 map["latitude"] = latitude
                 map["longitude"] = longitude
+
 
                 //Log.d("IMG_SIZE: " , encoded_image?.size!!.toString())
 

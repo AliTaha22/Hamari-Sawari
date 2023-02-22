@@ -95,8 +95,8 @@ class SearchCarFragment : Fragment(R.layout.fragment_car_search) {
         btn.setOnClickListener {
             if (rv != null && cm.isNotEmpty()) {
 
-                Toast.makeText(context, priceBar.text.toString(), Toast.LENGTH_SHORT).show()
-                searchpost(rv!!,manu.text.toString(),trans.text.toString(),type.text.toString(),model.text.toString(),priceBar.text.toString())
+                //Toast.makeText(context, priceBar.text.toString(), Toast.LENGTH_SHORT).show()
+                searchpost(rv!!,manu.text.toString(),trans.text.toString(),type.text.toString(),model.text.toString(),priceBar.text.toString(),locationBar.text.toString())
 
             }
             else
@@ -142,7 +142,7 @@ class SearchCarFragment : Fragment(R.layout.fragment_car_search) {
         binding!!.transmission.setAdapter(arrayAdapterTransmission)
         binding!!.type.setAdapter(arrayAdapterType)
     }
-    private fun searchpost(rv:RecyclerView,manu:String,trans:String,type:String,model:String,price:String)
+    private fun searchpost(rv:RecyclerView,manu:String,trans:String,type:String,model:String,price:String,Radius:String)
     {
         val request: StringRequest = object : StringRequest(
             Method.POST, URLs().searchData_URL,
@@ -153,7 +153,7 @@ class SearchCarFragment : Fragment(R.layout.fragment_car_search) {
                 var array= JSONArray(response)
                 carArray=JSONArray(array[0].toString())
                 dataList.clear()
-                getCarsData(carArray)
+                getCarsData(carArray,Radius.toString())
                 rv.layoutManager= LinearLayoutManager(context)
                 rv.adapter= context?.let { homeAddAdapter(it, dataList, locationList) }
            },
@@ -175,7 +175,7 @@ class SearchCarFragment : Fragment(R.layout.fragment_car_search) {
         val queue = Volley.newRequestQueue(context)
         queue.add(request)
     }
-    private fun getCarsData(array: JSONArray){
+    private fun getCarsData(array: JSONArray,radius:String){
 
         var count=0
         while(count<array.length())
@@ -231,8 +231,14 @@ class SearchCarFragment : Fragment(R.layout.fragment_car_search) {
                 val distanceInKM  = (distanceInMeters / 1000)
                 val distanceString = String.format("%.1f KM", distanceInKM)
 
-                locationList.add(distanceString)
-                dataList.add(vehicleData)
+
+                if(radius[0].toString()>=distanceInKM.toString()) {
+                    locationList.add(distanceString)
+                    dataList.add(vehicleData)
+               }
+//                Toast.makeText(context, "${radius[0]} -> $distanceInKM", Toast.LENGTH_SHORT).show()
+//                locationList.add(distanceString)
+//                dataList.add(vehicleData)
             }
             count+=1
 

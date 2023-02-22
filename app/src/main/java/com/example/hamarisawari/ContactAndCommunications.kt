@@ -5,6 +5,8 @@ import android.app.NotificationManager
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +14,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -25,7 +28,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.HashMap
-
+import android.Manifest
 class ContactAndCommunications : AppCompatActivity() {
 
 
@@ -34,6 +37,7 @@ class ContactAndCommunications : AppCompatActivity() {
 
     lateinit var renterUsername:String
     lateinit var renterVhNumberplate:String
+    lateinit var renterNum: String
     var totalPrice:Int = 0
 
     lateinit var priceTextView: TextView
@@ -59,6 +63,7 @@ class ContactAndCommunications : AppCompatActivity() {
         var renterVhType = bundle?.getString("vhtype").toString()
         renterVhNumberplate = bundle?.getString("vhnumberplate").toString()
         var vehicleRentingPrice = bundle?.getString("vhprice").toString()
+        renterNum = bundle?.getString("number").toString()
         //-------------------------------------------------------------------------------->>
 
 
@@ -128,6 +133,23 @@ class ContactAndCommunications : AppCompatActivity() {
 
             i.putExtras(bundle)
             startActivity(i)
+
+
+        }
+
+        var call: Button = findViewById(R.id.callRenter)
+        call.setOnClickListener {
+
+            val dialIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$renterNum"))
+
+// Check if the device supports phone calls
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                // If the app doesn't have the CALL_PHONE permission, request it
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 1)
+            } else {
+                // If the app already has the CALL_PHONE permission, start the phone call
+                startActivity(dialIntent)
+            }
 
 
         }

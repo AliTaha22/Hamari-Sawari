@@ -44,6 +44,9 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
     lateinit var vehicleType: TextView
     lateinit var vehicleDescription: TextView
     lateinit var vehicleDelivery: TextView
+    lateinit var renterNum: String
+    lateinit var myNum: String
+    lateinit var verified: String
 
     lateinit var contact: Button
 
@@ -55,6 +58,8 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,12 +70,13 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
         var mySharedPref = context?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         var myLatitude = mySharedPref?.getString("latitude", null).toString()
         var myLongitude = mySharedPref?.getString("longitude", null).toString()
+        var myUsername = mySharedPref?.getString("username", null).toString()
 
         //getting ids of all the details of xml.
         bindUserDetails()
 
 
-
+        //checkVerification(myUsername)
         //receiving data from bundle
         var mBundle: Bundle
         mBundle = arguments!!
@@ -88,7 +94,7 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
 
         //using this function to fetch the details of the VEHICLE-AD owner
         fetchDetails(renterUsername, numberPlate, typE)
-
+        fetchMyNumber(myUsername)
 
         contact.setOnClickListener {
 
@@ -101,14 +107,17 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
             bundle.putString("vhtype", typE)
             bundle.putString("vhnumberplate", numberPlate)
             bundle.putString("vhprice", vehiclePrice.text.toString())
+            bundle.putString("number", renterNum)
 
 
             //here when the user clicks on contact button, a notification is sent to the owner of vehicle.
             createNotificationChannel()
             //when the notification is sent, the status of his/her vehicle also changes from Available to Pending
             //until further proceedings. it is again set to available if owner rejects booking request.
+
+
             sendNotificationToRenter(mySharedPref!!.getString("username", null).toString(),
-                                    renterUsername.toString(), numberPlate.toString(), typE.toString(), myLatitude, myLongitude, vehiclePrice.text.toString() )
+                                    renterUsername.toString(), numberPlate.toString(), typE.toString(), myLatitude, myLongitude, vehiclePrice.text.toString(), myNum )
 
             i.putExtras(bundle)
             startActivity(i)
@@ -117,6 +126,59 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
 
         // Inflate the layout for this fragment
         return binding!!.root
+    }
+
+    private fun checkVerification(myUsername: String) {
+        val request: StringRequest = object : StringRequest(
+            Method.POST, URLs().checkVerification_URL,
+            Response.Listener { response ->
+
+                if(response == "1"){
+
+                }
+
+            },
+            Response.ErrorListener { error ->
+
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+
+            }){
+            override fun getParams(): Map<String, String> {
+                val map : MutableMap<String,String> = HashMap()
+
+                map["username"] = myUsername
+
+
+                return map }
+        }
+        val queue = Volley.newRequestQueue(context)
+        queue.add(request)
+    }
+
+    private fun fetchMyNumber(myUsername: String) {
+        val request: StringRequest = object : StringRequest(
+            Method.POST, URLs().fetchMyNum_URL,
+            Response.Listener { response ->
+
+                myNum = response.toString()
+
+            },
+            Response.ErrorListener { error ->
+
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+
+            }){
+            override fun getParams(): Map<String, String> {
+                val map : MutableMap<String,String> = HashMap()
+
+                map["username"] = myUsername
+
+
+                return map }
+        }
+        val queue = Volley.newRequestQueue(context)
+        queue.add(request)
+
     }
 
     private fun bindUserDetails() {
@@ -255,10 +317,12 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
 
         latitude = vehicleJsonobj.getString("latitude")
         longitude = vehicleJsonobj.getString("longitude")
+        renterNum = userJsonobj.getString("contact")
+
     }
 
     private fun sendNotificationToRenter(myUsername: String, renterUsername: String, numberPlate: String, typE: String,
-                                         myLatitude: String, myLongitude: String, vehiclePrice: String) {
+                                         myLatitude: String, myLongitude: String, vehiclePrice: String, renteeNum: String) {
 
 
         val request: StringRequest = object : StringRequest(
@@ -286,6 +350,7 @@ class MoreDetailsFragment : Fragment(R.layout.fragment_more_details) {
                 map["renteeLatitude"] = myLatitude
                 map["renteeLongitude"] = myLongitude
                 map["vehiclePrice"] = vehiclePrice
+                map["renteeNum"] = renteeNum
 
                 return map
             }

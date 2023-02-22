@@ -17,6 +17,7 @@ import android.widget.Toast
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.hamarisawari.Fragments.HomeFragment
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -92,8 +93,24 @@ class RentBike : AppCompatActivity() {
 
         upload.setOnClickListener {
 
-            if (username != null) {
-                postAdd(username)
+
+            var mileage = findViewById<EditText>(R.id.mileageBike).text.toString()
+            var bikeModel = findViewById<EditText>(R.id.modelBike).text.toString()
+            var engineNumber = findViewById<EditText>(R.id.enginenumberBike).text.toString()
+            var numberPlate = findViewById<EditText>(R.id.numberplateBike).text.toString()
+            var description = findViewById<EditText>(R.id.BikeDis).text.toString()
+            var price = findViewById<EditText>(R.id.rentingPriceBike).text.toString()
+
+
+            if(mileage.toString().isNotEmpty()&&bikeModel.toString().isNotEmpty()&&engineNumber.toString().isNotEmpty()&&numberPlate.toString().isNotEmpty()&&price.toString().isNotEmpty()&&description.toString().isNotEmpty()) {
+                if (username != null) {
+                    postAdd(username)
+                }
+                startActivity(Intent(this, MainMenu::class.java))
+                finish()
+            }
+            else{
+                Toast.makeText(this, "Please Add all credentials", Toast.LENGTH_SHORT).show()
             }
         }
     }

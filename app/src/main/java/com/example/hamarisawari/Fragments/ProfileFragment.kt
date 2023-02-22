@@ -1,12 +1,16 @@
 package com.example.hamarisawari.Fragments
 
 import android.Manifest
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +19,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -31,12 +37,14 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.io.FileNotFoundException
 import java.io.InputStream
 
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
-
+    private val IMAGE_PICK_CODE = 1000
+    private val PERMISSION_CODE = 1001
 
 
     private var binding : FragmentProfileBinding?=null
@@ -83,23 +91,19 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         fetchUserInfo()
 
         profilepic.setOnClickListener {
-            Dexter.withActivity(activity)
-                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(object : PermissionListener {
-                    override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                        val intent = Intent(Intent.ACTION_PICK)
-                        intent.type = "image/*"
-                        startActivityForResult(Intent.createChooser(intent, "Browse Image"), 1)
-                    }
-
-                    override fun onPermissionDenied(response: PermissionDeniedResponse) {}
-                    override fun onPermissionRationaleShouldBeShown(
-                        permission: PermissionRequest?,
-                        token: PermissionToken
-                    ) {
-                        token.continuePermissionRequest()
-                    }
-                }).check()
+            // Check for permission to access gallery
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (context?.let { it1 -> ContextCompat.checkSelfPermission(it1, Manifest.permission.READ_EXTERNAL_STORAGE) } == PackageManager.PERMISSION_DENIED) {
+                    // Permission not granted, request it
+                    ActivityCompat.requestPermissions(context as Activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_CODE)
+                } else {
+                    // Permission already granted, open gallery
+                    openGallery()
+                }
+            } else {
+                // System is lower than Marshmallow, no need to check for permission, open gallery
+                openGallery()
+            }
         }
 
         uploadpic.setOnClickListener { uploadDataToDB() }
@@ -193,22 +197,34 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     }
 
+    // Function to open gallery
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    // Function to handle permission request result
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission granted, open gallery
+                    openGallery()
+                } else {
+                    // Permission denied, show error message or do something else
+                }
+            }
+        }
+    }
+
+    // Function to handle gallery selection result
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            val filepath: Uri? = data?.data
-            try {
-                var inputStream: InputStream? = filepath?.let {
-                    activity?.contentResolver?.openInputStream(
-                        it
-                    )
-                }
-                bitmap = BitmapFactory.decodeStream(inputStream)
-                profilepic.setImageBitmap(bitmap)
-                encodeBitmapImage(bitmap)
-            } catch (ex: Exception) {
-            }
+        if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+            // Get selected image URI
+            val imageUri = data?.data
+            // Do something with the selected image URI, such as display it in an ImageView
         }
     }
 

@@ -1,9 +1,12 @@
 package com.example.hamarisawari
 
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -12,6 +15,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -37,6 +41,8 @@ class CurrentlyActiveBooking : AppCompatActivity() {
     lateinit var vehicleNumberPlate:String
     lateinit var totalPrice:String
     lateinit var _bookingID:String
+    lateinit var renteeNum:String
+    lateinit var renterNum:String
 
 
 
@@ -63,6 +69,9 @@ class CurrentlyActiveBooking : AppCompatActivity() {
         finishButton.visibility = View.GONE
         reportProblem.visibility = View.GONE
 
+        renteeNum = ""
+        renterNum = ""
+
 
         val bundle = intent.extras
         if (bundle != null) {
@@ -76,6 +85,8 @@ class CurrentlyActiveBooking : AppCompatActivity() {
             totalPrice = bundle.getString("price", "0")
             _bookingID = bundle.getString("id", "0")
 
+            fetchRenterNumber(renterUsername)
+            fetchRenteeNumber(renteeUsername)
 
         }
         if(days != "0" || hours != "0" || minutes != "0"){
@@ -140,6 +151,43 @@ class CurrentlyActiveBooking : AppCompatActivity() {
 
         }
 
+        var call: Button = findViewById(R.id.callRenter)
+        call.setOnClickListener {
+
+            if (myUsername == renteeUsername){
+
+                val dialIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$renterNum"))
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // If the app doesn't have the CALL_PHONE permission, request it
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 1)
+                } else {
+                    // If the app already has the CALL_PHONE permission, start the phone call
+                    startActivity(dialIntent)
+                }
+
+            } else{
+
+                val dialIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$renteeNum"))
+
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.CALL_PHONE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    // If the app doesn't have the CALL_PHONE permission, request it
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 1)
+                } else {
+                    // If the app already has the CALL_PHONE permission, start the phone call
+                    startActivity(dialIntent)
+                }
+
+
+            }
+
+
+        }
+
         finishButton.setOnClickListener {
 
             MaterialAlertDialogBuilder(this)
@@ -164,7 +212,59 @@ class CurrentlyActiveBooking : AppCompatActivity() {
             startActivity(Intent(this, ProblemReport::class.java))
         }
     }
+    private fun fetchRenterNumber(renterUsername: String) {
 
+        val request: StringRequest = object : StringRequest(
+            Method.POST, URLs().fetchMyNum_URL,
+            Response.Listener { response ->
+
+                renterNum = response.toString()
+
+            },
+            Response.ErrorListener { error ->
+
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show()
+
+            }){
+            override fun getParams(): Map<String, String> {
+                val map : MutableMap<String,String> = HashMap()
+
+                map["username"] = renterUsername
+
+
+                return map }
+        }
+        val queue = Volley.newRequestQueue(this)
+        queue.add(request)
+
+    }
+
+    private fun fetchRenteeNumber(renteeUsername: String) {
+
+        val request: StringRequest = object : StringRequest(
+            Method.POST, URLs().fetchMyNum_URL,
+            Response.Listener { response ->
+
+                renteeNum = response.toString()
+
+            },
+            Response.ErrorListener { error ->
+
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show()
+
+            }){
+            override fun getParams(): Map<String, String> {
+                val map : MutableMap<String,String> = HashMap()
+
+                map["username"] = renteeUsername
+
+
+                return map }
+        }
+        val queue = Volley.newRequestQueue(this)
+        queue.add(request)
+
+    }
     private fun finishBooking() {
 
         val request: StringRequest = object : StringRequest(

@@ -35,6 +35,7 @@ class MyFirebaseService : FirebaseMessagingService() {
             val renteeLatitude = data["renteeLatitude"]
             val renteeLongitude = data["renteeLongitude"]
             val VhPrice = data["VhPrice"]
+            val renteeNum = data["number"]
 
             //putting the data inside a bundle
             bundle.putString("rentee", renteeUsername)
@@ -44,6 +45,7 @@ class MyFirebaseService : FirebaseMessagingService() {
             bundle.putString("renteeLatitude", renteeLatitude)
             bundle.putString("renteeLongitude", renteeLongitude)
             bundle.putString("VhPrice", VhPrice)
+            bundle.putString("number", renteeNum)
 
         } else if (message.data["messageType"].equals("requestBooking")) {
             val data: Map<String, String> = message.data
@@ -89,7 +91,7 @@ class MyFirebaseService : FirebaseMessagingService() {
         //here the data which is received from notification payload is being sent to the extras of click_action activity.
         intent.putExtras(bundle)
 
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)

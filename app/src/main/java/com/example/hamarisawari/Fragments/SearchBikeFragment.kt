@@ -101,8 +101,8 @@ class SearchBikeFragment : Fragment(R.layout.fragment_bike_search) {
 
             if (rv != null && cm.isNotEmpty()) {
 
-                Toast.makeText(context, priceBar.text.toString(), Toast.LENGTH_SHORT).show()
-                searchpost(rv!!,manu.text.toString(),trans.text.toString(),type.text.toString(),model.text.toString(),priceBar.text.toString())
+                //Toast.makeText(context, priceBar.text.toString(), Toast.LENGTH_SHORT).show()
+                searchpost(rv!!,manu.text.toString(),trans.text.toString(),type.text.toString(),model.text.toString(),priceBar.text.toString(),locationBar.text.toString())
 
             }
             else
@@ -149,7 +149,7 @@ class SearchBikeFragment : Fragment(R.layout.fragment_bike_search) {
     }
 
 
-    private fun searchpost(rv: RecyclerView, manu:String, trans:String, type:String, model:String, price:String)
+    private fun searchpost(rv: RecyclerView, manu:String, trans:String, type:String, model:String, price:String, Radius:String)
     {
         val request: StringRequest = object : StringRequest(
             Method.POST, URLs().searchData_URL,
@@ -160,7 +160,7 @@ class SearchBikeFragment : Fragment(R.layout.fragment_bike_search) {
                 var array= JSONArray(response)
                 bikeArray=JSONArray(array[0].toString())
                 dataList.clear()
-                getBikesData(bikeArray)
+                getBikesData(bikeArray,Radius)
                 rv.layoutManager= LinearLayoutManager(context)
                 rv.adapter= context?.let { homeAddAdapter(it, dataList, locationList) }
             },
@@ -182,7 +182,7 @@ class SearchBikeFragment : Fragment(R.layout.fragment_bike_search) {
         val queue = Volley.newRequestQueue(context)
         queue.add(request)
     }
-    private fun getBikesData(array: JSONArray){
+    private fun getBikesData(array: JSONArray,radius:String){
 
         var count=0
         while(count<array.length())
@@ -241,8 +241,12 @@ class SearchBikeFragment : Fragment(R.layout.fragment_bike_search) {
                 //val distanceInKM = distance.toString() + "KM"
 
                 //Log.d("MY DISTANCE: ", distance.toString())
-                locationList.add(distanceString)
-                dataList.add(vehicleData)
+                if(radius[0].toString()>=distanceInKM.toString()) {
+                    locationList.add(distanceString)
+                    dataList.add(vehicleData)
+                }
+//                locationList.add(distanceString)
+//                dataList.add(vehicleData)
             }
             count+=1
 

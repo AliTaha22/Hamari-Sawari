@@ -1,13 +1,17 @@
 package com.example.hamarisawari
 
+import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -23,6 +27,7 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
 
     lateinit var googleMap: GoogleMap
     lateinit var username: String
+    lateinit var renteeNum: String
 
     lateinit var cancelBooking: Button
 
@@ -69,14 +74,28 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
             renteeLatitude = extras.getString("renteeLatitude").toString()
             renteeLongitude = extras.getString("renteeLongitude").toString()
             VhPrice = extras.getString("VhPrice").toString()
+            renteeNum = extras.getString("number").toString()
 
-            if(bookingStatus == false){
-                initializeBooking(renter, rentee, VehicleType, Numberplate, renteeLatitude, renteeLongitude, myLatitude,myLongitude, VhPrice  )
+            if (bookingStatus == false) {
+                initializeBooking(
+                    renter,
+                    rentee,
+                    VehicleType,
+                    Numberplate,
+                    renteeLatitude,
+                    renteeLongitude,
+                    myLatitude,
+                    myLongitude,
+                    VhPrice
+                )
             }
 
-        }
-        else{
-            Toast.makeText(this, "Booking could not be initialized, there must be some error in user request.", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(
+                this,
+                "Booking could not be initialized, there must be some error in user request.",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
         //initializing map and setting a mark for the users & vehicle's location.
@@ -116,6 +135,25 @@ class ContactAndCommunicationsRenter : AppCompatActivity() {
 
         }
 
+        var call: Button = findViewById(R.id.callRenter)
+        call.setOnClickListener {
+
+            val dialIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$renteeNum"))
+
+// Check if the device supports phone calls
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CALL_PHONE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // If the app doesn't have the CALL_PHONE permission, request it
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 1)
+            } else {
+                // If the app already has the CALL_PHONE permission, start the phone call
+                startActivity(dialIntent)
+            }
+
+        }
     }
 
     private fun initializeBooking(myUsername: String, renteeUsername: String, typE: String, numberPlate: String,

@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
 
         adminBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, AdminLogin::class.java))
-            finish()
         }
         signup.setOnClickListener {
 
@@ -85,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
         forgotPass.setOnClickListener {
 
-            //
+            startActivity(Intent(this@MainActivity, ForgotPassword::class.java))
         }
 
 
